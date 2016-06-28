@@ -1,2 +1,4 @@
-# barber-hour
-Main Barber Hour App, powered by React Native
+# Barber Hour
+![BarberHour](android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png)
+
+On-demand appointment management for barber shops

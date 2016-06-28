@@ -1,0 +1,16 @@
+{
+  "name": "BarberHour",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start"
+  },
+  "dependencies": {
+    "react": "^0.14.8",
+    "react-native": "^0.25.1",
+    "react-native-facebook-login": "^1.2.0",
+    "react-native-image-picker": "^0.18.17",
+    "react-native-scrollable-tab-view": "^0.4.2",
+    "react-native-vector-icons": "^2.0.2"
+  }
+}
