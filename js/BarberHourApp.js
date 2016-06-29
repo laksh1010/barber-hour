@@ -3,11 +3,14 @@ import {
   Navigator
 } from 'react-native';
 
+import { connect } from 'react-redux';
+
 import RouteMapper from './RouteMapper';
 import Login from './auth/Login';
 
-export default class BarberHourApp extends Component {
+class BarberHourApp extends Component {
   render() {
+    console.log('render BarberHourApp', this.props);
     return (
       <Navigator
         initialRoute={{ component: Login }}
@@ -17,3 +20,11 @@ export default class BarberHourApp extends Component {
     );
   }
 }
+
+function select(store) {
+  return {
+    isLoggedIn: store.user.isLoggedIn
+  };
+}
+
+export default connect(select)(BarberHourApp);

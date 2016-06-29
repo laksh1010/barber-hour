@@ -1,7 +1,5 @@
-import {
-  AppRegistry,
-} from 'react-native';
+import { AppRegistry } from 'react-native';
 
-import BarberHourApp from './js/BarberHourApp';
+import Root from './js/Root';
 
-AppRegistry.registerComponent('BarberHour', () => BarberHourApp);
+AppRegistry.registerComponent('BarberHour', () => Root);

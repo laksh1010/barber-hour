@@ -10,7 +10,10 @@ import {
   StatusBar
 } from 'react-native';
 
+import { connect } from 'react-redux';
 import {FBLogin, FBLoginManager} from 'react-native-facebook-login';
+
+import { loginWithFacebook, onLoginFound } from '../actions/login';
 
 import Main from '../customer/Main';
 import Signup from './Signup';
@@ -22,7 +25,7 @@ import TextSeparator from '../common/TextSeparator';
 import LargeButton from '../common/LargeButton';
 import ForgotPassword from './ForgotPassword';
 
-export default class Login extends Component {
+class Login extends Component {
   _openForgotPassowrd() {
     this.props.navigator.push({
       component: ForgotPassword
@@ -42,6 +45,7 @@ export default class Login extends Component {
   }
 
   render() {
+    console.log('render Login', this.props)
     return(
       <View style={styles.container}>
         <StatusBar backgroundColor='#C5C5C5'/>
@@ -63,8 +67,8 @@ export default class Login extends Component {
             buttonView={<FacebookButton style={styles.facebookButton} text='Entrar com o Facebook'/>}
             loginBehavior={FBLoginManager.LoginBehaviors.Native}
             permissions={["email"]}
-            onLogin={function(e){console.log(e)}}
-            onLoginFound={function(e){console.log(e)}}
+            onLogin={(event) => this.props.dispatch(loginWithFacebook(event))}
+            onLoginFound={(event) => this.props.dispatch(onLoginFound(event))}
             onLoginNotFound={function(e){console.log(e)}}
             onLogout={function(e){console.log(e)}}
             onCancel={function(e){console.log(e)}}
@@ -76,6 +80,14 @@ export default class Login extends Component {
     );
   }
 }
+
+function select(store) {
+  return {
+    isLoggedIn: store.user.isLoggedIn
+  };
+}
+
+export default connect(select)(Login);
 
 var styles = StyleSheet.create({
   container: {
