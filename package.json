@@ -6,13 +6,14 @@
     "start": "node node_modules/react-native/local-cli/cli.js start"
   },
   "dependencies": {
+    "axios": "^0.12.0",
+    "immutable": "~3.7.6",
     "react": "^0.14.8",
     "react-native": "^0.25.1",
     "react-native-facebook-login": "^1.2.0",
     "react-native-image-picker": "^0.18.17",
     "react-native-scrollable-tab-view": "^0.4.2",
     "react-native-vector-icons": "^2.0.2",
-    "immutable": "~3.7.6",
     "react-redux": "~4.3.0",
     "redux": "~3.2.1",
     "redux-logger": "~2.5.0",
