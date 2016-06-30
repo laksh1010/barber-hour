@@ -30,27 +30,31 @@ let stylesheet = {
   }
 };
 
-import { loginWithFacebook, login } from '../actions/login';
-
-import Main from '../customer/Main';
-import Signup from './Signup';
-import FacebookButton from './FacebookButton';
+import Login from './Login';
 import Logo from '../common/Logo';
 import Button from '../common/Button';
-import TextSeparator from '../common/TextSeparator';
 import LargeButton from '../common/LargeButton';
-import ForgotPassword from './ForgotPassword';
+import AccountTypeSelector from './AccountTypeSelector';
+
+import { signup } from '../actions/login';
 
 const Email = t.refinement(t.String, (string) => string.includes('@') && string.includes('.'));
 
 const User = t.struct({
+  name: t.String,
   email: Email,
-  password: t.String
+  password: t.String,
+  password_confirmation: t.String
 });
 
 const formOptions = {
   auto: 'none',
   fields: {
+    name: {
+      placeholder: 'nome',
+      error: <Text style={{color: '#DB162F', fontSize: 14}}>digite o nome</Text>,
+      stylesheet: stylesheet
+    },
     email: {
       placeholder: 'e-mail',
       keyboardType: 'email-address',
@@ -63,70 +67,56 @@ const formOptions = {
       maxLength: 72,
       error: <Text style={{color: '#DB162F', fontSize: 14}}>deve ter pelo menos 8 caracteres</Text>,
       stylesheet: stylesheet
+    },
+    password_confirmation: {
+      placeholder: 'confirme a senha',
+      secureTextEntry: true,
+      maxLength: 72,
+      error: <Text style={{color: '#DB162F', fontSize: 14}}>deve ter pelo menos 8 caracteres</Text>,
+      stylesheet: stylesheet
     }
   }
 };
 
-class Login extends Component {
-  _openForgotPassowrd() {
-    this.props.navigator.push({
-      component: ForgotPassword
-    });
-  }
-
-  _openSignup() {
+class SignupForm extends Component {
+  _openLogin() {
     this.props.navigator.replace({
-      component: Signup
+      component: Login
     });
   }
 
-  _login() {
+  _signup() {
     let value = this.refs.form.getValue();
     // if are any validation errors, value will be null
     if (value !== null) {
-      this.props.dispatch(login(value));
+      this.props.dispatch(signup(value));
     }
   }
 
   componentDidUpdate() {
-    if (this.props.isLoggedIn) {
+    if (this.props.user.isLoggedIn) {
       this.props.navigator.replace({
-        component: Main
+        component: AccountTypeSelector,
+        passProps: {
+          user: this.props.user
+        }
       });
     }
   }
 
   render() {
-    let invalidLoginMessage = null;
-    if (this.props.invalidLogin) {
-      invalidLoginMessage = <Text style={styles.errorMessage}>Dados inválidos.</Text>;
-    }
-
     return(
       <View style={styles.container}>
         <StatusBar backgroundColor='#C5C5C5'/>
         <Logo style={styles.logo} />
         <View style={styles.formContainer}>
           <View>
-            <Form ref='form' type={User} options={formOptions} value={{email: this.props.email, password: this.props.password}} />
-            {invalidLoginMessage}
-            <Button containerStyle={styles.button} text='Entrar' onPress={this._login.bind(this)} />
+            <Form ref='form' type={User} options={formOptions} value={this.props.user} />
+            <Button containerStyle={styles.button} text='Cadastrar-se' onPress={this._signup.bind(this)} />
           </View>
-          <View style={styles.forgotPasswordContainer}>
-            <Text>Esqueceu sua senha? </Text>
-            <TouchableOpacity onPress={this._openForgotPassowrd.bind(this)}>
-              <Text style={styles.link}>Redefinir senha.</Text>
-            </TouchableOpacity>
-          </View>
-          <TextSeparator style={styles.separatorContainer} />
-          <FBLogin
-            buttonView={<FacebookButton style={styles.facebookButton} text='Entrar com o Facebook'/>}
-            loginBehavior={FBLoginManager.LoginBehaviors.Native}
-            permissions={['email']}
-            onLogin={(event) => this.props.dispatch(loginWithFacebook(event))} />
         </View>
         <View style={styles.signupContainer}>
-          <LargeButton text='Não tem uma conta? ' linkText='Cadastre-se.' onPress={this._openSignup.bind(this)} />
+          <LargeButton text='Já possui uma conta? ' linkText='Entrar.' onPress={this._openLogin.bind(this)} />
         </View>
       </View>
     );
@@ -135,14 +125,11 @@ class Login extends Component {
 
 function select(store) {
   return {
-    email: store.user.email,
-    password: store.user.password,
-    invalidLogin: store.user.invalidLogin,
-    isLoggedIn: store.user.isLoggedIn
-  }
+    user: store.user
+  };
 }
 
-export default connect(select)(Login);
+export default connect(select)(SignupForm);
 
 var styles = StyleSheet.create({
   container: {
@@ -159,28 +146,21 @@ var styles = StyleSheet.create({
     paddingLeft: 20,
     paddingRight: 20,
   },
-  button: {
-    marginTop: 10
-  },
-  forgotPasswordContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginTop: 10
+  privacyContainer: {
+    marginTop: 15,
+    alignItems: 'center'
   },
   link: {
-    fontWeight: 'bold'
-  },
-  facebookButton: {
-    marginTop: 10,
+    textDecorationLine: 'underline',
+    textDecorationStyle: 'solid',
   },
   separatorContainer: {
-    marginTop: 5,
+    marginBottom: 10
+  },
+  row: {
+    flexDirection: 'row'
   },
   signupContainer: {
-    height: 55
+    height: 55,
   },
-  errorMessage: {
-    color: '#DB162F',
-    textAlign: 'center'
-  }
 });

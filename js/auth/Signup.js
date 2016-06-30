@@ -17,7 +17,6 @@ import Main from '../customer/Main';
 import BarberList from '../customer/BarberList';
 import Login from './Login';
 import FacebookButton from './FacebookButton';
-import Toolbar from '../common/Toolbar';
 import Logo from '../common/Logo';
 import Button from '../common/Button';
 import TextSeparator from '../common/TextSeparator';
@@ -25,6 +24,7 @@ import LargeButton from '../common/LargeButton';
 import AccountTypeSelector from './AccountTypeSelector';
 import PrivacyPolicy from './PrivacyPolicy';
 import ServiceTerms from './ServiceTerms';
+import SignupForm from './SignupForm';
 
 import { loginWithFacebook } from '../actions/login';
 
@@ -47,14 +47,9 @@ class Signup extends Component {
     });
   }
 
-  _signup() {
+  _openSignupForm() {
     this.props.navigator.replace({
-      component: AccountTypeSelector,
-      passProps: {
-        user: {
-          name: 'Leonardo Tegon'
-        }
-      }
+      component: SignupForm
     });
   }
 
@@ -70,14 +65,9 @@ class Signup extends Component {
     return(
       <View style={styles.container}>
         <StatusBar backgroundColor='#C5C5C5'/>
-        <Logo style={styles.logo} />
+        <Logo />
         <View style={styles.formContainer}>
-          <View>
-            <TextInput placeholder='nome' />
-            <TextInput placeholder='email' keyboardType='email-address' />
-            <TextInput placeholder='senha' secureTextEntry={true} />
-            <Button containerStyle={styles.button} text='Cadastrar-se' onPress={this._signup.bind(this)} />
-          </View>
+          <Button containerStyle={styles.button} text='Cadastrar-se' onPress={this._openSignupForm.bind(this)} />
           <View style={styles.privacyContainer}>
             <Text>Ao se cadastrar, você concorda com os </Text>
             <View style={styles.row}>
@@ -93,12 +83,14 @@ class Signup extends Component {
           </View>
           <TextSeparator style={styles.separatorContainer} />
           <FBLogin
-            buttonView={<FacebookButton style={styles.facebookButton} text='Cadastrar-se com o Facebook'/>}
+            buttonView={<FacebookButton text='Cadastrar-se com o Facebook'/>}
             loginBehavior={FBLoginManager.LoginBehaviors.Native}
             permissions={['email']}
             onLogin={(event) => this.props.dispatch(loginWithFacebook(event))} />
         </View>
-        <LargeButton text='Já possui uma conta? ' linkText='Entrar.' onPress={this._openLogin.bind(this)} />
+        <View style={styles.signupContainer}>
+          <LargeButton text='Já possui uma conta? ' linkText='Entrar.' onPress={this._openLogin.bind(this)} />
+        </View>
       </View>
     );
   }
@@ -106,9 +98,6 @@ class Signup extends Component {
 
 function select(store) {
   return {
-    name: store.user.name,
-    email: store.user.email,
-    password: store.user.password,
     isLoggedIn: store.user.isLoggedIn
   }
 }
@@ -122,31 +111,25 @@ var styles = StyleSheet.create({
     backgroundColor: 'white',
     justifyContent: 'space-between'
   },
-  logo: {
-    width: 140,
-    height: 140
-  },
   formContainer: {
     paddingLeft: 20,
     paddingRight: 20,
   },
-  button: {
-  },
   privacyContainer: {
-    marginTop: 5,
+    marginTop: 15,
     alignItems: 'center'
   },
   link: {
     textDecorationLine: 'underline',
     textDecorationStyle: 'solid',
   },
-  facebookButton: {
-    marginBottom: 10,
-  },
   separatorContainer: {
-    marginBottom: 5
+    marginBottom: 10
   },
   row: {
     flexDirection: 'row'
-  }
+  },
+  signupContainer: {
+    height: 55,
+  },
 });

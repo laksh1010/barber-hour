@@ -23,10 +23,20 @@ function login(data) {
   }
 }
 
+function signup(data) {
+  return (dispatch) => {
+    dispatch({ type: 'REQUEST_SIGNUP', data: data });
+
+    api.post('/users/sign_up', { user: data })
+      .then(response => dispatch({ type: 'SIGNED_UP', data: response.data }))
+      .catch(error => dispatch({ type: 'INVALID_SIGNUP', status: error.status }));
+  }
+}
+
 function logout() {
   return {
     type: 'LOGGED_OUT'
   };
 }
 
-export {loginWithFacebook, login, logout};
+export {loginWithFacebook, login, logout, signup};

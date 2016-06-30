@@ -8,7 +8,7 @@ const initialState = {
 function user(state = initialState, action) {
   switch (action.type) {
     case 'LOGGED_IN':
-      let {name, email, token} = action.data.user;
+      var {name, email, token} = action.data.user;
       return {
         isLoggedIn: true,
         isLoading: false,
@@ -34,6 +34,25 @@ function user(state = initialState, action) {
         isLoading: true,
         email: action.data.email,
         password: action.data.password
+      };
+    case 'REQUEST_SIGNUP':
+      return {
+        ...state,
+        isLoading: true,
+        name: action.data.name,
+        email: action.data.email,
+        password: action.data.password,
+        password_confirmation: action.data.password_confirmation,
+      };
+    case 'SIGNED_UP':
+      var {name, email, token} = action.data.user;
+      return {
+        ...state,
+        isLoggedIn: true,
+        isLoading: false,
+        name,
+        email,
+        token
       };
     default:
       return state;
