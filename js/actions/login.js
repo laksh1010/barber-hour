@@ -1,5 +1,6 @@
+import api from '../api';
+
 function loginWithFacebook(event) {
-  console.log(event)
   let {provider, profile} = event;
   let {name, email, id} = profile;
   return {
@@ -22,4 +23,14 @@ function onLoginFound(event) {
   }
 }
 
-export {loginWithFacebook, onLoginFound};
+function login(data) {
+  return (dispatch) => {
+    dispatch({ type: 'REQUEST_LOGIN', data: data });
+    
+    api.post('/users/sign_in', { user: data })
+      .then(response => dispatch({ type: 'LOGGED_IN', data: response.data }))
+      .catch(error => dispatch({ type: 'INVALID_LOGIN', status: error.status }));
+  }
+}
+
+export {loginWithFacebook, onLoginFound, login};

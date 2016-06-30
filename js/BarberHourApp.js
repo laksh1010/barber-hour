@@ -21,10 +21,4 @@ class BarberHourApp extends Component {
   }
 }
 
-function select(store) {
-  return {
-    isLoggedIn: store.user.isLoggedIn
-  };
-}
-
-export default connect(select)(BarberHourApp);
+export default connect()(BarberHourApp);

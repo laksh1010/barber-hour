@@ -12,8 +12,10 @@ import {
 
 import { connect } from 'react-redux';
 import {FBLogin, FBLoginManager} from 'react-native-facebook-login';
+import t from 'tcomb-form-native';
+const Form = t.form.Form;
 
-import { loginWithFacebook, onLoginFound } from '../actions/login';
+import { loginWithFacebook, onLoginFound, login } from '../actions/login';
 
 import Main from '../customer/Main';
 import Signup from './Signup';
@@ -24,6 +26,30 @@ import Button from '../common/Button';
 import TextSeparator from '../common/TextSeparator';
 import LargeButton from '../common/LargeButton';
 import ForgotPassword from './ForgotPassword';
+
+const Email = t.refinement(t.String, (string) => string.includes('@') && string.includes('.'));
+
+const User = t.struct({
+  email: Email,
+  password: t.String
+});
+
+const formOptions = {
+  auto: 'none',
+  fields: {
+    email: {
+      placeholder: 'e-mail',
+      keyboardType: 'email-address',
+      error: 'e-mail inválido'
+    },
+    password: {
+      placeholder: 'senha',
+      secureTextEntry: true,
+      maxLength: 72,
+      error: 'deve ter pelo menos 8 caracteres'
+    }
+  }
+};
 
 class Login extends Component {
   _openForgotPassowrd() {
@@ -39,21 +65,35 @@ class Login extends Component {
   }
 
   _login() {
-    this.props.navigator.replace({
-      component: Main
-    });
+    let value = this.refs.form.getValue();
+    // if are any validation errors, value will be null
+    if (value !== null) {
+      this.props.dispatch(login(value));
+    }
+  }
+
+  componentDidUpdate() {
+    if (this.props.isLoggedIn) {
+      this.props.navigator.replace({
+        component: Main
+      });
+    }
   }
 
   render() {
-    console.log('render Login', this.props)
+    let invalidLoginMessage = null;
+    if (this.props.invalidLogin) {
+      invalidLoginMessage = <Text style={styles.errorMessage}>Dados inválidos.</Text>;
+    }
+
     return(
       <View style={styles.container}>
         <StatusBar backgroundColor='#C5C5C5'/>
-        <Logo />
+        <Logo style={styles.logo} />
         <View style={styles.formContainer}>
           <View>
-            <TextInput placeholder='email' keyboardType='email-address' />
-            <TextInput placeholder='senha' secureTextEntry={true} />
+            <Form ref='form' type={User} options={formOptions} value={{email: this.props.email, password: this.props.password}} />
+            {invalidLoginMessage}
             <Button containerStyle={styles.button} text='Entrar' onPress={this._login.bind(this)} />
           </View>
           <View style={styles.forgotPasswordContainer}>
@@ -75,7 +115,9 @@ class Login extends Component {
             onPermissionsMissing={function(e){console.log(e)}}
           />
         </View>
-        <LargeButton text='Não tem uma conta? ' linkText='Cadastre-se.' onPress={this._openSignup.bind(this)} />
+        <View style={styles.signupContainer}>
+          <LargeButton text='Não tem uma conta? ' linkText='Cadastre-se.' onPress={this._openSignup.bind(this)} />
+        </View>
       </View>
     );
   }
@@ -83,8 +125,11 @@ class Login extends Component {
 
 function select(store) {
   return {
+    email: store.user.email,
+    password: store.user.password,
+    invalidLogin: store.user.invalidLogin,
     isLoggedIn: store.user.isLoggedIn
-  };
+  }
 }
 
 export default connect(select)(Login);
@@ -96,26 +141,36 @@ var styles = StyleSheet.create({
     backgroundColor: 'white',
     justifyContent: 'space-between'
   },
+  logo: {
+    width: 140,
+    height: 140
+  },
   formContainer: {
     paddingLeft: 20,
     paddingRight: 20,
   },
   button: {
-    marginTop: 5
+    marginTop: 10
   },
   forgotPasswordContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop: 5
+    marginTop: 10
   },
   link: {
     fontWeight: 'bold'
   },
   facebookButton: {
     marginTop: 10,
-    marginBottom: 10
   },
   separatorContainer: {
     marginTop: 5,
   },
+  signupContainer: {
+    height: 55
+  },
+  errorMessage: {
+    color: '#DB162F',
+    textAlign: 'center'
+  }
 });

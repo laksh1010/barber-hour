@@ -1,24 +1,40 @@
 const initialState = {
   isLoggedIn: false,
-  id: null,
   name: null,
   email: null,
-  provider: null
+  token: null
 };
 
 function user(state = initialState, action) {
   switch (action.type) {
     case 'LOGGED_IN':
-      let {id, name, email, provider} = action.data;
+      let {name, email, token} = action.data.user;
       return {
         isLoggedIn: true,
-        id,
+        isLoading: false,
         name,
         email,
-        provider
+        token
       };
     case 'LOGGED_OUT':
       return initialState;
+    case 'INVALID_LOGIN':
+      if (action.status === 401) {
+        return {
+          ...state,
+          isLoading: false,
+          invalidLogin: true
+        };
+      } else {
+        return state;
+      }
+    case 'REQUEST_LOGIN':
+      return {
+        ...state,
+        isLoading: true,
+        email: action.data.email,
+        password: action.data.password
+      };
     default:
       return state;
   }
