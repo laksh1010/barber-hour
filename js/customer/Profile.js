@@ -8,7 +8,6 @@ import {
 } from 'react-native';
 
 import { connect } from 'react-redux';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import Login from '../auth/Login';
 import PrivacyPolicy from '../auth/PrivacyPolicy';

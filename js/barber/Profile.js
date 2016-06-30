@@ -7,7 +7,7 @@ import {
   TouchableNativeFeedback
 } from 'react-native';
 
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import { connect } from 'react-redux';
 
 import AddressForm from './AddressForm';
 import ImageChooser from './ImageChooser';
@@ -19,7 +19,9 @@ import ServiceTerms from '../auth/ServiceTerms';
 import EditProfile from '../auth/EditProfile';
 import EditPassword from '../auth/EditPassword';
 
-export default class Profile extends Component {
+import { logout } from '../actions/login';
+
+class Profile extends Component {
   _editProfile() {
     this.props.navigator.push({
       component: EditProfile
@@ -72,6 +74,8 @@ export default class Profile extends Component {
     this.props.navigator.resetTo({
       component: Login
     });
+
+    this.props.dispatch(logout());
   }
 
   render() {
@@ -153,6 +157,8 @@ export default class Profile extends Component {
     );
   }
 }
+
+export default connect()(Profile);
 
 var styles = StyleSheet.create({
   container: {
