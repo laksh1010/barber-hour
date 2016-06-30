@@ -34,10 +34,10 @@ function signup(data) {
 }
 
 function chooseType(data) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     dispatch({ type: 'REQUEST_CHOOSE_TYPE', data: data });
 
-    api.post('/users/choose_type', { user: data })
+    api.post('/users/choose_type', { user: data }, { headers: { 'Authorization': `Token ${getState().user.token}` } })
       .then(response => dispatch({ type: 'TYPE_CHOOSEN', data: response.data }))
       .catch(error => dispatch({ type: 'INVALID_CHOOSE_TYPE', status: error.status }));
   }

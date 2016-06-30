@@ -16,8 +16,8 @@ import AddressForm from '../barber/AddressForm';
 import { chooseType } from '../actions/login';
 
 class AccountTypeSelector extends Component {
-  _setAccountType(accountType) {
-    this.props.dispatch(chooseType({ email: this.props.email, type: accountType }));
+  _setAccountType(type) {
+    this.props.dispatch(chooseType({type}));
   }
 
   _openNextStep() {
