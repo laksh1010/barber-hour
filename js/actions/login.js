@@ -26,11 +26,17 @@ function onLoginFound(event) {
 function login(data) {
   return (dispatch) => {
     dispatch({ type: 'REQUEST_LOGIN', data: data });
-    
+
     api.post('/users/sign_in', { user: data })
       .then(response => dispatch({ type: 'LOGGED_IN', data: response.data }))
       .catch(error => dispatch({ type: 'INVALID_LOGIN', status: error.status }));
   }
 }
 
-export {loginWithFacebook, onLoginFound, login};
+function logout() {
+  return {
+    type: 'LOGGED_OUT'
+  };
+}
+
+export {loginWithFacebook, onLoginFound, login, logout};
