@@ -33,10 +33,20 @@ function signup(data) {
   }
 }
 
+function chooseType(data) {
+  return (dispatch) => {
+    dispatch({ type: 'REQUEST_CHOOSE_TYPE', data: data });
+
+    api.post('/users/choose_type', { user: data })
+      .then(response => dispatch({ type: 'TYPE_CHOOSEN', data: response.data }))
+      .catch(error => dispatch({ type: 'INVALID_CHOOSE_TYPE', status: error.status }));
+  }
+}
+
 function logout() {
   return {
     type: 'LOGGED_OUT'
   };
 }
 
-export {loginWithFacebook, login, logout, signup};
+export {loginWithFacebook, login, logout, signup, chooseType};

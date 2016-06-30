@@ -6,25 +6,22 @@ import {
   StatusBar
 } from 'react-native';
 
+import { connect } from 'react-redux';
+
 import Button from '../common/Button';
 import SelectableImageButton from '../common/SelectableImageButton';
 import PhoneForm from '../customer/PhoneForm';
 import AddressForm from '../barber/AddressForm';
 
-export default class AccountTypeSelector extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      accountType: 'customer'
-    }
-  }
+import { chooseType } from '../actions/login';
 
+class AccountTypeSelector extends Component {
   _setAccountType(accountType) {
-    this.setState({accountType});
+    this.props.dispatch(chooseType({ email: this.props.email, type: accountType }));
   }
 
   _openNextStep() {
-    if (this.state.accountType === 'customer') {
+    if (this.props.accountType === 'Customer') {
       this.props.navigator.push({
         component: PhoneForm
       });
@@ -39,27 +36,37 @@ export default class AccountTypeSelector extends Component {
     return(
       <View style={styles.container}>
         <StatusBar backgroundColor='#C5C5C5'/>
-        <Text style={styles.greeting}>Olá, {this.props.user.name}!</Text>
+        <Text style={styles.greeting}>Olá, {this.props.name}!</Text>
         <Text style={styles.question}>Você deseja usar o aplicativo como:</Text>
         <View style={styles.accountTypeContainer}>
           <SelectableImageButton
             containerStyle={styles.buttonContainer}
-            onPress={() => {this._setAccountType('customer')}}
+            onPress={() => {this._setAccountType('Customer')}}
             icon='moustache'
             text='Cliente'
-            selected={this.state.accountType === 'customer'} />
+            selected={this.props.accountType === 'Customer'} />
           <SelectableImageButton
             containerStyle={styles.buttonContainer}
-            onPress={() => {this._setAccountType('barber')}}
+            onPress={() => {this._setAccountType('BarberShopp')}}
             icon='razor'
             text='Barbeiro'
-            selected={this.state.accountType === 'barber'} />
+            selected={this.props.accountType === 'BarberShopp'} />
         </View>
         <Button containerStyle={styles.button} text='Avançar' onPress={this._openNextStep.bind(this)} />
       </View>
     );
   }
 }
+
+function select(store) {
+  return {
+    name: store.user.name,
+    email: store.user.email,
+    accountType: store.user.type
+  };
+}
+
+export default connect(select)(AccountTypeSelector);
 
 var styles = StyleSheet.create({
   container: {

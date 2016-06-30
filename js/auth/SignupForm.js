@@ -96,10 +96,7 @@ class SignupForm extends Component {
   componentDidUpdate() {
     if (this.props.user.isLoggedIn) {
       this.props.navigator.replace({
-        component: AccountTypeSelector,
-        passProps: {
-          user: this.props.user
-        }
+        component: AccountTypeSelector
       });
     }
   }

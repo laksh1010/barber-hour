@@ -2,19 +2,21 @@ const initialState = {
   isLoggedIn: false,
   name: null,
   email: null,
-  token: null
+  token: null,
+  type: null
 };
 
 function user(state = initialState, action) {
   switch (action.type) {
     case 'LOGGED_IN':
-      var {name, email, token} = action.data.user;
+      var {name, email, token, type} = action.data.user;
       return {
         isLoggedIn: true,
         isLoading: false,
         name,
         email,
-        token
+        token,
+        type
       };
     case 'LOGGED_OUT':
       return initialState;
@@ -53,6 +55,20 @@ function user(state = initialState, action) {
         name,
         email,
         token
+      };
+    case 'REQUEST_CHOOSE_TYPE':
+      var {type} = action.data;
+      return {
+        ...state,
+        isLoading: true,
+        type
+      };
+    case 'TYPE_CHOOSEN':
+      var {type} = action.data.user;
+      return {
+        ...state,
+        isLoading: false,
+        type
       };
     default:
       return state;
