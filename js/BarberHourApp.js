@@ -7,13 +7,21 @@ import { connect } from 'react-redux';
 
 import RouteMapper from './RouteMapper';
 import Login from './auth/Login';
+import BarberMain from './barber/Main';
+import CustomerMain from './customer/Main';
 
 class BarberHourApp extends Component {
   render() {
-    console.log('render BarberHourApp', this.props);
+    let component = Login;
+    if (this.props.isLoggedIn) {
+      component = this.props.type === 'Barber' ? BarberMain : CustomerMain;
+    } else {
+      component = Login;
+    }
+
     return (
       <Navigator
-        initialRoute={{ component: Login }}
+        initialRoute={{ component: component }}
         configureScene={() => Navigator.SceneConfigs.FadeAndroid}
         renderScene={RouteMapper}
       />
@@ -21,4 +29,11 @@ class BarberHourApp extends Component {
   }
 }
 
-export default connect()(BarberHourApp);
+function select(store) {
+  return {
+    isLoggedIn: store.user.isLoggedIn,
+    type: store.user.type
+  };
+}
+
+export default connect(select)(BarberHourApp);
