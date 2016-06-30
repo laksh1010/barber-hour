@@ -14,6 +14,21 @@ import { connect } from 'react-redux';
 import {FBLogin, FBLoginManager} from 'react-native-facebook-login';
 import t from 'tcomb-form-native';
 const Form = t.form.Form;
+let stylesheet = {
+  ...Form.stylesheet,
+  textbox: {
+    normal: {
+      padding: 0,
+      paddingLeft: 5,
+      paddingBottom: 10
+    },
+    error: {
+      padding: 0,
+      paddingLeft: 5,
+      paddingBottom: 10
+    }
+  }
+};
 
 import { loginWithFacebook, login } from '../actions/login';
 
@@ -40,13 +55,15 @@ const formOptions = {
     email: {
       placeholder: 'e-mail',
       keyboardType: 'email-address',
-      error: 'e-mail inválido'
+      error: <Text style={{color: '#DB162F', fontSize: 14}}>e-mail inválido</Text>,
+      stylesheet: stylesheet
     },
     password: {
       placeholder: 'senha',
       secureTextEntry: true,
       maxLength: 72,
-      error: 'deve ter pelo menos 8 caracteres'
+      error: <Text style={{color: '#DB162F', fontSize: 14}}>deve ter pelo menos 8 caracteres</Text>,
+      stylesheet: stylesheet
     }
   }
 };
