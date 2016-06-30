@@ -15,7 +15,7 @@ import {FBLogin, FBLoginManager} from 'react-native-facebook-login';
 import t from 'tcomb-form-native';
 const Form = t.form.Form;
 
-import { loginWithFacebook, onLoginFound, login } from '../actions/login';
+import { loginWithFacebook, login } from '../actions/login';
 
 import Main from '../customer/Main';
 import Signup from './Signup';
@@ -106,14 +106,8 @@ class Login extends Component {
           <FBLogin
             buttonView={<FacebookButton style={styles.facebookButton} text='Entrar com o Facebook'/>}
             loginBehavior={FBLoginManager.LoginBehaviors.Native}
-            permissions={["email"]}
-            onLogin={(event) => this.props.dispatch(loginWithFacebook(event))}
-            onLoginFound={(event) => this.props.dispatch(onLoginFound(event))}
-            onLoginNotFound={function(e){console.log(e)}}
-            onLogout={function(e){console.log(e)}}
-            onCancel={function(e){console.log(e)}}
-            onPermissionsMissing={function(e){console.log(e)}}
-          />
+            permissions={['email']}
+            onLogin={(event) => this.props.dispatch(loginWithFacebook(event))} />
         </View>
         <View style={styles.signupContainer}>
           <LargeButton text='Não tem uma conta? ' linkText='Cadastre-se.' onPress={this._openSignup.bind(this)} />

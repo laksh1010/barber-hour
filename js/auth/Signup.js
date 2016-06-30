@@ -10,8 +10,10 @@ import {
   StatusBar
 } from 'react-native';
 
+import { connect } from 'react-redux';
 import {FBLogin, FBLoginManager} from 'react-native-facebook-login';
 
+import Main from '../customer/Main';
 import BarberList from '../customer/BarberList';
 import Login from './Login';
 import FacebookButton from './FacebookButton';
@@ -24,7 +26,9 @@ import AccountTypeSelector from './AccountTypeSelector';
 import PrivacyPolicy from './PrivacyPolicy';
 import ServiceTerms from './ServiceTerms';
 
-export default class Signup extends Component {
+import { loginWithFacebook } from '../actions/login';
+
+class Signup extends Component {
   _openLogin() {
     this.props.navigator.replace({
       component: Login
@@ -52,6 +56,14 @@ export default class Signup extends Component {
         }
       }
     });
+  }
+
+  componentDidUpdate() {
+    if (this.props.isLoggedIn) {
+      this.props.navigator.replace({
+        component: Main
+      });
+    }
   }
 
   render() {
@@ -83,20 +95,25 @@ export default class Signup extends Component {
           <FBLogin
             buttonView={<FacebookButton style={styles.facebookButton} text='Cadastrar-se com o Facebook'/>}
             loginBehavior={FBLoginManager.LoginBehaviors.Native}
-            permissions={["email"]}
-            onLogin={function(e){console.log(e)}}
-            onLoginFound={function(e){console.log(e)}}
-            onLoginNotFound={function(e){console.log(e)}}
-            onLogout={function(e){console.log(e)}}
-            onCancel={function(e){console.log(e)}}
-            onPermissionsMissing={function(e){console.log(e)}}
-          />
+            permissions={['email']}
+            onLogin={(event) => this.props.dispatch(loginWithFacebook(event))} />
         </View>
         <LargeButton text='Já possui uma conta? ' linkText='Entrar.' onPress={this._openLogin.bind(this)} />
       </View>
     );
   }
 }
+
+function select(store) {
+  return {
+    name: store.user.name,
+    email: store.user.email,
+    password: store.user.password,
+    isLoggedIn: store.user.isLoggedIn
+  }
+}
+
+export default connect(select)(Signup);
 
 var styles = StyleSheet.create({
   container: {

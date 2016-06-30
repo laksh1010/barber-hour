@@ -1,25 +1,15 @@
 import api from '../api';
 
 function loginWithFacebook(event) {
-  let {provider, profile} = event;
-  let {name, email, id} = profile;
-  return {
-    type: 'LOGGED_IN',
-    data: {
-      provider,
-      name,
-      email,
-      id
-    }
-  }
-}
+  return (dispatch) => {
+    let {provider, profile} = event;
+    let {name, email, id} = profile;
 
-function onLoginFound(event) {
-  return {
-    type: 'LOGGED_IN',
-    data: {
-      id: event.credentials.userId
-    }
+    dispatch({ type: 'REQUEST_LOGIN', data: { email: email } });
+
+    api.post('/users/omniauth', { user: { email: email, uid: id, provider: provider, name: name } })
+      .then(response => dispatch({ type: 'LOGGED_IN', data: response.data }))
+      .catch(error => dispatch({ type: 'INVALID_LOGIN', status: error.status }));
   }
 }
 
@@ -39,4 +29,4 @@ function logout() {
   };
 }
 
-export {loginWithFacebook, onLoginFound, login, logout};
+export {loginWithFacebook, login, logout};
