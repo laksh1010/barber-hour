@@ -20,23 +20,6 @@ function user(state = initialState, action) {
       };
     case 'LOGGED_OUT':
       return initialState;
-    case 'INVALID_LOGIN':
-      if (action.status === 401) {
-        return {
-          ...state,
-          isLoading: false,
-          invalidLogin: true
-        };
-      } else {
-        return state;
-      }
-    case 'REQUEST_LOGIN':
-      return {
-        ...state,
-        isLoading: true,
-        email: action.data.email,
-        password: action.data.password
-      };
     case 'REQUEST_SIGNUP':
       return {
         ...state,

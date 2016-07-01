@@ -14,21 +14,6 @@ import { connect } from 'react-redux';
 import {FBLogin, FBLoginManager} from 'react-native-facebook-login';
 import t from 'tcomb-form-native';
 const Form = t.form.Form;
-let stylesheet = {
-  ...Form.stylesheet,
-  textbox: {
-    normal: {
-      padding: 0,
-      paddingLeft: 5,
-      paddingBottom: 10
-    },
-    error: {
-      padding: 0,
-      paddingLeft: 5,
-      paddingBottom: 10
-    }
-  }
-};
 
 import { loginWithFacebook, login } from '../actions/login';
 
@@ -40,32 +25,6 @@ import Button from '../common/Button';
 import TextSeparator from '../common/TextSeparator';
 import LargeButton from '../common/LargeButton';
 import ForgotPassword from './ForgotPassword';
-
-const Email = t.refinement(t.String, (string) => string.includes('@') && string.includes('.'));
-
-const User = t.struct({
-  email: Email,
-  password: t.String
-});
-
-const formOptions = {
-  auto: 'none',
-  fields: {
-    email: {
-      placeholder: 'e-mail',
-      keyboardType: 'email-address',
-      error: <Text style={{color: '#DB162F', fontSize: 14}}>e-mail inválido</Text>,
-      stylesheet: stylesheet
-    },
-    password: {
-      placeholder: 'senha',
-      secureTextEntry: true,
-      maxLength: 72,
-      error: <Text style={{color: '#DB162F', fontSize: 14}}>deve ter pelo menos 8 caracteres</Text>,
-      stylesheet: stylesheet
-    }
-  }
-};
 
 class Login extends Component {
   _openForgotPassowrd() {
@@ -96,11 +55,18 @@ class Login extends Component {
     }
   }
 
+  getFormValue() {
+    return {
+      email: this.props.form.email,
+      password: this.props.form.password
+    };
+  }
+
   render() {
-    let invalidLoginMessage = null;
-    if (this.props.invalidLogin) {
-      invalidLoginMessage = <Text style={styles.errorMessage}>Dados inválidos.</Text>;
-    }
+    const Login = t.struct({
+      email: t.refinement(t.String, (string) => string.includes('@') && string.includes('.')),
+      password: t.String
+    });
 
     return(
       <View style={styles.container}>
@@ -108,8 +74,7 @@ class Login extends Component {
         <Logo style={styles.logo} />
         <View style={styles.formContainer}>
           <View>
-            <Form ref='form' type={User} options={formOptions} value={{email: this.props.email, password: this.props.password}} />
-            {invalidLoginMessage}
+            <Form ref='form' type={Login} options={this.props.form} value={this.getFormValue()} />
             <Button containerStyle={styles.button} text='Entrar' onPress={this._login.bind(this)} />
           </View>
           <View style={styles.forgotPasswordContainer}>
@@ -135,11 +100,9 @@ class Login extends Component {
 
 function select(store) {
   return {
-    email: store.user.email,
-    password: store.user.password,
-    invalidLogin: store.user.invalidLogin,
+    form: store.login,
     isLoggedIn: store.user.isLoggedIn
-  }
+  };
 }
 
 export default connect(select)(Login);
@@ -178,9 +141,5 @@ var styles = StyleSheet.create({
   },
   signupContainer: {
     height: 55
-  },
-  errorMessage: {
-    color: '#DB162F',
-    textAlign: 'center'
   }
 });
