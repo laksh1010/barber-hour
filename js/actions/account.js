@@ -30,4 +30,14 @@ function update(data) {
   }
 }
 
-export {signup, chooseType, update};
+function updatePassword(data) {
+  return (dispatch, getState) => {
+    dispatch({ type: 'REQUEST_PASSWORD_UPDATE', data: data });
+
+    api.post('/users/password', { user: data }, { headers: { 'Authorization': `Token ${getState().user.token}` } })
+      .then(response => dispatch({ type: 'PASSWORD_UPDATED', data: response.data }))
+      .catch(error => dispatch({ type: 'INVALID_PASSWORD_UPDATE', data: error.data }));
+  }
+}
+
+export {signup, chooseType, update, updatePassword};

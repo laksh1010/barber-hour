@@ -7,5 +7,6 @@ export default combineReducers({
   startPhoneVerification: require('./startPhoneVerification'),
   verifyPhone: require('./verifyPhone'),
   address: require('./address'),
-  account: require('./account')
+  account: require('./account'),
+  password: require('./password')
 });
