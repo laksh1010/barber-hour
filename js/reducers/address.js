@@ -2,6 +2,7 @@ import formStyle from '../forms/style';
 
 const initialState = {
   isLoading: false,
+  success: false,
   auto: 'none',
   fields: {
     zipcode: {
