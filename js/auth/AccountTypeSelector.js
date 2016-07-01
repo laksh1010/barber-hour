@@ -25,7 +25,7 @@ class AccountTypeSelector extends Component {
       this.props.navigator.push({
         component: PhoneForm
       });
-    } else {
+    } else if (this.props.accountType === 'Barber') {
       this.props.navigator.push({
         component: AddressForm
       });
@@ -47,10 +47,10 @@ class AccountTypeSelector extends Component {
             selected={this.props.accountType === 'Customer'} />
           <SelectableImageButton
             containerStyle={styles.buttonContainer}
-            onPress={() => {this._setAccountType('BarberShopp')}}
+            onPress={() => {this._setAccountType('Barber')}}
             icon='razor'
             text='Barbeiro'
-            selected={this.props.accountType === 'BarberShopp'} />
+            selected={this.props.accountType === 'Barber'} />
         </View>
         <Button containerStyle={styles.button} text='Avançar' onPress={this._openNextStep.bind(this)} />
       </View>
