@@ -13,8 +13,6 @@ import {
 import { connect } from 'react-redux';
 import {FBLogin, FBLoginManager} from 'react-native-facebook-login';
 
-import Main from '../customer/Main';
-import BarberList from '../customer/BarberList';
 import Login from './Login';
 import FacebookButton from './FacebookButton';
 import Logo from '../common/Logo';
@@ -25,6 +23,8 @@ import AccountTypeSelector from './AccountTypeSelector';
 import PrivacyPolicy from './PrivacyPolicy';
 import ServiceTerms from './ServiceTerms';
 import SignupForm from './SignupForm';
+import CustomerMain from '../customer/Main';
+import BarberMain from '../barber/Main';
 
 import { loginWithFacebook } from '../actions/auth';
 
@@ -55,9 +55,12 @@ class Signup extends Component {
 
   componentDidUpdate() {
     if (this.props.isLoggedIn) {
-      this.props.navigator.replace({
-        component: Main
-      });
+      let component = AccountTypeSelector;
+      if (this.props.type) {
+        component = this.props.type === 'Barber' ? BarberMain : CustomerMain;
+      }
+
+      this.props.navigator.replace({component});
     }
   }
 
@@ -98,6 +101,7 @@ class Signup extends Component {
 
 function select(store) {
   return {
+    type: store.user.type,
     isLoggedIn: store.user.isLoggedIn
   }
 }
