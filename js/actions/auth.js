@@ -43,10 +43,30 @@ function chooseType(data) {
   }
 }
 
+function startPhoneVerification(data) {
+  return (dispatch, getState) => {
+    dispatch({ type: 'REQUEST_START_PHONE_VERIFICATION', data: data });
+
+    api.post('/users/verify_phone', data, { headers: { 'Authorization': `Token ${getState().user.token}` } })
+      .then(response => dispatch({ type: 'PHONE_VERIFICATION_SENT', data: response.data }))
+      .catch(error => dispatch({ type: 'REQUEST_PHONE_VERIFICATION_ERROR', data: error.data }));
+  }
+}
+
+function verifyPhone(data) {
+  return (dispatch, getState) => {
+    dispatch({ type: 'REQUEST_VERIFY_PHONE', data: data });
+
+    api.get('/users/verify_phone', { params: data, headers: { 'Authorization': `Token ${getState().user.token}` } })
+      .then(response => dispatch({ type: 'PHONE_VERIFIED', data: response.data }))
+      .catch(error => dispatch({ type: 'PHONE_VERIFICATION_ERROR', data: error.data }));
+  }
+}
+
 function logout() {
   return {
     type: 'LOGGED_OUT'
   };
 }
 
-export {loginWithFacebook, login, logout, signup, chooseType};
+export {loginWithFacebook, login, logout, signup, chooseType, startPhoneVerification, verifyPhone};
