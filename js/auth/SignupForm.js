@@ -21,7 +21,7 @@ import Button from '../common/Button';
 import LargeButton from '../common/LargeButton';
 import AccountTypeSelector from './AccountTypeSelector';
 
-import { signup } from '../actions/auth';
+import { signup } from '../actions/account';
 
 class SignupForm extends Component {
   _openLogin() {

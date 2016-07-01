@@ -15,7 +15,7 @@ import Button from '../common/Button';
 import Toolbar from '../common/Toolbar';
 import VerifyPhone from './VerifyPhone';
 
-import { startPhoneVerification } from '../actions/auth';
+import { startPhoneVerification } from '../actions/verifyPhone';
 
 class PhoneForm extends Component {
   _sendConfirmation() {

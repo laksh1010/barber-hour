@@ -15,7 +15,7 @@ import Button from '../common/Button';
 import Main from '../customer/Main';
 import Toolbar from '../common/Toolbar';
 
-import { verifyPhone } from '../actions/auth';
+import { verifyPhone } from '../actions/verifyPhone';
 
 class VerifyPhone extends Component {
   _verifyPhone() {
