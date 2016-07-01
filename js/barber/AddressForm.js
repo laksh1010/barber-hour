@@ -7,18 +7,60 @@ import {
   TextInput
 } from 'react-native';
 
+import { connect } from 'react-redux';
+import t from 'tcomb-form-native';
+const Form = t.form.Form;
+
 import Button from '../common/Button';
 import ServicesForm from './ServicesForm';
 import Toolbar from '../common/Toolbar';
 
-export default class BarberAddressForm extends Component {
-  _openServicesForm() {
-    this.props.navigator.resetTo({
-      component: ServicesForm
-    });
+import { createAddress, loadZipcode } from '../actions/address';
+
+class AddressForm extends Component {
+  _createAddress() {
+    let value = this.refs.form.getValue();
+    // if are any validation errors, value will be null
+    if (value !== null) {
+      this.props.dispatch(createAddress(value));
+    }
+  }
+
+  componentDidUpdate() {
+    if (this.props.form.success) {
+      this.props.navigator.resetTo({
+        component: ServicesForm
+      });
+    }
+  }
+
+  getFormValue() {
+    return {
+      zipcode: this.props.form.zipcode,
+      street: this.props.form.street,
+      district: this.props.form.district,
+      number: this.props.form.number
+    };
+  }
+
+  loadZipcode() {
+    var zipcode = this.refs.form.getComponent('zipcode').props.value
+    if (zipcode !== null) {
+      this.props.dispatch(loadZipcode(zipcode));
+    }
   }
 
   render() {
+    const Address = t.struct({
+      zipcode: t.String,
+      street: t.String,
+      district: t.String,
+      number: t.Number
+    });
+
+    var formOptions = this.props.form;
+    formOptions.fields.zipcode.onBlur = this.loadZipcode.bind(this);
+
     return(
       <View style={styles.container}>
         <StatusBar backgroundColor='#C5C5C5'/>
@@ -26,18 +68,23 @@ export default class BarberAddressForm extends Component {
         <View style={styles.innerContainer}>
           <Text style={styles.title}>Endereço</Text>
           <Text style={styles.info}>Cadastre o endereço de sua barbearia:</Text>
-          <TextInput style={styles.firstInput} placeholder='CEP' keyboardType='numeric' />
-          <TextInput placeholder='rua' />
-          <View style={styles.row}>
-            <TextInput style={styles.districtInput} placeholder='bairro' />
-            <TextInput style={styles.numberInput} placeholder='número' keyboardType='numeric' />
+          <View style={styles.formContainer}>
+            <Form ref='form' type={Address} options={formOptions} value={this.getFormValue()} />
           </View>
-          <Button containerStyle={styles.button} text='Avançar' onPress={this._openServicesForm.bind(this)} />
+          <Button containerStyle={styles.button} text='Avançar' onPress={this._createAddress.bind(this)} />
         </View>
       </View>
     );
   }
 }
+
+function select(store) {
+  return {
+    form: store.address
+  };
+}
+
+export default connect(select)(AddressForm);
 
 var styles = StyleSheet.create({
   container: {
@@ -59,7 +106,7 @@ var styles = StyleSheet.create({
   button: {
     marginTop: 20
   },
-  firstInput: {
+  formContainer: {
     marginTop: 10
   },
   row: {
