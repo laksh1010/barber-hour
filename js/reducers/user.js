@@ -20,15 +20,6 @@ function user(state = initialState, action) {
       };
     case 'LOGGED_OUT':
       return initialState;
-    case 'REQUEST_SIGNUP':
-      return {
-        ...state,
-        isLoading: true,
-        name: action.data.name,
-        email: action.data.email,
-        password: action.data.password,
-        password_confirmation: action.data.password_confirmation,
-      };
     case 'SIGNED_UP':
       var {name, email, token} = action.data.user;
       return {

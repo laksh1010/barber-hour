@@ -29,7 +29,7 @@ function signup(data) {
 
     api.post('/users/sign_up', { user: data })
       .then(response => dispatch({ type: 'SIGNED_UP', data: response.data }))
-      .catch(error => dispatch({ type: 'INVALID_SIGNUP', status: error.status }));
+      .catch(error => dispatch({ type: 'INVALID_SIGNUP', data: error.data }));
   }
 }
 

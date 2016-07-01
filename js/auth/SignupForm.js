@@ -14,21 +14,6 @@ import { connect } from 'react-redux';
 import {FBLogin, FBLoginManager} from 'react-native-facebook-login';
 import t from 'tcomb-form-native';
 const Form = t.form.Form;
-let stylesheet = {
-  ...Form.stylesheet,
-  textbox: {
-    normal: {
-      padding: 0,
-      paddingLeft: 5,
-      paddingBottom: 10
-    },
-    error: {
-      padding: 0,
-      paddingLeft: 5,
-      paddingBottom: 10
-    }
-  }
-};
 
 import Login from './Login';
 import Logo from '../common/Logo';
@@ -37,46 +22,6 @@ import LargeButton from '../common/LargeButton';
 import AccountTypeSelector from './AccountTypeSelector';
 
 import { signup } from '../actions/login';
-
-const Email = t.refinement(t.String, (string) => string.includes('@') && string.includes('.'));
-
-const User = t.struct({
-  name: t.String,
-  email: Email,
-  password: t.String,
-  password_confirmation: t.String
-});
-
-const formOptions = {
-  auto: 'none',
-  fields: {
-    name: {
-      placeholder: 'nome',
-      error: <Text style={{color: '#DB162F', fontSize: 14}}>digite o nome</Text>,
-      stylesheet: stylesheet
-    },
-    email: {
-      placeholder: 'e-mail',
-      keyboardType: 'email-address',
-      error: <Text style={{color: '#DB162F', fontSize: 14}}>e-mail inválido</Text>,
-      stylesheet: stylesheet
-    },
-    password: {
-      placeholder: 'senha',
-      secureTextEntry: true,
-      maxLength: 72,
-      error: <Text style={{color: '#DB162F', fontSize: 14}}>deve ter pelo menos 8 caracteres</Text>,
-      stylesheet: stylesheet
-    },
-    password_confirmation: {
-      placeholder: 'confirme a senha',
-      secureTextEntry: true,
-      maxLength: 72,
-      error: <Text style={{color: '#DB162F', fontSize: 14}}>deve ter pelo menos 8 caracteres</Text>,
-      stylesheet: stylesheet
-    }
-  }
-};
 
 class SignupForm extends Component {
   _openLogin() {
@@ -94,21 +39,37 @@ class SignupForm extends Component {
   }
 
   componentDidUpdate() {
-    if (this.props.user.isLoggedIn) {
+    if (this.props.isLoggedIn) {
       this.props.navigator.replace({
         component: AccountTypeSelector
       });
     }
   }
 
+  getFormValue() {
+    return {
+      name: this.props.form.name,
+      email: this.props.form.email,
+      password: this.props.form.password,
+      password_confirmation: this.props.form.password_confirmation
+    };
+  }
+
   render() {
+    const Signup = t.struct({
+      name: t.String,
+      email: t.refinement(t.String, (string) => string.includes('@') && string.includes('.')),
+      password: t.String,
+      password_confirmation: t.String
+    });
+
     return(
       <View style={styles.container}>
         <StatusBar backgroundColor='#C5C5C5'/>
         <Logo style={styles.logo} />
         <View style={styles.formContainer}>
           <View>
-            <Form ref='form' type={User} options={formOptions} value={this.props.user} />
+            <Form ref='form' type={Signup} options={this.props.form} value={this.getFormValue()} />
             <Button containerStyle={styles.button} text='Cadastrar-se' onPress={this._signup.bind(this)} />
           </View>
         </View>
@@ -122,7 +83,8 @@ class SignupForm extends Component {
 
 function select(store) {
   return {
-    user: store.user
+    form: store.signup,
+    isLoggedIn: store.user.isLoggedIn
   };
 }
 
