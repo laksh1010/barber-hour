@@ -13,7 +13,7 @@ import SelectableImageButton from '../common/SelectableImageButton';
 import PhoneForm from '../customer/PhoneForm';
 import AddressForm from '../barber/AddressForm';
 
-import { chooseType } from '../actions/login';
+import { chooseType } from '../actions/auth';
 
 class AccountTypeSelector extends Component {
   _setAccountType(type) {

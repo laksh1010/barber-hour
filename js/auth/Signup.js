@@ -26,7 +26,7 @@ import PrivacyPolicy from './PrivacyPolicy';
 import ServiceTerms from './ServiceTerms';
 import SignupForm from './SignupForm';
 
-import { loginWithFacebook } from '../actions/login';
+import { loginWithFacebook } from '../actions/auth';
 
 class Signup extends Component {
   _openLogin() {

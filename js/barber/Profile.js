@@ -19,7 +19,7 @@ import ServiceTerms from '../auth/ServiceTerms';
 import EditProfile from '../auth/EditProfile';
 import EditPassword from '../auth/EditPassword';
 
-import { logout } from '../actions/login';
+import { logout } from '../actions/auth';
 
 class Profile extends Component {
   _editProfile() {

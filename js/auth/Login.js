@@ -15,7 +15,7 @@ import {FBLogin, FBLoginManager} from 'react-native-facebook-login';
 import t from 'tcomb-form-native';
 const Form = t.form.Form;
 
-import { loginWithFacebook, login } from '../actions/login';
+import { loginWithFacebook, login } from '../actions/auth';
 
 import Main from '../customer/Main';
 import Signup from './Signup';
