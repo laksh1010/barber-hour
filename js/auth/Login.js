@@ -25,6 +25,7 @@ import Button from '../common/Button';
 import TextSeparator from '../common/TextSeparator';
 import LargeButton from '../common/LargeButton';
 import ForgotPassword from './ForgotPassword';
+import Email from '../forms/Email';
 
 class Login extends Component {
   _openForgotPassowrd() {
@@ -64,7 +65,7 @@ class Login extends Component {
 
   render() {
     const Login = t.struct({
-      email: t.refinement(t.String, (string) => string.includes('@') && string.includes('.')),
+      email: Email,
       password: t.String
     });
 

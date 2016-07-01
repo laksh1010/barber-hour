@@ -13,6 +13,7 @@ const Form = t.form.Form;
 
 import Button from '../common/Button';
 import Toolbar from '../common/Toolbar';
+import Email from '../forms/Email';
 
 import { update } from '../actions/account';
 
@@ -41,7 +42,7 @@ class EditProfile extends Component {
   render() {
     const Account = t.struct({
       name: t.String,
-      email: t.refinement(t.String, (string) => string.includes('@') && string.includes('.'))
+      email: Email
     });
 
     return(

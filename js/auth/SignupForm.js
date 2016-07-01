@@ -20,6 +20,7 @@ import Logo from '../common/Logo';
 import Button from '../common/Button';
 import LargeButton from '../common/LargeButton';
 import AccountTypeSelector from './AccountTypeSelector';
+import Email from '../forms/Email';
 
 import { signup } from '../actions/account';
 
@@ -58,7 +59,7 @@ class SignupForm extends Component {
   render() {
     const Signup = t.struct({
       name: t.String,
-      email: t.refinement(t.String, (string) => string.includes('@') && string.includes('.')),
+      email: Email,
       password: t.String,
       password_confirmation: t.String
     });
