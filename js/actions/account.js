@@ -20,4 +20,14 @@ function chooseType(data) {
   }
 }
 
-export {signup, chooseType};
+function update(data) {
+  return (dispatch, getState) => {
+    dispatch({ type: 'REQUEST_ACCOUNT_UPDATE', data: data });
+
+    api.post('/users/account', { user: data }, { headers: { 'Authorization': `Token ${getState().user.token}` } })
+      .then(response => dispatch({ type: 'ACCOUNT_UPDATED', data: response.data }))
+      .catch(error => dispatch({ type: 'INVALID_ACCOUNT_UPDATE', data: error.data }));
+  }
+}
+
+export {signup, chooseType, update};
