@@ -8,37 +8,38 @@ import {
   Switch
 } from 'react-native';
 
+import { connect } from 'react-redux';
+
 import Button from '../common/Button';
 import ImageChooser from './ImageChooser';
 
-export default class ServicesForm extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      services: [
-        {id: 1, name: 'Corte de Cabelo', selected: false, price: null},
-        {id: 2, name: 'Corte de Barba', selected: false, price: null}
-      ]
-    };
+import { createServices, toggleService, changeServicePrice } from '../actions/services';
+
+class ServicesForm extends Component {
+  _createServices() {
+    var selectedServices =
+      this.props.form.services
+        .filter(service => service.selected)
+        .map(service => {
+          return { name: service.name, price: service.price.replace(',', '.') }
+        });
+    this.props.dispatch(createServices(selectedServices));
+  }
+
+  componentDidUpdate() {
+    if (this.props.form.success) {
+      this.props.navigator.resetTo({
+        component: ImageChooser
+      });
+    }
   }
 
   toggleService(serviceID, value) {
-    var index = this.state.services.findIndex(service => service.id === serviceID);
-    var service = this.state.services.find(service => service.id === serviceID);
-    var newState = {
-      services: [
-        ...this.state.services.slice(0, index),
-        Object.assign(service, { selected: value }),
-        ...this.state.services.slice(index + 1)
-      ]
-    };
-    this.setState(newState);
+    this.props.dispatch(toggleService(serviceID, value));
   }
 
-  _openImageChooser() {
-    this.props.navigator.resetTo({
-      component: ImageChooser
-    });
+  changeServicePrice(serviceID, price) {
+    this.props.dispatch(changeServicePrice(serviceID, price));
   }
 
   render() {
@@ -49,9 +50,13 @@ export default class ServicesForm extends Component {
           <Text style={styles.title}>Serviços</Text>
           <Text style={styles.info}>Selecione os serviços que você realiza:</Text>
           <View style={styles.formContainer}>
-            {this.state.services.map((service) => {
+            {this.props.form.services.map((service) => {
               var price = service.selected ? (
-                <TextInput style={styles.servicePrice} placeholder='preço (R$)' keyboardType='numeric' />
+                <TextInput
+                  style={styles.servicePrice}
+                  onChangeText={(text) => {this.changeServicePrice(service.id, text)}}
+                  placeholder='preço (R$)'
+                  keyboardType='numeric' />
               ) : <View />;
 
               return(
@@ -66,12 +71,20 @@ export default class ServicesForm extends Component {
               )
             })}
           </View>
-          <Button containerStyle={styles.button} text='Avançar' onPress={this._openImageChooser.bind(this)} />
+          <Button containerStyle={styles.button} text='Avançar' onPress={this._createServices.bind(this)} />
         </View>
       </View>
     );
   }
 }
+
+function select(store) {
+  return {
+    form: store.services
+  };
+}
+
+export default connect(select)(ServicesForm);
 
 var styles = StyleSheet.create({
   container: {
