@@ -108,14 +108,5 @@ var styles = StyleSheet.create({
   },
   formContainer: {
     marginTop: 10
-  },
-  row: {
-    flexDirection: 'row',
-  },
-  numberInput: {
-    flex: .3
-  },
-  districtInput: {
-    flex: .7
   }
 });

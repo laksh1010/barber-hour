@@ -1,4 +1,5 @@
 import formStyle from '../forms/style';
+import addressForm from '../forms/Address';
 
 const initialState = {
   isLoading: false,
@@ -28,13 +29,14 @@ const initialState = {
       stylesheet: formStyle
     }
   },
+  template: addressForm,
   zipcode: null,
   street: null,
   district: null,
   number: null
 };
 
-function signup(state = initialState, action) {
+function address(state = initialState, action) {
   switch (action.type) {
     case 'ZIPCODE_LOADED':
       return {
@@ -95,4 +97,4 @@ function signup(state = initialState, action) {
   }
 }
 
-module.exports = signup;
+module.exports = address;
