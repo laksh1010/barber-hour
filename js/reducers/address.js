@@ -38,10 +38,14 @@ const initialState = {
 
 function address(state = initialState, action) {
   switch (action.type) {
+    case 'REQUEST_ADDRESS_INFO':
+      return {
+        ...state,
+        zipcode: action.zipcode
+      };
     case 'ZIPCODE_LOADED':
       return {
         ...state,
-        zipcode: action.data.cep,
         street: action.data.logradouro,
         district: action.data.bairro
       };

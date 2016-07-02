@@ -45,7 +45,7 @@ class AddressForm extends Component {
 
   loadZipcode() {
     var zipcode = this.refs.form.getComponent('zipcode').props.value
-    if (zipcode !== null) {
+    if (zipcode) {
       this.props.dispatch(loadZipcode(zipcode));
     }
   }

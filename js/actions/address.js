@@ -12,6 +12,8 @@ function createAddress(data) {
 
 function loadZipcode(zipcode) {
   return (dispatch) => {
+    dispatch({ type: 'REQUEST_ADDRESS_INFO', zipcode: zipcode });
+    
     fetch(`https://viacep.com.br/ws/${zipcode}/json/`)
       .then(response => response.json())
       .then(response => dispatch({ type: 'ZIPCODE_LOADED', data: response }));
