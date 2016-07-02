@@ -30,4 +30,13 @@ function changeServicePrice(serviceID, price) {
   };
 }
 
-export {createServices, toggleService, changeServicePrice};
+function addError(serviceID) {
+  return {
+    type: 'ADD_SERVICE_ERROR',
+    data: {
+      serviceID,
+    }
+  };
+}
+
+export {createServices, toggleService, changeServicePrice, addError};

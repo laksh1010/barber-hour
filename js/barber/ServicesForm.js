@@ -12,18 +12,37 @@ import { connect } from 'react-redux';
 
 import Button from '../common/Button';
 import ImageChooser from './ImageChooser';
+import formStyle from '../forms/style';
 
-import { createServices, toggleService, changeServicePrice } from '../actions/services';
+import { createServices, toggleService, changeServicePrice, addError } from '../actions/services';
 
 class ServicesForm extends Component {
   _createServices() {
-    var selectedServices =
-      this.props.form.services
-        .filter(service => service.selected)
-        .map(service => {
-          return { name: service.name, price: service.price.replace(',', '.') }
-        });
-    this.props.dispatch(createServices(selectedServices));
+    var selectedServices = this.props.form.services.filter(service => service.selected);
+
+    if (this._validate(selectedServices)) {
+      var data = selectedServices.map(service => {
+        return { name: service.name, price: service.price.replace(',', '.') }
+      });
+      this.props.dispatch(createServices(data));
+    }
+  }
+
+  _validate(services) {
+    var valid = true;
+
+    if (!services.length) {
+      valid = false;
+    } else {
+      services.filter(service => {
+        if (!service.price || parseFloat(service.price.replace(',', '.')) <= 0) {
+          this.props.dispatch(addError(service.id));
+          valid = false;
+        }
+      });
+    }
+
+    return valid;
   }
 
   componentDidUpdate() {
@@ -51,12 +70,19 @@ class ServicesForm extends Component {
           <Text style={styles.info}>Selecione os serviços que você realiza:</Text>
           <View style={styles.formContainer}>
             {this.props.form.services.map((service) => {
+              var errorBlock = service.error ? (
+                <Text style={formStyle.errorBlock}>{service.error}</Text>
+              ) : <View />;
+
               var price = service.selected ? (
-                <TextInput
-                  style={styles.servicePrice}
-                  onChangeText={(text) => {this.changeServicePrice(service.id, text)}}
-                  placeholder='preço (R$)'
-                  keyboardType='numeric' />
+                <View style={styles.servicePrice}>
+                  <TextInput
+                    style={formStyle.textbox.normal}
+                    onChangeText={(text) => {this.changeServicePrice(service.id, text)}}
+                    placeholder='preço (R$)'
+                    keyboardType='numeric' />
+                  {errorBlock}
+                </View>
               ) : <View />;
 
               return(
