@@ -36,7 +36,8 @@ class Profile extends Component {
 
   _editAddress() {
     this.props.navigator.push({
-      component: AddressForm
+      component: AddressForm,
+      passProps: { edit: true }
     });
   }
 

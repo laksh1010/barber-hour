@@ -93,8 +93,14 @@ function address(state = initialState, action) {
       };
     case 'ADDRESS_CREATED':
       return {
-        ...initialState,
+        ...state,
+        isLoading: false,
         success: true
+      };
+    case 'SET_EDIT_MODE':
+      return {
+        ...state,
+        success: false
       };
     default:
       return state;

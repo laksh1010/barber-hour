@@ -15,14 +15,24 @@ import Button from '../common/Button';
 import ServicesForm from './ServicesForm';
 import Toolbar from '../common/Toolbar';
 
-import { createAddress, loadZipcode } from '../actions/address';
+import { createAddress, loadZipcode, setEditMode, updateAddress } from '../actions/address';
 
 class AddressForm extends Component {
   _createAddress() {
     let value = this.refs.form.getValue();
     // if are any validation errors, value will be null
     if (value !== null) {
-      this.props.dispatch(createAddress(value));
+      if (this.props.edit) {
+        this.props.dispatch(updateAddress(value));
+      } else {
+        this.props.dispatch(createAddress(value));
+      }
+    }
+  }
+
+  componentDidMount() {
+    if (this.props.edit) {
+      this.props.dispatch(setEditMode());
     }
   }
 
@@ -61,17 +71,20 @@ class AddressForm extends Component {
     var formOptions = this.props.form;
     formOptions.fields.zipcode.onBlur = this.loadZipcode.bind(this);
 
+    var buttonLabel = this.props.edit ? 'Alterar' : 'Avançar';
+    var infoPrefix = this.props.edit ? 'Altere ' : 'Cadastre ';
+
     return(
       <View style={styles.container}>
         <StatusBar backgroundColor='#C5C5C5'/>
         <Toolbar backIcon navigator={this.props.navigator} />
         <View style={styles.innerContainer}>
           <Text style={styles.title}>Endereço</Text>
-          <Text style={styles.info}>Cadastre o endereço de sua barbearia:</Text>
+          <Text style={styles.info}>{infoPrefix} o endereço de sua barbearia:</Text>
           <View style={styles.formContainer}>
             <Form ref='form' type={Address} options={formOptions} value={this.getFormValue()} />
           </View>
-          <Button containerStyle={styles.button} text='Avançar' onPress={this._createAddress.bind(this)} />
+          <Button containerStyle={styles.button} text={buttonLabel} onPress={this._createAddress.bind(this)} />
         </View>
       </View>
     );
