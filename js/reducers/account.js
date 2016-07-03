@@ -51,7 +51,8 @@ function account(state = initialState, action) {
       };
     case 'ACCOUNT_UPDATED':
       return {
-        ...initialState,
+        ...state,
+        isLoading: false,
         success: true
       };
     default:
