@@ -18,6 +18,12 @@ let stylesheet = {
     color: '#DB162F',
     fontSize: 14,
     marginLeft: 5
+  },
+  helpBlock: {
+    normal: {
+      fontSize: 12,
+      marginLeft: 5
+    }
   }
 };
 

@@ -49,7 +49,8 @@ class Profile extends Component {
 
   _scheduleBuilder() {
     this.props.navigator.push({
-      component: ScheduleBuilder
+      component: ScheduleBuilder,
+      passProps: { edit: true }
     });
   }
 

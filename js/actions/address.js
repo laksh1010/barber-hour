@@ -22,7 +22,7 @@ function loadZipcode(zipcode) {
 
 function setEditMode() {
   return {
-    type: 'SET_EDIT_MODE'
+    type: 'SET_ADDRESS_EDIT_MODE'
   };
 }
 

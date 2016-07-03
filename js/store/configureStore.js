@@ -18,7 +18,7 @@ const createBarberHourStore = applyMiddleware(thunk, logger)(createStore);
 
 function configureStore(onComplete) {
   const store = autoRehydrate()(createBarberHourStore)(reducers);
-  persistStore(store, {storage: AsyncStorage, whitelist: ['user', 'address', 'services']}, onComplete);
+  persistStore(store, {storage: AsyncStorage, whitelist: ['user', 'address', 'services', 'scheduleTemplates']}, onComplete);
   if (isDebuggingInChrome) {
     window.store = store;
   }

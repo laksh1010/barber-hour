@@ -10,54 +10,103 @@ import {
   ScrollView
 } from 'react-native';
 
+import { connect } from 'react-redux';
+
 import Button from '../common/Button';
 import WaitReview from './WaitReview';
+import formStyle from '../forms/style';
 
-export default class ScheduleBuilder extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      days: [
-        {id: 1, name: 'Segunda', selected: false, opensAt: null, closesAt: null},
-        {id: 2, name: 'Terça', selected: false, opensAt: null, closesAt: null},
-        {id: 3, name: 'Quarta', selected: false, opensAt: null, closesAt: null},
-        {id: 5, name: 'Quinta', selected: false, opensAt: null, closesAt: null},
-        {id: 6, name: 'Sexta', selected: false, opensAt: null, closesAt: null},
-        {id: 7, name: 'Sábado', selected: false, opensAt: null, closesAt: null},
-        {id: 8, name: 'Domingo', selected: false, opensAt: null, closesAt: null}
-      ]
-    };
+import {
+  createScheduleTemplates,
+  toggleScheduleTemplate,
+  changeScheduleTemplateTime,
+  addScheduleTemplateError,
+  addError,
+  setEditMode,
+  changeServiceDuration
+} from '../actions/scheduleTemplates';
+
+class ScheduleBuilder extends Component {
+  _createScheduleTemplates() {
+    var active = this.props.form.scheduleTemplates.filter(scheduleTemplate => scheduleTemplate.active);
+
+    if (active.length) {
+      if (this._validate(active)) {
+        var scheduleTemplates = active.map(scheduleTemplate => {
+          return {
+            weekday: scheduleTemplate.weekday,
+            active: scheduleTemplate.active,
+            opens_at: scheduleTemplate.opensAt.replace(':', '.'),
+            closes_at: scheduleTemplate.closesAt.replace(':', '.')
+          }
+        });
+        var serviceDuration = this.props.form.serviceDuration.replace(':', '.');
+        var data = {
+          schedule_templates_attributes: scheduleTemplates,
+          service_duration: serviceDuration
+        };
+        this.props.dispatch(createScheduleTemplates(data));
+      }
+    } else {
+      this.props.dispatch(addError());
+    }
   }
 
-  toggleDay(dayID, value) {
-    var index = this.state.days.findIndex(day => day.id === dayID);
-    var day = this.state.days.find(day => day.id === dayID);
-    var newState = {
-      days: [
-        ...this.state.days.slice(0, index),
-        Object.assign(day, { selected: value }),
-        ...this.state.days.slice(index + 1)
-      ]
-    };
-    this.setState(newState);
-  }
+  _validate(scheduleTemplates) {
+    var valid = true;
 
-  _openWaitReview() {
-    this.props.navigator.resetTo({
-      component: WaitReview
+    scheduleTemplates.filter(scheduleTemplate => {
+      if (!scheduleTemplate.opensAt || parseFloat(scheduleTemplate.opensAt.replace(':', '.')) <= 0 || parseFloat(scheduleTemplate.opensAt.replace(':', '.')) > 24) {
+        this.props.dispatch(addScheduleTemplateError(scheduleTemplate.weekday));
+        valid = false;
+      }
+
+      if (!scheduleTemplate.closesAt || parseFloat(scheduleTemplate.closesAt.replace(':', '.')) <= 0 || parseFloat(scheduleTemplate.closesAt.replace(':', '.')) > 24) {
+        this.props.dispatch(addScheduleTemplateError(scheduleTemplate.weekday));
+        valid = false;
+      }
     });
+
+    return valid;
   }
 
-  async showPicker(dayID, field) {
+  componentDidMount() {
+    if (this.props.edit) {
+      this.props.dispatch(setEditMode());
+    }
+  }
+
+  componentDidUpdate() {
+    if (this.props.form.success) {
+      if (this.props.edit) {
+        this.props.navigator.pop();
+      } else {
+        this.props.navigator.resetTo({
+          component: WaitReview
+        });
+      }
+    }
+  }
+
+  toggleScheduleTemplate(weekday, value) {
+    this.props.dispatch(toggleScheduleTemplate(weekday, value));
+  }
+
+  updateTime(weekday, field, time) {
+    this.props.dispatch(changeScheduleTemplateTime(weekday, field, time));
+  }
+
+  changeServiceDuration(serviceDuration) {
+    this.props.dispatch(changeServiceDuration(serviceDuration));
+  }
+
+  async showPicker(weekday, field) {
     try {
       const {action, minute, hour} = await TimePickerAndroid.open({is24Hour: true});
       if (action === TimePickerAndroid.timeSetAction) {
-        this._updateTime(dayID, field, this._formatTime(hour, minute));
-      } else if (action === TimePickerAndroid.dismissedAction) {
-        console.log('dismissed');
+        this.updateTime(weekday, field, this._formatTime(hour, minute));
       }
     } catch ({code, message}) {
-      console.warn(`Error in showPicker`, message);
     }
   }
 
@@ -65,21 +114,15 @@ export default class ScheduleBuilder extends Component {
     return hour + ':' + (minute < 10 ? '0' + minute : minute);
   }
 
-  _updateTime(dayID, field, time) {
-    var index = this.state.days.findIndex(day => day.id === dayID);
-    var day = this.state.days.find(day => day.id === dayID);
-    day[field] = time;
-    var newState = {
-      days: [
-        ...this.state.days.slice(0, index),
-        day,
-        ...this.state.days.slice(index + 1)
-      ]
-    };
-    this.setState(newState);
-  }
-
   render() {
+    var errorMessage;
+
+    if (this.props.form.error) {
+      errorMessage = <Text style={formStyle.errorBlock}>Por favor, selecione pelo menos um dia.</Text>;
+    }
+
+    var buttonLabel = this.props.edit ? 'Alterar' : 'Avançar';
+
     return(
       <View style={styles.container}>
         <ScrollView>
@@ -88,38 +131,68 @@ export default class ScheduleBuilder extends Component {
             <Text style={styles.title}>Agenda semanal</Text>
             <Text style={styles.info}>Selecione os dias e horários que você trabalha:</Text>
             <View style={styles.formContainer}>
-              {this.state.days.map((day) => {
-                var time = day.selected ? (
-                  <View style={styles.dayTime}>
-                    <TextInput placeholder='abre às' keyboardType='numeric' value={day.opensAt} onFocus={() => {this.showPicker(day.id, 'opensAt')}} />
-                    <TextInput placeholder='fecha às' keyboardType='numeric' value={day.closesAt} onFocus={() => {this.showPicker(day.id, 'closesAt')}} />
+              {this.props.form.scheduleTemplates.map((scheduleTemplate) => {
+                var errorBlock = scheduleTemplate.error ? (
+                  <Text style={formStyle.errorBlock}>{scheduleTemplate.error}</Text>
+                ) : <View />;
+
+              var time = scheduleTemplate.active ? (
+                  <View style={styles.time}>
+                    <TextInput
+                      style={formStyle.textbox.normal}
+                      placeholder='abre às'
+                      keyboardType='numeric'
+                      value={scheduleTemplate.opensAt}
+                      onFocus={() => {this.showPicker(scheduleTemplate.weekday, 'opensAt')}} />
+                    <TextInput
+                      style={formStyle.textbox.normal}
+                      placeholder='fecha às'
+                      keyboardType='numeric'
+                      value={scheduleTemplate.closesAt}
+                      onFocus={() => {this.showPicker(scheduleTemplate.weekday, 'closesAt')}} />
+                    {errorBlock}
                   </View>
                 ) : <View />;
 
                 return(
-                  <View key={day.id} style={styles.row}>
-                    <Text style={styles.dayName}>{day.name}</Text>
+                  <View key={scheduleTemplate.weekday} style={styles.row}>
+                    <Text style={styles.name}>{scheduleTemplate.name}</Text>
                     <Switch
-                      style={styles.daySwitch}
-                      onValueChange={(value) => {this.toggleDay(day.id, value)}}
-                      value={day.selected} />
+                      style={styles.toggle}
+                      onValueChange={(value) => {this.toggleScheduleTemplate(scheduleTemplate.weekday, value)}}
+                      value={scheduleTemplate.active} />
                     {time}
                   </View>
                 )
               })}
               <View style={styles.row}>
                 <Text style={styles.info}>Duração média de serviço:</Text>
-                <TextInput style={styles.serviceDurationInput} placeholder='horas' keyboardType='numeric'/>
-                <TextInput style={styles.serviceDurationInput} placeholder='minutos' keyboardType='numeric'/>
+                <TextInput
+                  style={[formStyle.textbox.normal, styles.serviceDurationInput]}
+                  placeholder='horas:minutos'
+                  onChangeText={(text) => {this.changeServiceDuration(text)}}
+                  value={this.props.form.serviceDuration}
+                  keyboardType='numeric'/>
               </View>
             </View>
-            <Button containerStyle={styles.button} text='Avançar' onPress={this._openWaitReview.bind(this)} />
+            <Text style={formStyle.helpBlock.normal}>Use o formato: horas:minutos</Text>
+            <Text style={formStyle.helpBlock.normal}>Deixe em branco para o usar o padrão, que é de 1h.</Text>
+            {errorMessage}
+            <Button containerStyle={styles.button} text={buttonLabel} onPress={this._createScheduleTemplates.bind(this)} />
           </View>
         </ScrollView>
       </View>
     );
   }
 }
+
+function select(store) {
+  return {
+    form: store.scheduleTemplates
+  };
+}
+
+export default connect(select)(ScheduleBuilder);
 
 var styles = StyleSheet.create({
   container: {
@@ -148,14 +221,14 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center'
   },
-  dayName: {
+  name: {
     fontSize: 16,
     flex: .5
   },
-  dayTime: {
+  time: {
     flex: .3
   },
-  daySwitch: {
+  toggle: {
     flex: .2
   },
   serviceDurationInput: {

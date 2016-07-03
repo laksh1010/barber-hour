@@ -97,7 +97,7 @@ function address(state = initialState, action) {
         isLoading: false,
         success: true
       };
-    case 'SET_EDIT_MODE':
+    case 'SET_ADDRESS_EDIT_MODE':
       return {
         ...state,
         success: false

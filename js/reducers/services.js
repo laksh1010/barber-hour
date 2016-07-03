@@ -74,11 +74,13 @@ function services(state = initialState, action) {
         error: false,
         success: true
       };
-    case 'SET_EDIT_MODE':
+    case 'SET_SERVICES_EDIT_MODE':
       return {
         ...state,
         success: false
       };
+    case 'LOGGED_OUT':
+      return initialState;
     default:
       return state;
   }

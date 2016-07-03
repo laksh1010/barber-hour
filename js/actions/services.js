@@ -47,7 +47,7 @@ function addError() {
 
 function setEditMode() {
   return {
-    type: 'SET_EDIT_MODE'
+    type: 'SET_SERVICES_EDIT_MODE'
   };
 }
 

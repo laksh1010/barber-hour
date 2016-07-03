@@ -10,4 +10,5 @@ export default combineReducers({
   account: require('./account'),
   password: require('./password'),
   services: require('./services'),
+  scheduleTemplates: require('./scheduleTemplates')
 });
