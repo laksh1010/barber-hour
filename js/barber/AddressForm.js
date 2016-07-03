@@ -38,9 +38,13 @@ class AddressForm extends Component {
 
   componentDidUpdate() {
     if (this.props.form.success) {
-      this.props.navigator.resetTo({
-        component: ServicesForm
-      });
+      if (this.props.edit) {
+        this.props.navigator.pop();
+      } else {
+        this.props.navigator.resetTo({
+          component: ServicesForm
+        });
+      }
     }
   }
 
