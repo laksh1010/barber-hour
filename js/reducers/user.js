@@ -1,5 +1,7 @@
 const initialState = {
   isLoggedIn: false,
+  isLoading: false,
+  error: false,
   name: null,
   email: null,
   token: null,
@@ -35,6 +37,7 @@ function user(state = initialState, action) {
       return {
         ...state,
         isLoading: true,
+        error: false,
         type
       };
     case 'TYPE_CHOOSEN':
@@ -42,7 +45,13 @@ function user(state = initialState, action) {
       return {
         ...state,
         isLoading: false,
+        error: false,
         type
+      };
+    case 'ADD_ACCOUNT_ERROR':
+      return {
+        ...state,
+        error: true
       };
     default:
       return state;

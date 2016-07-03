@@ -12,8 +12,9 @@ import Button from '../common/Button';
 import SelectableImageButton from '../common/SelectableImageButton';
 import PhoneForm from '../customer/PhoneForm';
 import AddressForm from '../barber/AddressForm';
+import formStyle from '../forms/style';
 
-import { chooseType } from '../actions/account';
+import { chooseType, addError } from '../actions/account';
 
 class AccountTypeSelector extends Component {
   _setAccountType(type) {
@@ -29,10 +30,18 @@ class AccountTypeSelector extends Component {
       this.props.navigator.push({
         component: AddressForm
       });
+    } else {
+      this.props.dispatch(addError());
     }
   }
 
   render() {
+    var errorMessage;
+
+    if (this.props.error) {
+      errorMessage = <Text style={formStyle.errorBlock}>Por favor, selecione uma opção acima.</Text>;
+    }
+
     return(
       <View style={styles.container}>
         <StatusBar backgroundColor='#C5C5C5'/>
@@ -52,6 +61,7 @@ class AccountTypeSelector extends Component {
             text='Barbeiro'
             selected={this.props.accountType === 'Barber'} />
         </View>
+        {errorMessage}
         <Button containerStyle={styles.button} text='Avançar' onPress={this._openNextStep.bind(this)} />
       </View>
     );
@@ -62,7 +72,8 @@ function select(store) {
   return {
     name: store.user.name,
     email: store.user.email,
-    accountType: store.user.type
+    accountType: store.user.type,
+    error: store.user.error
   };
 }
 

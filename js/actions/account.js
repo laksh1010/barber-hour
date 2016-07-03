@@ -40,4 +40,10 @@ function updatePassword(data) {
   }
 }
 
-export {signup, chooseType, update, updatePassword};
+function addError() {
+  return {
+    type: 'ADD_ACCOUNT_ERROR'
+  };
+}
+
+export {signup, chooseType, update, updatePassword, addError};
