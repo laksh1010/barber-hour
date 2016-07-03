@@ -14,33 +14,33 @@ import Button from '../common/Button';
 import ImageChooser from './ImageChooser';
 import formStyle from '../forms/style';
 
-import { createServices, toggleService, changeServicePrice, addError } from '../actions/services';
+import { createServices, toggleService, changeServicePrice, addServiceError, addError } from '../actions/services';
 
 class ServicesForm extends Component {
   _createServices() {
     var selectedServices = this.props.form.services.filter(service => service.selected);
 
-    if (this._validate(selectedServices)) {
-      var data = selectedServices.map(service => {
-        return { name: service.name, price: service.price.replace(',', '.') }
-      });
-      this.props.dispatch(createServices(data));
+    if (selectedServices.length) {
+      if (this._validate(selectedServices)) {
+        var data = selectedServices.map(service => {
+          return { name: service.name, price: service.price.replace(',', '.') }
+        });
+        this.props.dispatch(createServices(data));
+      }
+    } else {
+      this.props.dispatch(addError());
     }
   }
 
   _validate(services) {
     var valid = true;
 
-    if (!services.length) {
-      valid = false;
-    } else {
-      services.filter(service => {
-        if (!service.price || parseFloat(service.price.replace(',', '.')) <= 0) {
-          this.props.dispatch(addError(service.id));
-          valid = false;
-        }
-      });
-    }
+    services.filter(service => {
+      if (!service.price || parseFloat(service.price.replace(',', '.')) <= 0) {
+        this.props.dispatch(addServiceError(service.id));
+        valid = false;
+      }
+    });
 
     return valid;
   }
@@ -62,6 +62,12 @@ class ServicesForm extends Component {
   }
 
   render() {
+    var errorMessage;
+
+    if (this.props.form.error) {
+      errorMessage = <Text style={formStyle.errorBlock}>Por favor, selecione pelo menos um serviço.</Text>;
+    }
+
     return(
       <View style={styles.container}>
         <StatusBar backgroundColor='#C5C5C5'/>
@@ -97,6 +103,7 @@ class ServicesForm extends Component {
               )
             })}
           </View>
+          {errorMessage}
           <Button containerStyle={styles.button} text='Avançar' onPress={this._createServices.bind(this)} />
         </View>
       </View>

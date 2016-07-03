@@ -1,6 +1,7 @@
 const initialState = {
   isLoading: false,
   success: false,
+  error: false,
   services: [
     {id: 1, name: 'Corte de Cabelo', selected: false, price: null, error: null},
     {id: 2, name: 'Corte de Barba', selected: false, price: null, error: null}
@@ -45,6 +46,11 @@ function services(state = initialState, action) {
           ...state.services.slice(index + 1)
         ]
       };
+    case 'ADD_SERVICES_ERROR':
+      return {
+        ...state,
+        error: true
+      };
     case 'INVALID_SERVICES':
       return {
         ...state,
@@ -55,6 +61,7 @@ function services(state = initialState, action) {
       return {
         ...state,
         isLoading: true,
+        error: false,
         services: [
           Object.assign(state.services[0], { error: null }),
           Object.assign(state.services[1], { error: null })
@@ -63,6 +70,7 @@ function services(state = initialState, action) {
     case 'SERVICES_CREATED':
       return {
         ...initialState,
+        error: false,
         success: true
       };
     default:
