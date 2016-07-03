@@ -55,7 +55,8 @@ class Profile extends Component {
 
   _editServices() {
     this.props.navigator.push({
-      component: ServicesForm
+      component: ServicesForm,
+      passProps: { edit: true }
     });
   }
 

@@ -69,9 +69,15 @@ function services(state = initialState, action) {
       };
     case 'SERVICES_CREATED':
       return {
-        ...initialState,
+        ...state,
+        isLoading: false,
         error: false,
         success: true
+      };
+    case 'SET_EDIT_MODE':
+      return {
+        ...state,
+        success: false
       };
     default:
       return state;

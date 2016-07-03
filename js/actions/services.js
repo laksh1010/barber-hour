@@ -45,4 +45,10 @@ function addError() {
   };
 }
 
-export {createServices, toggleService, changeServicePrice, addServiceError, addError};
+function setEditMode() {
+  return {
+    type: 'SET_EDIT_MODE'
+  };
+}
+
+export {createServices, toggleService, changeServicePrice, addServiceError, addError, setEditMode};

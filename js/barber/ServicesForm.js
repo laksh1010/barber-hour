@@ -14,7 +14,7 @@ import Button from '../common/Button';
 import ImageChooser from './ImageChooser';
 import formStyle from '../forms/style';
 
-import { createServices, toggleService, changeServicePrice, addServiceError, addError } from '../actions/services';
+import { createServices, toggleService, changeServicePrice, addServiceError, addError, setEditMode } from '../actions/services';
 
 class ServicesForm extends Component {
   _createServices() {
@@ -45,11 +45,21 @@ class ServicesForm extends Component {
     return valid;
   }
 
+  componentDidMount() {
+    if (this.props.edit) {
+      this.props.dispatch(setEditMode());
+    }
+  }
+
   componentDidUpdate() {
     if (this.props.form.success) {
-      this.props.navigator.resetTo({
-        component: ImageChooser
-      });
+      if (this.props.edit) {
+        this.props.navigator.pop();
+      } else {
+        this.props.navigator.resetTo({
+          component: ImageChooser
+        });
+      }
     }
   }
 
@@ -68,6 +78,8 @@ class ServicesForm extends Component {
       errorMessage = <Text style={formStyle.errorBlock}>Por favor, selecione pelo menos um serviço.</Text>;
     }
 
+    var buttonLabel = this.props.edit ? 'Alterar' : 'Avançar';
+
     return(
       <View style={styles.container}>
         <StatusBar backgroundColor='#C5C5C5'/>
@@ -85,6 +97,7 @@ class ServicesForm extends Component {
                   <TextInput
                     style={formStyle.textbox.normal}
                     onChangeText={(text) => {this.changeServicePrice(service.id, text)}}
+                    value={service.price}
                     placeholder='preço (R$)'
                     keyboardType='numeric' />
                   {errorBlock}
@@ -104,7 +117,7 @@ class ServicesForm extends Component {
             })}
           </View>
           {errorMessage}
-          <Button containerStyle={styles.button} text='Avançar' onPress={this._createServices.bind(this)} />
+          <Button containerStyle={styles.button} text={buttonLabel} onPress={this._createServices.bind(this)} />
         </View>
       </View>
     );
