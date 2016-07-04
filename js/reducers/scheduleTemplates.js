@@ -88,7 +88,8 @@ function scheduleTemplates(state = initialState, action) {
         ...state,
         isLoading: false,
         error: false,
-        success: true
+        success: true,
+        scheduleTemplates: scheduleTemplates
       };
     case 'SET_SCHEDULE_TEMPLATES_EDIT_MODE':
       return {

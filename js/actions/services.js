@@ -10,31 +10,22 @@ function createServices(data) {
   }
 }
 
-function toggleService(serviceID, value) {
+function toggleService(name, value) {
   return {
     type: 'TOGGLE_SERVICE',
     data: {
-      serviceID,
+      name,
       value
     }
   };
 }
 
-function changeServicePrice(serviceID, price) {
+function changeServicePrice(name, price) {
   return {
     type: 'CHANGE_SERVICE_PRICE',
     data: {
-      serviceID,
+      name,
       price
-    }
-  };
-}
-
-function addServiceError(serviceID) {
-  return {
-    type: 'ADD_SERVICE_ERROR',
-    data: {
-      serviceID,
     }
   };
 }
@@ -51,4 +42,4 @@ function setEditMode() {
   };
 }
 
-export {createServices, toggleService, changeServicePrice, addServiceError, addError, setEditMode};
+export {createServices, toggleService, changeServicePrice, addError, setEditMode};

@@ -14,35 +14,25 @@ import Button from '../common/Button';
 import ImageChooser from './ImageChooser';
 import formStyle from '../forms/style';
 
-import { createServices, toggleService, changeServicePrice, addServiceError, addError, setEditMode } from '../actions/services';
+import { createServices, toggleService, changeServicePrice, addError, setEditMode } from '../actions/services';
 
 class ServicesForm extends Component {
   _createServices() {
     var selectedServices = this.props.form.services.filter(service => service.selected);
 
     if (selectedServices.length) {
-      if (this._validate(selectedServices)) {
-        var data = selectedServices.map(service => {
-          return { name: service.name, price: service.price.replace(',', '.') }
-        });
-        this.props.dispatch(createServices(data));
-      }
+      var data = this.props.form.services.map(service => {
+        return {
+          id: service.id,
+          name: service.name,
+          price: service.price.replace(',', '.'),
+          _destroy: !service.selected
+        }
+      });
+      this.props.dispatch(createServices(data));
     } else {
       this.props.dispatch(addError());
     }
-  }
-
-  _validate(services) {
-    var valid = true;
-
-    services.filter(service => {
-      if (!service.price || parseFloat(service.price.replace(',', '.')) <= 0) {
-        this.props.dispatch(addServiceError(service.id));
-        valid = false;
-      }
-    });
-
-    return valid;
   }
 
   componentDidMount() {
@@ -63,12 +53,12 @@ class ServicesForm extends Component {
     }
   }
 
-  toggleService(serviceID, value) {
-    this.props.dispatch(toggleService(serviceID, value));
+  toggleService(name, value) {
+    this.props.dispatch(toggleService(name, value));
   }
 
-  changeServicePrice(serviceID, price) {
-    this.props.dispatch(changeServicePrice(serviceID, price));
+  changeServicePrice(name, price) {
+    this.props.dispatch(changeServicePrice(name, price));
   }
 
   render() {
@@ -96,7 +86,7 @@ class ServicesForm extends Component {
                 <View style={styles.servicePrice}>
                   <TextInput
                     style={formStyle.textbox.normal}
-                    onChangeText={(text) => {this.changeServicePrice(service.id, text)}}
+                    onChangeText={(text) => {this.changeServicePrice(service.name, text)}}
                     value={service.price}
                     placeholder='preço (R$)'
                     keyboardType='numeric' />
@@ -105,11 +95,11 @@ class ServicesForm extends Component {
               ) : <View />;
 
               return(
-                <View key={service.id} style={styles.row}>
+                <View key={service.name} style={styles.row}>
                   <Text style={styles.serviceName}>{service.name}</Text>
                   <Switch
                     style={styles.serviceSwitch}
-                    onValueChange={(value) => {this.toggleService(service.id, value)}}
+                    onValueChange={(value) => {this.toggleService(service.name, value)}}
                     value={service.selected} />
                   {price}
                 </View>

@@ -3,17 +3,17 @@ const initialState = {
   success: false,
   error: false,
   services: [
-    {id: 1, name: 'Corte de Cabelo', selected: false, price: null, error: null},
-    {id: 2, name: 'Corte de Barba', selected: false, price: null, error: null}
+    {name: 'Corte de Cabelo', selected: false, price: null, error: null},
+    {name: 'Corte de Barba', selected: false, price: null, error: null}
   ]
 };
 
 function services(state = initialState, action) {
   switch (action.type) {
     case 'TOGGLE_SERVICE':
-      var {serviceID, value} = action.data;
-      var index = state.services.findIndex(service => service.id === serviceID);
-      var service = state.services.find(service => service.id === serviceID);
+      var {name, value} = action.data;
+      var index = state.services.findIndex(service => service.name === name);
+      var service = state.services.find(service => service.name === name);
       return {
         ...state,
         services: [
@@ -23,26 +23,14 @@ function services(state = initialState, action) {
         ]
       };
     case 'CHANGE_SERVICE_PRICE':
-      var {serviceID, price} = action.data;
-      var index = state.services.findIndex(service => service.id === serviceID);
-      var service = state.services.find(service => service.id === serviceID);
+      var {name, price} = action.data;
+      var index = state.services.findIndex(service => service.name === name);
+      var service = state.services.find(service => service.name === name);
       return {
         ...state,
         services: [
           ...state.services.slice(0, index),
-          Object.assign(service, { price: price }),
-          ...state.services.slice(index + 1)
-        ]
-      };
-    case 'ADD_SERVICE_ERROR':
-      var {serviceID} = action.data;
-      var index = state.services.findIndex(service => service.id === serviceID);
-      var service = state.services.find(service => service.id === serviceID);
-      return {
-        ...state,
-        services: [
-          ...state.services.slice(0, index),
-          Object.assign(service, { error: 'digite o preço' }),
+          Object.assign(service, { price: price, error: null }),
           ...state.services.slice(index + 1)
         ]
       };
@@ -52,27 +40,44 @@ function services(state = initialState, action) {
         error: true
       };
     case 'INVALID_SERVICES':
+      var {services} = action.data;
+
+      if (services) {
+        var newServices = state.services.map((service, index) => {
+          var error = services[index];
+          var priceError = !!error && !!error.price ? error.price[0] : null;
+          return Object.assign(scheduleTemplate, { error: priceError });
+        });
+      }
+
       return {
         ...state,
         isLoading: false,
-        success: false
+        success: false,
+        services: newServices || state.services,
       };
     case 'REQUEST_SERVICES':
       return {
         ...state,
         isLoading: true,
-        error: false,
-        services: [
-          Object.assign(state.services[0], { error: null }),
-          Object.assign(state.services[1], { error: null })
-        ]
+        error: false
       };
     case 'SERVICES_CREATED':
+      var response = action.data.services;
+      var services = state.services.map(service => {
+        var newService = response.find(s => s.name === service.name);
+        if (!newService) {
+          newService = { id: null };
+        }
+        return Object.assign(service, newService);
+      });
+
       return {
         ...state,
         isLoading: false,
         error: false,
-        success: true
+        success: true,
+        services: services
       };
     case 'SET_SERVICES_EDIT_MODE':
       return {
