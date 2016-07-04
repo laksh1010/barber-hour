@@ -31,15 +31,6 @@ function changeScheduleTemplateTime(weekday, field, time) {
   };
 }
 
-function addScheduleTemplateError(weekday) {
-  return {
-    type: 'ADD_SCHEDULE_TEMPLATE_ERROR',
-    data: {
-      weekday,
-    }
-  };
-}
-
 function changeServiceDuration(serviceDuration) {
   return {
     type: 'CHANGE_SERVICE_DURATION',
@@ -65,7 +56,6 @@ export {
   createScheduleTemplates,
   toggleScheduleTemplate,
   changeScheduleTemplateTime,
-  addScheduleTemplateError,
   changeServiceDuration,
   addError,
   setEditMode
