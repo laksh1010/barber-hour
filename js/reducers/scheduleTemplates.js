@@ -3,13 +3,13 @@ const initialState = {
   success: false,
   error: false,
   scheduleTemplates: [
-    {weekday: 1, name: 'Segunda', active: false, opensAt: {value: null, error: null}, closesAt: {value: null, error: null}},
-    {weekday: 2, name: 'Terça', active: false, opensAt: {value: null, error: null}, closesAt: {value: null, error: null}},
-    {weekday: 3, name: 'Quarta', active: false, opensAt: {value: null, error: null}, closesAt: {value: null, error: null}},
-    {weekday: 4, name: 'Quinta', active: false, opensAt: {value: null, error: null}, closesAt: {value: null, error: null}},
-    {weekday: 5, name: 'Sexta', active: false, opensAt: {value: null, error: null}, closesAt: {value: null, error: null}},
-    {weekday: 6, name: 'Sábado', active: false, opensAt: {value: null, error: null}, closesAt: {value: null, error: null}},
-    {weekday: 0, name: 'Domingo', active: false, opensAt: {value: null, error: null}, closesAt: {value: null, error: null}}
+    {weekday: 'monday', name: 'Segunda', active: false, opensAt: {value: null, error: null}, closesAt: {value: null, error: null}},
+    {weekday: 'tuesday', name: 'Terça', active: false, opensAt: {value: null, error: null}, closesAt: {value: null, error: null}},
+    {weekday: 'wednesday', name: 'Quarta', active: false, opensAt: {value: null, error: null}, closesAt: {value: null, error: null}},
+    {weekday: 'thursday', name: 'Quinta', active: false, opensAt: {value: null, error: null}, closesAt: {value: null, error: null}},
+    {weekday: 'friday', name: 'Sexta', active: false, opensAt: {value: null, error: null}, closesAt: {value: null, error: null}},
+    {weekday: 'saturday', name: 'Sábado', active: false, opensAt: {value: null, error: null}, closesAt: {value: null, error: null}},
+    {weekday: 'sunday', name: 'Domingo', active: false, opensAt: {value: null, error: null}, closesAt: {value: null, error: null}}
   ],
   serviceDuration: {value: '1:00', error: null}
 };
@@ -79,6 +79,11 @@ function scheduleTemplates(state = initialState, action) {
         error: false
       };
     case 'SCHEDULE_TEMPLATES_CREATED':
+      var response = action.data.schedule_templates;
+      var scheduleTemplates = state.scheduleTemplates.map(scheduleTemplate => {
+        var newScheduleTemplate = response.find(s => s.weekday === scheduleTemplate.weekday);
+        return Object.assign(scheduleTemplate, newScheduleTemplate);
+      });
       return {
         ...state,
         isLoading: false,

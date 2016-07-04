@@ -30,8 +30,9 @@ class ScheduleBuilder extends Component {
     var active = this.props.form.scheduleTemplates.filter(scheduleTemplate => scheduleTemplate.active);
 
     if (active.length) {
-      var scheduleTemplates = active.map(scheduleTemplate => {
+      var scheduleTemplates = this.props.form.scheduleTemplates.map(scheduleTemplate => {
         return {
+          id: scheduleTemplate.id,
           weekday: scheduleTemplate.weekday,
           active: scheduleTemplate.active,
           opens_at: this._formatValue(scheduleTemplate.opensAt.value),
