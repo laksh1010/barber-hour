@@ -8,8 +8,11 @@ import {
   ScrollView,
   TouchableNativeFeedback,
   Switch,
-  Alert
+  Alert,
+  ProgressBarAndroid
 } from 'react-native';
+
+import { connect } from 'react-redux';
 
 import Button from '../common/Button';
 import Toolbar from '../common/Toolbar';
@@ -17,43 +20,9 @@ import SelectableButton from '../common/SelectableButton';
 import BarberIcon from '../common/BarberIcon';
 import AppointmentScheduled from './AppointmentScheduled';
 
-export default class BarberDetails extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      days: [
-        {
-          number: '02',
-          monthName: 'Jun',
-          name: 'Hoje',
-          selected: true,
-          schedules: [
-            {id: 1, startAt: '13h', endAt: '14h', disabled: true},
-            {id: 2, startAt: '14h', endAt: '15h', disabled: true},
-            {id: 3, startAt: '15h', endAt: '16h', disabled: false},
-            {id: 4, startAt: '16h', endAt: '17h', disabled: false},
-            {id: 5, startAt: '17h', endAt: '18h', disabled: false},
-            {id: 6, startAt: '18h', endAt: '19h', disabled: false},
-          ]
-        },
-        {
-          number: '03',
-          monthName: 'Jun',
-          name: 'Sexta',
-          selected: false,
-          schedules: [
-            {id: 7, startAt: '13h', endAt: '14h', disabled: false},
-            {id: 8, startAt: '14h', endAt: '15h', disabled: false},
-            {id: 9, startAt: '15h', endAt: '16h', disabled: true},
-            {id: 10, startAt: '16h', endAt: '17h', disabled: true},
-            {id: 11, startAt: '17h', endAt: '18h', disabled: false},
-            {id: 12, startAt: '18h', endAt: '19h', disabled: false},
-          ]
-        }
-      ]
-    };
-  }
+import { listSchedules } from '../actions/schedules';
 
+class BarberDetails extends Component {
   _selectDay(index) {
     const days = this.state.days.map((d) => {
       d.selected = false
@@ -120,10 +89,44 @@ export default class BarberDetails extends Component {
     );
   }
 
+  componentDidMount() {
+    this.props.dispatch(listSchedules({id: this.props.barber.id}));
+  }
+
   render() {
-    const { barber, navigator } = this.props;
+    const {barber, navigator} = this.props;
     const {address, images, services} = barber;
-    const selectedDay = this.state.days.find(day => day.selected);
+    const {days, isLoading} = this.props.schedules;
+    const selectedDay = days[0];
+
+    var content;
+
+    if (isLoading || days.length === 0) {
+      content = <ProgressBarAndroid />;
+    } else {
+      content = (
+        <View style={styles.innerContainer}>
+          <Text style={styles.info}>Escolha a data:</Text>
+          <View style={styles.selectableButtonContainer}>
+            {days.map((day, index) => {
+              return(
+                <SelectableButton key={index} title={day.schedules[0].day_name} text={day.number}
+                  selected={day === selectedDay} onPress={() => this._selectDay(index)} />
+              )
+            })}
+          </View>
+          <Text style={styles.info}>Escolha o horário:</Text>
+          <View style={styles.selectableButtonContainer}>
+            {selectedDay.schedules.map(schedule => {
+              return(
+                <SelectableButton key={schedule.id} title={schedule.hour} disabled={schedule.disabled}
+                  selected={schedule.selected} onPress={() => this._selectSchedule(schedule)} />
+              )
+            })}
+          </View>
+        </View>
+      );
+    }
 
     return(
       <View style={styles.container}>
@@ -140,27 +143,7 @@ export default class BarberDetails extends Component {
             </View>
           </View>
           <View style={styles.separator} />
-          <View style={styles.innerContainer}>
-            <Text style={styles.info}>Escolha a data:</Text>
-            <View style={styles.selectableButtonContainer}>
-              {this.state.days.map((day, i) => {
-                return(
-                  <SelectableButton key={i} title={day.name} text={day.number}
-                    selected={day.selected} onPress={() => this._selectDay(i)} />
-                )
-              })}
-            </View>
-            <Text style={styles.info}>Escolha o horário:</Text>
-            <View style={styles.selectableButtonContainer}>
-              {selectedDay.schedules.map(schedule => {
-                const title = `${schedule.startAt}-${schedule.endAt}`;
-                return(
-                  <SelectableButton key={schedule.id} title={title} disabled={schedule.disabled}
-                    selected={schedule.selected} onPress={() => this._selectSchedule(schedule)} />
-                )
-              })}
-            </View>
-          </View>
+            {content}
           <View style={styles.separator} />
           <View style={styles.innerContainer}>
             <Text style={styles.info}>Escolha os serviços:</Text>
@@ -186,6 +169,14 @@ export default class BarberDetails extends Component {
     );
   }
 }
+
+function select(store) {
+  return {
+    schedules: store.schedules
+  };
+}
+
+export default connect(select)(BarberDetails);
 
 var styles = StyleSheet.create({
   container: {
