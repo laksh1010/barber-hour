@@ -21,6 +21,7 @@ import BarberIcon from '../common/BarberIcon';
 import AppointmentScheduled from './AppointmentScheduled';
 
 import { listSchedules, selectDay, selectSchedule } from '../actions/schedules';
+import { toggleService } from '../actions/barbers';
 
 class BarberDetails extends Component {
   _selectDay(index) {
@@ -32,17 +33,7 @@ class BarberDetails extends Component {
   }
 
   _toggleService(serviceID, value) {
-    var index = this.state.services.findIndex(service => service.id === serviceID);
-    var service = this.state.services.find(service => service.id === serviceID);
-    var newState = {
-      days: this.state.days,
-      services: [
-        ...this.state.services.slice(0, index),
-        Object.assign(service, { selected: value }),
-        ...this.state.services.slice(index + 1)
-      ]
-    };
-    this.setState(newState);
+    this.props.dispatch(toggleService(this.props.barberID, serviceID, value));
   }
 
   _sendSchedule() {
@@ -63,11 +54,12 @@ class BarberDetails extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(listSchedules({id: this.props.barber.id}));
+    this.props.dispatch(listSchedules({id: this.props.barberID}));
   }
 
   render() {
-    const {barber, navigator} = this.props;
+    const {barberID, navigator} = this.props;
+    const barber = this.props.barbers.barbers.find(barber => barber.id === barberID);
     const {address, images, services} = barber;
     const {days, isLoading} = this.props.schedules;
     const selectedDay = days.find(day => day.selected);
@@ -146,7 +138,8 @@ class BarberDetails extends Component {
 
 function select(store) {
   return {
-    schedules: store.schedules
+    schedules: store.schedules,
+    barbers: store.barbers
   };
 }
 

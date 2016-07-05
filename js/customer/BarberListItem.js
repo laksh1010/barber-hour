@@ -15,7 +15,7 @@ export default class BarberListItem extends Component {
     this.props.navigator.push({
       title: this.props.barber.name,
       component: BarberDetails,
-      passProps: { barber: this.props.barber }
+      passProps: { barberID: this.props.barber.id }
     });
   }
 

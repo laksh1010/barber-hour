@@ -10,4 +10,15 @@ function listBarbers() {
   }
 }
 
-export {listBarbers};
+function toggleService(barberID, serviceID, value) {
+  return {
+    type: 'TOGGLE_BARBER_SERVICE',
+    data: {
+      barberID,
+      serviceID,
+      value
+    }
+  };
+}
+
+export {listBarbers, toggleService};
