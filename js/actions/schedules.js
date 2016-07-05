@@ -10,4 +10,22 @@ function listSchedules(data) {
   }
 }
 
-export {listSchedules};
+function selectDay(index) {
+  return {
+    type: 'SELECT_DAY',
+    data: {
+      index,
+    }
+  };
+}
+
+function selectSchedule(schedule) {
+  return {
+    type: 'SELECT_SCHEDULE',
+    data: {
+      schedule,
+    }
+  };
+}
+
+export {listSchedules, selectDay, selectSchedule};

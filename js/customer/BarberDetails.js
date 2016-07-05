@@ -20,42 +20,15 @@ import SelectableButton from '../common/SelectableButton';
 import BarberIcon from '../common/BarberIcon';
 import AppointmentScheduled from './AppointmentScheduled';
 
-import { listSchedules } from '../actions/schedules';
+import { listSchedules, selectDay, selectSchedule } from '../actions/schedules';
 
 class BarberDetails extends Component {
   _selectDay(index) {
-    const days = this.state.days.map((d) => {
-      d.selected = false
-      return(d);
-    });
-    const day = this.state.days[index];
-    const newState = {
-      services: this.state.services,
-      days: [
-        ...days.slice(0, index),
-        Object.assign(day, { selected: true }),
-        ...days.slice(index + 1)
-      ]
-    };
-    this.setState(newState);
+    this.props.dispatch(selectDay(index));
   }
 
   _selectSchedule(schedule) {
-    const selectedDay = this.state.days.find(day => day.selected);
-    const index = this.state.days.findIndex(day => day.selected);
-    const schedules = selectedDay.schedules.map((s) => {
-      s.selected = (s.id === schedule.id);
-      return(s);
-    });
-    const newState = {
-      services: this.state.services,
-      days: [
-        ...this.state.days.slice(0, index),
-        Object.assign(selectedDay, { schedules: schedules }),
-        ...this.state.days.slice(index + 1)
-      ]
-    };
-    this.setState(newState);
+    this.props.dispatch(selectSchedule(schedule));
   }
 
   _toggleService(serviceID, value) {
@@ -97,7 +70,7 @@ class BarberDetails extends Component {
     const {barber, navigator} = this.props;
     const {address, images, services} = barber;
     const {days, isLoading} = this.props.schedules;
-    const selectedDay = days[0];
+    const selectedDay = days.find(day => day.selected);
 
     var content;
 
