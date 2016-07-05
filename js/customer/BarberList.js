@@ -4,6 +4,7 @@ import {
   StyleSheet,
   ListView,
   RecyclerViewBackedScrollView,
+  ProgressBarAndroid
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -13,7 +14,9 @@ import { listBarbers } from '../actions/barbers';
 
 class BarberList extends Component {
   componentDidMount() {
-    this.props.dispatch(listBarbers());
+    if (this.props.dataSource.length === 0) {
+      this.props.dispatch(listBarbers());
+    }
   }
 
   _renderRow(rowData, sectionID, rowID) {
@@ -21,14 +24,21 @@ class BarberList extends Component {
   }
 
   render() {
+    var content;
+
+    if (this.props.isLoading || this.props.dataSource.length === 0) {
+      content = <ProgressBarAndroid />;
+    } else {
+      content =
+        <ListView
+          dataSource={this.props.dataSource}
+          renderRow={this._renderRow.bind(this)}
+          renderScrollComponent={props => <RecyclerViewBackedScrollView {...props} />}/>;
+    }
+
     return(
       <View style={styles.container}>
-        <View style={styles.listContainer}>
-          <ListView
-            dataSource={this.props.dataSource}
-            renderRow={this._renderRow.bind(this)}
-            renderScrollComponent={props => <RecyclerViewBackedScrollView {...props} />}/>
-        </View>
+        <View style={styles.listContainer}>{content}</View>
       </View>
     );
   }
@@ -38,7 +48,8 @@ const dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1.id !=
 
 function select(store) {
   return {
-    dataSource: dataSource.cloneWithRows(store.barbers.barbers)
+    dataSource: dataSource.cloneWithRows(store.barbers.barbers),
+    isLoading: store.barbers.isLoading
   };
 }
 
