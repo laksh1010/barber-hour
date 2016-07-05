@@ -110,7 +110,8 @@ class BarberDetails extends Component {
           <View style={styles.selectableButtonContainer}>
             {days.map((day, index) => {
               return(
-                <SelectableButton key={index} title={day.schedules[0].day_name} text={day.number}
+                <SelectableButton key={index} title={day.schedules[0].day_name}
+                  text={`${day.number} ${day.schedules[0].month_name}`}
                   selected={day === selectedDay} onPress={() => this._selectDay(index)} />
               )
             })}

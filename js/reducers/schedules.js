@@ -33,7 +33,7 @@ function schedules(state = initialState, action) {
         }, []);
 
         return {
-          dayNumber: dayNumber,
+          number: dayNumber,
           schedules: daySchedules
         };
       });
