@@ -25,13 +25,19 @@ class ServicesForm extends Component {
         return {
           id: service.id,
           name: service.name,
-          price: service.price.replace(',', '.'),
+          price: this._formatPrice(service.price),
           _destroy: !service.selected
         }
       });
       this.props.dispatch(createServices(data));
     } else {
       this.props.dispatch(addError());
+    }
+  }
+
+  _formatPrice(price) {
+    if (price) {
+      return price.replace(',', '.');
     }
   }
 

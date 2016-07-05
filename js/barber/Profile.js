@@ -43,7 +43,8 @@ class Profile extends Component {
 
   _editImages() {
     this.props.navigator.push({
-      component: ImageChooser
+      component: ImageChooser,
+      passProps: { edit: true }
     });
   }
 

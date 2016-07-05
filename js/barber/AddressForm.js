@@ -76,7 +76,7 @@ class AddressForm extends Component {
     formOptions.fields.zipcode.onBlur = this.loadZipcode.bind(this);
 
     var buttonLabel = this.props.edit ? 'Alterar' : 'Avançar';
-    var infoPrefix = this.props.edit ? 'Altere ' : 'Cadastre ';
+    var infoPrefix = this.props.edit ? 'Altere' : 'Cadastre';
 
     return(
       <View style={styles.container}>
