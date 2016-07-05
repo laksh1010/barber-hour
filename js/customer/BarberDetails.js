@@ -50,10 +50,6 @@ export default class BarberDetails extends Component {
             {id: 12, startAt: '18h', endAt: '19h', disabled: false},
           ]
         }
-      ],
-      services: [
-        {id: 1, name: 'Corte de Cabelo', selected: false, price: 'R$ 20,00'},
-        {id: 2, name: 'Corte de Barba', selected: false, price: 'R$ 10,00'}
       ]
     };
   }
@@ -126,7 +122,7 @@ export default class BarberDetails extends Component {
 
   render() {
     const { barber, navigator } = this.props;
-    const address = `${barber.street}, ${barber.number} - ${barber.district}`;
+    const {address, images, services} = barber;
     const selectedDay = this.state.days.find(day => day.selected);
 
     return(
@@ -134,13 +130,13 @@ export default class BarberDetails extends Component {
         <ScrollView>
           <StatusBar backgroundColor='#C5C5C5'/>
           <Toolbar backIcon border title={barber.name} navigator={navigator} />
-          <Image source={barber.image} style={styles.image} />
+          <Image source={{uri: images[0].url}} style={styles.image} />
           <View style={styles.separator} />
           <View style={styles.innerContainer}>
             <Text style={styles.title}>{barber.name}</Text>
             <View style={styles.infoContainer}>
               <BarberIcon name='location' size={24} color='#003459' style={styles.icon} />
-              <Text style={styles.info}>{address}</Text>
+              <Text style={styles.info}>{`${address.street}, ${address.number} - ${address.district}`}</Text>
             </View>
           </View>
           <View style={styles.separator} />
@@ -168,12 +164,12 @@ export default class BarberDetails extends Component {
           <View style={styles.separator} />
           <View style={styles.innerContainer}>
             <Text style={styles.info}>Escolha os serviços:</Text>
-            {this.state.services.map((service) => {
+            {services.map((service) => {
               const icon = service.name === 'Corte de Cabelo' ? 'scissor-4' : 'razor';
               return(
                 <View key={service.id} style={styles.serviceContainer}>
                   <BarberIcon name={icon} size={24} color='#003459' style={styles.icon} />
-                  <Text style={styles.price}>{service.name}: {service.price}</Text>
+                  <Text style={styles.price}>{service.name}: {service.formatted_price}</Text>
                   <Switch
                     onValueChange={(value) => {this._toggleService(service.id, value)}}
                     value={service.selected} />
@@ -202,6 +198,7 @@ var styles = StyleSheet.create({
     paddingBottom: 10,
     paddingLeft: 20,
     paddingRight: 20,
+    flex: 1
   },
   title: {
     fontSize: 24,
@@ -210,7 +207,8 @@ var styles = StyleSheet.create({
   },
   info: {
     fontSize: 16,
-    textAlign: 'center'
+    textAlign: 'center',
+    flex: 1
   },
   button: {
     marginTop: 10,
@@ -229,7 +227,8 @@ var styles = StyleSheet.create({
   infoContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    flex: 1
   },
   icon: {
     marginRight: 5
