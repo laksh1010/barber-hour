@@ -79,6 +79,7 @@ var styles = StyleSheet.create({
   },
   infoContainer: {
     marginLeft: 10,
+    flex: 1
   },
   icon: {
     marginRight: 5
