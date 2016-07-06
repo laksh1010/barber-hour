@@ -17,7 +17,8 @@ const Form = t.form.Form;
 
 import { loginWithFacebook, login } from '../actions/auth';
 
-import Main from '../customer/Main';
+import CustomerMain from '../customer/Main';
+import BarberMain from '../barber/Main';
 import Signup from './Signup';
 import FacebookButton from './FacebookButton';
 import Logo from '../common/Logo';
@@ -50,9 +51,8 @@ class Login extends Component {
 
   componentDidUpdate() {
     if (this.props.isLoggedIn) {
-      this.props.navigator.replace({
-        component: Main
-      });
+      var component = this.props.type === 'Barber' ? BarberMain : CustomerMain;
+      this.props.navigator.replace({component: component});
     }
   }
 
@@ -102,7 +102,8 @@ class Login extends Component {
 function select(store) {
   return {
     form: store.login,
-    isLoggedIn: store.user.isLoggedIn
+    isLoggedIn: store.user.isLoggedIn,
+    type: store.user.type
   };
 }
 
