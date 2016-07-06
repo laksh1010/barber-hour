@@ -15,7 +15,7 @@ import { listAppointments } from '../actions/appointments';
 class HaircutHistory extends Component {
   componentDidMount() {
     if (this.props.dataSource.getRowCount() === 0) {
-      this.props.dispatch(listAppointments());
+      this.props.dispatch(listAppointments('customer'));
     }
   }
 

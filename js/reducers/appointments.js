@@ -26,6 +26,8 @@ function appointments(state = initialState, action) {
         isLoading: false,
         error: true
       };
+    case 'LOGGED_OUT':
+      return initialState;
     default:
       return state;
   }

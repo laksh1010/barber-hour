@@ -4,42 +4,61 @@ import {
   StyleSheet,
   ListView,
   RecyclerViewBackedScrollView,
+  ActivityIndicator
 } from 'react-native';
 
+import { connect } from 'react-redux';
+
 import HaircutItem from './HaircutItem';
+import { listAppointments } from '../actions/appointments';
 
-export default class HaircutSchedule extends Component {
-  constructor(props) {
-    super(props);
-    var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1.id !== r2.id });
-    var appointments = [
-      { id: 1, customer: 'Leonardo Tegon', startAt: '13h', endAt: '14h', day: '02/06/2016', status: 'open', translatedStatus: 'Agendado' },
-      { id: 2, customer: 'Diego Sobreira', startAt: '13h', endAt: '14h', day: '10/05/2016', status: 'open', translatedStatus: 'Agendado' },
-      { id: 3, customer: 'Barry Allen', startAt: '13h', endAt: '14h', day: '23/03/2016', status: 'open', translatedStatus: 'Agendado' },
-    ];
-
-    this.state = {
-      dataSource: ds.cloneWithRows(appointments),
-    };
+class HaircutSchedule extends Component {
+  componentDidMount() {
+    if (this.props.dataSource.getRowCount() === 0) {
+      this.props.dispatch(listAppointments('barber'));
+    }
   }
 
   _renderRow(rowData, sectionID, rowID) {
-    return(<HaircutItem navigator={this.props.navigator} appointment={rowData} />);
+    return(<HaircutItem key={rowID} navigator={this.props.navigator} appointment={rowData} />);
   }
 
   render() {
+    var content;
+
+    if (this.props.isLoading) {
+      content = <ActivityIndicator />;
+    } else if (this.props.dataSource.length === 0) {
+      content = <Text>Você não possui nenhum corte.</Text>;
+    } else {
+      content =
+        <ListView
+          dataSource={this.props.dataSource}
+          renderRow={this._renderRow.bind(this)}
+          enableEmptySections={true}
+          renderScrollComponent={props => <RecyclerViewBackedScrollView {...props} />}/>;
+    }
+
     return(
       <View style={styles.container}>
-        <View style={styles.listContainer}>
-          <ListView
-            dataSource={this.state.dataSource}
-            renderRow={this._renderRow.bind(this)}
-            renderScrollComponent={props => <RecyclerViewBackedScrollView {...props} />}/>
-        </View>
+        <View style={styles.listContainer}>{content}</View>
       </View>
     );
   }
 }
+
+const dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1.id !== r2.id });
+
+function select(store) {
+  var scheduledAppointments = store.appointments.appointments.filter(appointment => appointment.status === 'scheduled');
+
+  return {
+    dataSource: dataSource.cloneWithRows(scheduledAppointments),
+    isLoading: store.appointments.isLoading
+  };
+}
+
+export default connect(select)(HaircutSchedule);
 
 var styles = StyleSheet.create({
   container: {

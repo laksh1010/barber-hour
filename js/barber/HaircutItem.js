@@ -21,26 +21,29 @@ export default class HaircutItem extends Component {
 
   _iconForStatus(status) {
     switch (status) {
-      case 'closed':
+      case 'finished':
         return 'alarm-on';
       case 'canceled':
         return 'alarm-off';
-      case 'open':
+      case 'scheduled':
         return 'alarm';
     }
   }
 
   render() {
+    console.log(appointment)
     const { appointment } = this.props;
+    const { schedule, customer } = appointment;
+
     return(
       <TouchableNativeFeedback onPress={this._openDetails.bind(this)}>
         <View style={styles.card}>
           <View>
-            <Text style={styles.date}>{appointment.day} das {appointment.startAt} às {appointment.endAt}</Text>
-            <Text style={styles.customer}>{appointment.customer}</Text>
+            <Text style={styles.date}>{schedule.day_number} de {schedule.month_name} às {schedule.hour}</Text>
+            <Text style={styles.customer}>{customer.name}</Text>
             <View style={styles.statusContainer}>
               <Icon name={this._iconForStatus(appointment.status)} size={24} color='#003459' style={styles.icon} />
-              <Text>{appointment.translatedStatus}</Text>
+              <Text>{appointment.translated_status}</Text>
             </View>
           </View>
         </View>
