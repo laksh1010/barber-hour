@@ -10,4 +10,14 @@ function listAppointments(userType) {
   }
 }
 
-export {listAppointments};
+function cancelAppointment(userType, id) {
+  return (dispatch, getState) => {
+    dispatch({ type: 'REQUEST_APPOINTMENT_CANCEL' });
+
+    api.delete(`/${userType}/appointments/${id}`, { headers: { 'Authorization': `Token ${getState().user.token}` } })
+      .then(response => dispatch({ type: 'APPOINTMENT_CANCELED', data: response.data }))
+      .catch(error => dispatch({ type: 'REQUEST_APPOINTMENT_CANCEL_ERROR', data: error.data }));
+  }
+}
+
+export {listAppointments, cancelAppointment};

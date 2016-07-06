@@ -12,17 +12,26 @@ import {
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { connect } from 'react-redux';
 
 import Button from '../common/Button';
 import Toolbar from '../common/Toolbar';
 import BarberIcon from '../common/BarberIcon';
 import AppointmentCanceled from './AppointmentCanceled';
 
-export default class HaircutDetails extends Component {
+import { cancelAppointment } from '../actions/appointments';
+
+class HaircutDetails extends Component {
+  componentDidUpdate() {
+    if (this.props.form.success) {
+      this.props.navigator.replace({
+        component: AppointmentCanceled
+      });
+    }
+  }
+
   _cancelSchedule() {
-    this.props.navigator.replace({
-      component: AppointmentCanceled
-    });
+    this.props.dispatch(cancelAppointment('customer', this.props.appointment.id));
   }
 
   _confirmCancelSchedule() {
@@ -91,6 +100,14 @@ export default class HaircutDetails extends Component {
     );
   }
 }
+
+function select(store) {
+  return {
+    form: store.appointments
+  };
+}
+
+export default connect(select)(HaircutDetails);
 
 var styles = StyleSheet.create({
   container: {
