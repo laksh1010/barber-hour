@@ -9,7 +9,7 @@ import {
   TouchableNativeFeedback,
   Switch,
   Alert,
-  ProgressBarAndroid
+  ActivityIndicator
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -91,7 +91,7 @@ class BarberDetails extends Component {
     var content;
 
     if (isLoading || days.length === 0) {
-      content = <ProgressBarAndroid />;
+      content = <ActivityIndicator />;
     } else {
       content = (
         <View style={styles.innerContainer}>

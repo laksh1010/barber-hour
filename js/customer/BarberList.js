@@ -4,7 +4,7 @@ import {
   StyleSheet,
   ListView,
   RecyclerViewBackedScrollView,
-  ProgressBarAndroid
+  ActivityIndicator
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -27,7 +27,7 @@ class BarberList extends Component {
     var content;
 
     if (this.props.isLoading || this.props.dataSource.length === 0) {
-      content = <ProgressBarAndroid />;
+      content = <ActivityIndicator />;
     } else {
       content =
         <ListView

@@ -4,7 +4,7 @@ import {
   StyleSheet,
   ListView,
   RecyclerViewBackedScrollView,
-  ProgressBarAndroid
+  ActivityIndicator
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -27,7 +27,7 @@ class HaircutHistory extends Component {
     var content;
 
     if (this.props.isLoading) {
-      content = <ProgressBarAndroid />;
+      content = <ActivityIndicator />;
     } else if (this.props.dataSource.length === 0) {
       content = <Text>Você ainda não agendou nenhum corte.</Text>;
     } else {
