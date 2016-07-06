@@ -19,16 +19,6 @@ import BarberIcon from '../common/BarberIcon';
 import AppointmentCanceled from './AppointmentCanceled';
 
 export default class HaircutDetails extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      services: [
-        {id: 1, name: 'Corte de Cabelo', price: 'R$ 20,00'},
-        {id: 2, name: 'Corte de Barba', price: 'R$ 10,00'}
-      ]
-    };
-  }
-
   _cancelSchedule() {
     this.props.navigator.replace({
       component: AppointmentCanceled
@@ -48,48 +38,48 @@ export default class HaircutDetails extends Component {
 
   _iconForStatus(status) {
     switch (status) {
-      case 'closed':
+      case 'finished':
         return 'alarm-on';
       case 'canceled':
         return 'alarm-off';
-      case 'open':
+      case 'scheduled':
         return 'alarm';
     }
   }
 
   render() {
     const { appointment, navigator } = this.props;
-    const { services } = this.state;
+    const { schedule, barber, appointment_services } = appointment;
 
     return(
       <View style={styles.container}>
         <StatusBar backgroundColor='#C5C5C5'/>
         <Toolbar backIcon border navigator={navigator} />
         <View style={styles.innerContainer}>
-          <Text style={styles.title}>{appointment.barber}</Text>
+          <Text style={styles.title}>{barber.name}</Text>
           <View style={styles.infoContainer}>
-            <Text style={styles.info}>{appointment.day} das {appointment.startAt} às {appointment.endAt}</Text>
+            <Text style={styles.info}>{schedule.day_number} de {schedule.month_name} às {schedule.hour}</Text>
           </View>
         </View>
         <View style={styles.infoContainer}>
           <View style={styles.statusContainer}>
             <Icon name={this._iconForStatus(appointment.status)} size={24} color='#003459' style={styles.icon} />
-            <Text>{appointment.translatedStatus}</Text>
+            <Text>{appointment.translated_status}</Text>
           </View>
         </View>
         <View style={styles.separator} />
         <View style={styles.innerContainer}>
-          {services.map((service) => {
-            const icon = service.name === 'Corte de Cabelo' ? 'scissor-4' : 'razor';
+          {appointment_services.map((appointmentService) => {
+            const icon = appointmentService.service_name === 'Corte de Cabelo' ? 'scissor-4' : 'razor';
             return(
-              <View key={service.id} style={styles.serviceContainer}>
+              <View key={appointmentService.id} style={styles.serviceContainer}>
                 <BarberIcon name={icon} size={24} color='#003459' style={styles.serviceIcon} />
-                <Text style={styles.price}>{service.name}: {service.price}</Text>
+                <Text style={styles.price}>{appointmentService.service_name}: {appointmentService.service_price}</Text>
               </View>
             )
           })}
         </View>
-        {appointment.status === 'open' ? (
+        {appointment.status === 'scheduled' ? (
           <View>
             <View style={styles.separator} />
             <View style={styles.innerContainer}>

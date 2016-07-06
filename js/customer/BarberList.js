@@ -33,6 +33,7 @@ class BarberList extends Component {
         <ListView
           dataSource={this.props.dataSource}
           renderRow={this._renderRow.bind(this)}
+          enableEmptySections={true}
           renderScrollComponent={props => <RecyclerViewBackedScrollView {...props} />}/>;
     }
 
