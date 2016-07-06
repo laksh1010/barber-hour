@@ -4,7 +4,8 @@ import {
   StyleSheet,
   ListView,
   RecyclerViewBackedScrollView,
-  ActivityIndicator
+  ActivityIndicator,
+  Text
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -28,7 +29,7 @@ class HaircutHistory extends Component {
 
     if (this.props.isLoading) {
       content = <ActivityIndicator />;
-    } else if (this.props.dataSource.length === 0) {
+    } else if (this.props.dataSource.getRowCount() === 0) {
       content = <Text>Você não possui nenhum corte.</Text>;
     } else {
       content =
