@@ -21,7 +21,6 @@ function appointments(state = initialState, action) {
         appointments: appointments
       };
     case 'REQUEST_APPOINTMENTS_ERROR':
-      console.log('APPOINTMENTS_LOADED', action.data)
       return {
         ...state,
         isLoading: false,
