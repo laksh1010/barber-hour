@@ -28,13 +28,13 @@ export default class BarberListItem extends Component {
         <View style={styles.card}>
           <View style={styles.row}>
             <Image style={styles.thumb} source={{uri: images[0].url}}/>
-            <View style={styles.infoContainer}>
+            <View key={barber.id} style={styles.infoContainer}>
               <Text style={styles.name}>{barber.name}</Text>
               <Text style={styles.address}>{`${address.street}, ${address.number} - ${address.district}`}</Text>
               {services.map(service => {
                 const icon = service.name === 'Corte de Cabelo' ? 'scissor-4' : 'razor';
                 return(
-                  <View style={styles.serviceContainer}>
+                  <View key={service.id} style={styles.serviceContainer}>
                     <BarberIcon name={icon} size={24} color='#003459' style={styles.icon} />
                     <Text style={styles.price}>{service.formatted_price}</Text>
                   </View>

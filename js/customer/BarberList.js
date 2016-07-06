@@ -14,7 +14,7 @@ import { listBarbers } from '../actions/barbers';
 
 class BarberList extends Component {
   componentDidMount() {
-    if (this.props.dataSource.length === 0) {
+    if (this.props.dataSource.getRowCount() === 0) {
       this.props.dispatch(listBarbers());
     }
   }
