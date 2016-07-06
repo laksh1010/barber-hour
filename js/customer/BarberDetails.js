@@ -19,9 +19,11 @@ import Toolbar from '../common/Toolbar';
 import SelectableButton from '../common/SelectableButton';
 import BarberIcon from '../common/BarberIcon';
 import AppointmentScheduled from './AppointmentScheduled';
+import formStyle from '../forms/style';
 
 import { listSchedules, selectDay, selectSchedule } from '../actions/schedules';
 import { toggleService } from '../actions/barbers';
+import { addError, createAppointment } from '../actions/appointment';
 
 class BarberDetails extends Component {
   _selectDay(index) {
@@ -36,25 +38,47 @@ class BarberDetails extends Component {
     this.props.dispatch(toggleService(this.props.barberID, serviceID, value));
   }
 
-  _sendSchedule() {
-    this.props.navigator.replace({
-      component: AppointmentScheduled
-    });
+  _createAppointment(services, schedule) {
+    var data = {
+      id: schedule.id,
+      serviceIds: services.map(service => service.id)
+    };
+
+    this.props.dispatch(createAppointment(data));
   }
 
   _confirmSchedule() {
-    Alert.alert(
-      'Agendar horário',
-      'Tem certeza que deseja agendar esse horário?',
-      [
-        {text: 'Agendar horário', onPress: () => {this._sendSchedule()} },
-        {text: 'Cancelar', style: 'cancel'},
-      ]
-    );
+    const {barberID} = this.props;
+    const barber = this.props.barbers.barbers.find(barber => barber.id === barberID);
+    const {days} = this.props.schedules;
+    const selectedDay = days.find(day => day.selected);
+    const selectedServices = barber.services.filter(service => service.selected);
+    const selectedSchedule = selectedDay.schedules.find(schedule => schedule.selected);
+
+    if (selectedServices.length && selectedSchedule) {
+      Alert.alert(
+        'Agendar horário',
+        'Tem certeza que deseja agendar esse horário?',
+        [
+          {text: 'Agendar horário', onPress: () => {this._createAppointment(selectedServices, selectedSchedule)} },
+          {text: 'Cancelar', style: 'cancel'},
+        ]
+      );
+    } else {
+      this.props.dispatch(addError());
+    }
   }
 
   componentDidMount() {
     this.props.dispatch(listSchedules({id: this.props.barberID}));
+  }
+
+  componentDidUpdate() {
+    if (this.props.appointment.success) {
+      this.props.navigator.replace({
+        component: AppointmentScheduled
+      });
+    }
   }
 
   render() {
@@ -94,6 +118,12 @@ class BarberDetails extends Component {
       );
     }
 
+    var errorMessage;
+
+    if (this.props.appointment.error) {
+      errorMessage = <Text style={formStyle.errorBlock}>{this.props.appointment.error}</Text>;
+    }
+
     return(
       <View style={styles.container}>
         <ScrollView>
@@ -128,6 +158,7 @@ class BarberDetails extends Component {
           </View>
           <View style={styles.separator} />
           <View style={styles.innerContainer}>
+            {errorMessage}
             <Button containerStyle={styles.button} text='Agendar' onPress={this._confirmSchedule.bind(this)} />
           </View>
         </ScrollView>
@@ -139,7 +170,8 @@ class BarberDetails extends Component {
 function select(store) {
   return {
     schedules: store.schedules,
-    barbers: store.barbers
+    barbers: store.barbers,
+    appointment: store.appointment
   };
 }
 

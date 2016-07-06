@@ -13,5 +13,6 @@ export default combineReducers({
   scheduleTemplates: require('./scheduleTemplates'),
   images: require('./images'),
   barbers: require('./barbers'),
-  schedules: require('./schedules')
+  schedules: require('./schedules'),
+  appointment: require('./appointment')
 });
