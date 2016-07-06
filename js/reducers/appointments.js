@@ -13,7 +13,6 @@ function appointments(state = initialState, action) {
         error: false
       };
     case 'APPOINTMENTS_LOADED':
-      console.log('APPOINTMENTS_LOADED', action.data)
       var {appointments} = action.data;
       return {
         ...state,
