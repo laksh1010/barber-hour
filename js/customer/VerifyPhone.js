@@ -42,6 +42,7 @@ class VerifyPhone extends Component {
 
   render() {
     const VerifyCode = t.struct({verification_code: t.String});
+    const buttonLabel = this.props.form.isLoading ? 'Confirmando...' : 'Confimar cadastro';
 
     return(
       <View style={styles.container}>
@@ -53,7 +54,11 @@ class VerifyPhone extends Component {
           <View style={styles.formContainer}>
             <Form ref='form' type={VerifyCode} options={this.props.form} value={this.getFormValue()} />
           </View>
-          <Button containerStyle={styles.button} text='Confimar cadastro' onPress={this._verifyPhone.bind(this)} />
+          <Button
+            containerStyle={styles.button}
+            text={buttonLabel}
+            disabled={this.props.form.isLoading}
+            onPress={this._verifyPhone.bind(this)} />
         </View>
       </View>
     );

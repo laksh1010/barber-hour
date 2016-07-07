@@ -25,6 +25,7 @@ function verifyPhone(state = initialState, action) {
           verification_code: {
             ...state.fields.verification_code,
             hasError: true,
+            editable: true,
             error: 'código inválido'
           }
         }
@@ -33,6 +34,12 @@ function verifyPhone(state = initialState, action) {
       return {
         ...initialState,
         isLoading: true,
+        fields: {
+          verification_code: {
+            ...state.fields.verification_code,
+            editable: false
+          }
+        },
         verification_code: action.data.verification_code
       };
     case 'PHONE_VERIFIED':
