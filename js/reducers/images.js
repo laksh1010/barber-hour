@@ -2,6 +2,7 @@ import uuid from 'node-uuid';
 
 const initialState = {
   isLoading: false,
+  isRequestingInfo: false,
   success: false,
   error: false,
   images: []
@@ -45,9 +46,7 @@ function images(state = initialState, action) {
       });
 
       return {
-        ...state,
-        isLoading: false,
-        error: false,
+        ...initialState,
         success: true,
         images: images
       };
@@ -62,13 +61,22 @@ function images(state = initialState, action) {
         ...state,
         error: true
       };
-    case 'SET_IMAGES_EDIT_MODE':
+    case 'REQUEST_LOAD_IMAGES':
       return {
         ...state,
-        success: false
+        success: false,
+        isRequestingInfo: true
       };
-    case 'LOGGED_OUT':
-      return initialState;
+    case 'IMAGES_LOADED':
+      var {images} = action.data;
+      var newImages = images.map(image => {
+        return Object.assign(image, { uid: image.id });
+      });
+      return {
+        ...state,
+        isRequestingInfo: false,
+        images: newImages
+      };
     default:
       return state;
   }

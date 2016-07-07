@@ -34,10 +34,14 @@ function addError() {
   };
 }
 
-function setEditMode() {
-  return {
-    type: 'SET_IMAGES_EDIT_MODE'
-  };
+function getImages() {
+  return (dispatch, getState) => {
+    dispatch({ type: 'REQUEST_LOAD_IMAGES', data: {} });
+
+    api.get('/barber/images', { headers: { 'Authorization': `Token ${getState().user.token}` } })
+      .then(response => dispatch({ type: 'IMAGES_LOADED', data: response.data }))
+      .catch(error => dispatch({ type: 'IMAGES_LOAD_FAILED', data: error.data }));
+  }
 }
 
-export {createImages, addImage, removeImage, addError, setEditMode};
+export {createImages, addImage, removeImage, addError, getImages};

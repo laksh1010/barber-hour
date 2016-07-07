@@ -36,7 +36,7 @@ function getAddress() {
 
     api.get('/barber/address', { headers: { 'Authorization': `Token ${getState().user.token}` } })
       .then(response => dispatch({ type: 'ADDRESS_LOADED', data: response.data }))
-      .catch(error => dispatch({ type: 'ADDRES_LOAD_FAILED', data: error.data }));
+      .catch(error => dispatch({ type: 'ADDRESS_LOAD_FAILED', data: error.data }));
   }
 }
 

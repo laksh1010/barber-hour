@@ -6,18 +6,20 @@ import {
   StatusBar,
   TouchableNativeFeedback,
   Image,
-  Alert
+  Alert,
+  ActivityIndicator
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { ImagePickerManager } from 'NativeModules';
 import { connect } from 'react-redux';
 
+import Toolbar from '../common/Toolbar';
 import Button from '../common/Button';
 import ScheduleBuilder from './ScheduleBuilder';
 import formStyle from '../forms/style';
 
-import { addImage, removeImage, createImages, setEditMode, addError } from '../actions/images';
+import { addImage, removeImage, createImages, getImages, addError } from '../actions/images';
 
 class ImageChooser extends Component {
   _addImage() {
@@ -52,11 +54,11 @@ class ImageChooser extends Component {
   _createImages() {
     if (this.props.form.images.length) {
       var data = this.props.form.images.map(image => {
-        return {
-          id: image.id,
-          data: image.source.uri,
-          _destroy: image.destroyed
+        var newImage = { id: image.id, _destroy: image.destroyed };
+        if (newImage.source) {
+          newImage.data = newImage.source.uri;
         };
+        return newImage;
       });
       this.props.dispatch(createImages(data));
     } else {
@@ -66,7 +68,7 @@ class ImageChooser extends Component {
 
   componentDidMount() {
     if (this.props.edit) {
-      this.props.dispatch(setEditMode());
+      this.props.dispatch(getImages());
     }
   }
 
@@ -90,6 +92,14 @@ class ImageChooser extends Component {
     }
   }
 
+  _getButtonLabel() {
+    if (this.props.edit) {
+      return this.props.isLoading ? 'Alterando...' : 'Alterar';
+    } else {
+      return this.props.isLoading ? 'Cadastrando...' : 'Avançar';
+    }
+  }
+
   render() {
     var errorMessage;
 
@@ -97,20 +107,31 @@ class ImageChooser extends Component {
       errorMessage = <Text style={formStyle.errorBlock}>Por favor, adicione pelo menos uma foto.</Text>;
     }
 
-    var buttonLabel = this.props.edit ? 'Alterar' : 'Avançar';
     var infoPrefix = this.props.edit ? 'Altere as' : 'Adicione algumas';
-
+    var content;
+    if (this.props.form.isRequestingInfo) {
+      content = <ActivityIndicator size='small' />;
+    }
+    var isLoading = this.props.form.isLoading || this.props.form.isRequestingInfo;
+    var onPress = isLoading ? null : this._addImage.bind(this);
+    var opacity = isLoading ? { opacity: .6 } : { opacity: 1 };
     var images = this.props.form.images.filter(image => !image.destroyed);
+    var toolbarContent;
+    if (this.props.edit) {
+      toolbarContent = <Toolbar backIcon navigator={this.props.navigator} />;
+    }
 
     return(
       <View style={styles.container}>
         <StatusBar backgroundColor='#C5C5C5'/>
+        {toolbarContent}
         <View style={styles.innerContainer}>
           <Text style={styles.title}>Fotos</Text>
           <Text style={styles.info}>{infoPrefix} fotos de sua barbearia:</Text>
+          {content}
           <View style={styles.formContainer}>
-            <TouchableNativeFeedback background={TouchableNativeFeedback.SelectableBackground()} onPress={this._addImage.bind(this)}>
-              <View style={styles.image}>
+            <TouchableNativeFeedback background={TouchableNativeFeedback.SelectableBackground()} onPress={onPress}>
+              <View style={[styles.image, opacity]}>
                 <Icon name='control-point' size={25} />
               </View>
             </TouchableNativeFeedback>
@@ -129,7 +150,11 @@ class ImageChooser extends Component {
             })}
           </View>
           {errorMessage}
-          <Button containerStyle={styles.button} text={buttonLabel} onPress={this._createImages.bind(this)} />
+          <Button
+            containerStyle={styles.button}
+            text={this._getButtonLabel()}
+            disabled={isLoading}
+            onPress={this._createImages.bind(this)} />
         </View>
       </View>
     );
