@@ -45,6 +45,8 @@ class EditProfile extends Component {
       email: Email
     });
 
+    const buttonLabel = this.props.form.isLoading ? 'Alterando...' : 'Alterar';
+
     return(
       <View style={styles.container}>
         <StatusBar backgroundColor='#C5C5C5'/>
@@ -52,7 +54,7 @@ class EditProfile extends Component {
         <View style={styles.innerContainer}>
           <Text style={styles.title}>Editar conta</Text>
           <Form ref='form' type={Account} options={this.props.form} value={this.getFormValue()} />
-          <Button containerStyle={styles.button} text='Alterar' onPress={this._update.bind(this)} />
+          <Button containerStyle={styles.button} text={buttonLabel} onPress={this._update.bind(this)} />
         </View>
       </View>
     );

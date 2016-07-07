@@ -33,12 +33,14 @@ function account(state = initialState, action) {
           name: {
             ...state.fields.name,
             hasError: !!name,
-            error: nameError
+            error: nameError,
+            editable: true
           },
           email: {
             ...state.fields.email,
             hasError: !!email,
-            error: emailError
+            error: emailError,
+            editable: true
           }
         }
       };
@@ -46,6 +48,16 @@ function account(state = initialState, action) {
       return {
         ...initialState,
         isLoading: true,
+        fields: {
+          name: {
+            ...state.fields.name,
+            editable: false
+          },
+          email: {
+            ...state.fields.email,
+            editable: false
+          }
+        },
         name: action.data.name,
         email: action.data.email
       };
@@ -53,7 +65,17 @@ function account(state = initialState, action) {
       return {
         ...state,
         isLoading: false,
-        success: true
+        success: true,
+        fields: {
+          name: {
+            ...state.fields.name,
+            editable: true
+          },
+          email: {
+            ...state.fields.email,
+            editable: true
+          }
+        }
       };
     default:
       return state;
