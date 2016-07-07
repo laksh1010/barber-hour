@@ -59,6 +59,7 @@ class HaircutDetails extends Component {
   render() {
     const { appointment, navigator } = this.props;
     const { schedule, barber, appointment_services } = appointment;
+    const buttonLabel = this.props.form.isLoading ? 'Cancelando...' : 'Cancelar';
 
     return(
       <View style={styles.container}>
@@ -92,7 +93,11 @@ class HaircutDetails extends Component {
           <View>
             <View style={styles.separator} />
             <View style={styles.innerContainer}>
-                <Button containerStyle={styles.button} text='Cancelar' onPress={this._confirmCancelSchedule.bind(this)} />
+              <Button
+                containerStyle={styles.button}
+                text={buttonLabel}
+                disabled={this.props.form.isLoading}
+                onPress={this._confirmCancelSchedule.bind(this)} />
             </View>
           </View>
         ) : (<View />)}
