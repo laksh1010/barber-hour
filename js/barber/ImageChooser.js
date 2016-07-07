@@ -30,7 +30,8 @@ class ImageChooser extends Component {
       chooseFromLibraryButtonTitle: 'Escolher da galeria'
     }, (response) => {
       if (!response.didCancel && !response.error) {
-        const source = {uri: `data:${response.type};base64,${response.data}`, isStatic: true};
+        const dataURI = `data:${response.type};base64,${response.data}`;
+        const source = {uri: response.uri, isStatic: true, dataURI: dataURI};
         this.props.dispatch(addImage(source));
       }
     });
@@ -55,8 +56,8 @@ class ImageChooser extends Component {
     if (this.props.form.images.length) {
       var data = this.props.form.images.map(image => {
         var newImage = { id: image.id, _destroy: image.destroyed };
-        if (newImage.source) {
-          newImage.data = newImage.source.uri;
+        if (image.source) {
+          newImage.data = image.source.dataURI;
         };
         return newImage;
       });
@@ -140,7 +141,7 @@ class ImageChooser extends Component {
                 <TouchableNativeFeedback key={image.uid}
                   background={TouchableNativeFeedback.SelectableBackground()}
                   onPress={() => {this._confirmImageDeletion(image.uid)}}>
-                  <View style={styles.row}>
+                  <View style={styles.imageContainer}>
                     <Image
                       source={this._getImageURL(image)}
                       style={styles.image} />
@@ -203,5 +204,9 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     margin: 5
+  },
+  imageContainer: {
+    width: 90,
+    height: 90,
   }
 });
