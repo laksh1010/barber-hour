@@ -25,6 +25,7 @@ function verifyPhone(state = initialState, action) {
           phone: {
             ...state.fields.phone,
             hasError: true,
+            editable: true,
             error: 'número inválido'
           }
         }
@@ -33,6 +34,12 @@ function verifyPhone(state = initialState, action) {
       return {
         ...initialState,
         isLoading: true,
+        fields: {
+          phone: {
+            ...state.fields.phone,
+            editable: false
+          }
+        },
         phone: action.data.phone
       };
     case 'PHONE_VERIFICATION_SENT':

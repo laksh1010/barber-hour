@@ -42,6 +42,7 @@ class PhoneForm extends Component {
 
   render() {
     const Login = t.struct({phone: t.String});
+    const buttonLabel = this.props.form.isLoading ? 'Enviando...' : 'Enviar';
 
     return(
       <View style={styles.container}>
@@ -54,7 +55,11 @@ class PhoneForm extends Component {
             <Form ref='form' type={Login} options={this.props.form} value={this.getFormValue()} />
           </View>
           <Text style={styles.info}>Você receberá um SMS com um código para finalizar seu cadastro.</Text>
-          <Button containerStyle={styles.button} text='Enviar' onPress={this._sendConfirmation.bind(this)} />
+          <Button
+            containerStyle={styles.button}
+            text={buttonLabel}
+            disabled={this.props.form.isLoading}
+            onPress={this._sendConfirmation.bind(this)} />
         </View>
       </View>
     );
