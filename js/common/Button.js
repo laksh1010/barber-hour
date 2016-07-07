@@ -10,10 +10,12 @@ const Button = (props) => {
   const background = props.outline ? TouchableNativeFeedback.SelectableBackground() : TouchableNativeFeedback.Ripple('#004575');
   const containerStyle = props.outline ? styles.outlineContainer : styles.solidContainer;
   const textStyle = props.outline ? styles.outlineText : styles.solidText;
+  const opacity = props.disabled ? { opacity: .6 } : { opacity: 1 };
+  const onPress = props.disabled ? null : props.onPress;
 
   return(
-    <TouchableNativeFeedback background={background} onPress={props.onPress}>
-      <View style={[containerStyle, styles.container, props.containerStyle]}>
+    <TouchableNativeFeedback background={background} onPress={onPress}>
+      <View style={[containerStyle, styles.container, props.containerStyle, opacity]}>
         <Text style={[textStyle, styles.text, props.textStyle]}>{props.text}</Text>
       </View>
     </TouchableNativeFeedback>
