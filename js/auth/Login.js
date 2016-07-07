@@ -30,9 +30,11 @@ import Email from '../forms/Email';
 
 class Login extends Component {
   _openForgotPassowrd() {
-    this.props.navigator.push({
-      component: ForgotPassword
-    });
+    if (!this.props.form.isLoading) {
+      this.props.navigator.push({
+        component: ForgotPassword
+      });
+    }
   }
 
   _openSignup() {
@@ -46,6 +48,12 @@ class Login extends Component {
     // if are any validation errors, value will be null
     if (value !== null) {
       this.props.dispatch(login(value));
+    }
+  }
+
+  _onFacebookLogin(event) {
+    if (!this.props.form.isLoading) {
+      this.props.dispatch(loginWithFacebook(event));
     }
   }
 
@@ -69,6 +77,8 @@ class Login extends Component {
       password: t.String
     });
 
+    const buttonLabel = this.props.form.isLoading ? 'Entrando...' : 'Entrar';
+
     return(
       <View style={styles.container}>
         <StatusBar backgroundColor='#C5C5C5'/>
@@ -76,7 +86,11 @@ class Login extends Component {
         <View style={styles.formContainer}>
           <View>
             <Form ref='form' type={Login} options={this.props.form} value={this.getFormValue()} />
-            <Button containerStyle={styles.button} text='Entrar' onPress={this._login.bind(this)} />
+            <Button
+              containerStyle={styles.button}
+              text={buttonLabel}
+              disabled={this.props.form.isLoading}
+              onPress={this._login.bind(this)} />
           </View>
           <View style={styles.forgotPasswordContainer}>
             <Text>Esqueceu sua senha? </Text>
@@ -86,13 +100,22 @@ class Login extends Component {
           </View>
           <TextSeparator style={styles.separatorContainer} />
           <FBLogin
-            buttonView={<FacebookButton style={styles.facebookButton} text='Entrar com o Facebook'/>}
+            buttonView={
+              <FacebookButton
+                style={styles.facebookButton}
+                text='Entrar com o Facebook'
+                disabled={this.props.form.isLoading}/>
+            }
             loginBehavior={FBLoginManager.LoginBehaviors.Native}
             permissions={['email']}
-            onLogin={(event) => this.props.dispatch(loginWithFacebook(event))} />
+            onLogin={this._onFacebookLogin.bind(this)} />
         </View>
         <View style={styles.signupContainer}>
-          <LargeButton text='Não tem uma conta? ' linkText='Cadastre-se.' onPress={this._openSignup.bind(this)} />
+          <LargeButton
+            text='Não tem uma conta? '
+            linkText='Cadastre-se.'
+            disabled={this.props.form.isLoading}
+            onPress={this._openSignup.bind(this)} />
         </View>
       </View>
     );

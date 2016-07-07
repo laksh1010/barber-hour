@@ -20,7 +20,11 @@ export default class FacebookButton extends Component {
 
   render() {
     return(
-      <Button outline containerStyle={this.props.style} text={this.props.text} onPress={this._onPress.bind(this)} />
+      <Button
+        outline containerStyle={this.props.style}
+        text={this.props.text}
+        disabled={this.props.disabled}
+        onPress={this._onPress.bind(this)} />
     );
   }
 }

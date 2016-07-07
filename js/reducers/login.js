@@ -30,11 +30,13 @@ function login(state = initialState, action) {
         isLoading: false,
         fields: {
           email: {
-            ...state.fields.email
+            ...state.fields.email,
+            editable: true
           },
           password: {
             ...state.fields.password,
             hasError: true,
+            editable: true,
             error: 'e-mail e/ou senha incorretos'
           }
         }
@@ -42,6 +44,16 @@ function login(state = initialState, action) {
     case 'REQUEST_LOGIN':
       return {
         ...initialState,
+        fields: {
+          email: {
+            ...state.fields.email,
+            editable: false
+          },
+          password: {
+            ...state.fields.password,
+            editable: false
+          }
+        },
         isLoading: true,
         email: action.data.email,
         password: action.data.password
