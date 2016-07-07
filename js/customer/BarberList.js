@@ -4,7 +4,10 @@ import {
   StyleSheet,
   ListView,
   RecyclerViewBackedScrollView,
-  ActivityIndicator
+  ActivityIndicator,
+  Text,
+  RefreshControl,
+  ScrollView
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -23,17 +26,24 @@ class BarberList extends Component {
     return(<BarberListItem key={rowID} navigator={this.props.navigator} barber={rowData} />);
   }
 
+  _onRefresh() {
+    this.props.dispatch(listBarbers());
+  }
+
   render() {
+    var refreshControl = <RefreshControl refreshing={this.props.isLoading} onRefresh={this._onRefresh.bind(this)} />
     var content;
 
-    if (this.props.isLoading || this.props.dataSource.length === 0) {
+    if (this.props.isLoading) {
       content = <ActivityIndicator />;
+    } else if (this.props.dataSource.getRowCount() === 0) {
+      content = <ScrollView refreshControl={refreshControl}><Text>Não há barbearias cadastradas.</Text></ScrollView>;
     } else {
       content =
         <ListView
           dataSource={this.props.dataSource}
           renderRow={this._renderRow.bind(this)}
-          enableEmptySections={true}
+          refreshControl={refreshControl}
           renderScrollComponent={props => <RecyclerViewBackedScrollView {...props} />}/>;
     }
 

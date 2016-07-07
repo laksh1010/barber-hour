@@ -5,7 +5,9 @@ import {
   ListView,
   RecyclerViewBackedScrollView,
   ActivityIndicator,
-  Text
+  Text,
+  RefreshControl,
+  ScrollView
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -24,19 +26,24 @@ class HaircutHistory extends Component {
     return(<HaircutHistoryItem key={rowID} navigator={this.props.navigator} appointment={rowData} />);
   }
 
+  _onRefresh() {
+    this.props.dispatch(listAppointments('customer'));
+  }
+
   render() {
+    var refreshControl = <RefreshControl refreshing={this.props.isLoading} onRefresh={this._onRefresh.bind(this)} />
     var content;
 
     if (this.props.isLoading) {
       content = <ActivityIndicator />;
     } else if (this.props.dataSource.getRowCount() === 0) {
-      content = <Text>Você ainda não agendou nenhum corte.</Text>;
+      content = <ScrollView refreshControl={refreshControl}><Text>Você ainda não agendou nenhum corte.</Text></ScrollView>;
     } else {
       content =
         <ListView
           dataSource={this.props.dataSource}
           renderRow={this._renderRow.bind(this)}
-          enableEmptySections={true}
+          refreshControl={refreshControl}
           renderScrollComponent={props => <RecyclerViewBackedScrollView {...props} />}/>;
     }
 
