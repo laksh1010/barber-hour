@@ -1,5 +1,6 @@
 const initialState = {
   isLoading: false,
+  isRequestingInfo: false,
   success: false,
   error: false,
   services: [
@@ -73,19 +74,32 @@ function services(state = initialState, action) {
       });
 
       return {
-        ...state,
-        isLoading: false,
-        error: false,
+        ...initialState,
         success: true,
         services: services
       };
-    case 'SET_SERVICES_EDIT_MODE':
+    case 'REQUEST_LOAD_SERVICES':
       return {
         ...state,
+        isRequestingInfo: true,
         success: false
       };
-    case 'LOGGED_OUT':
-      return initialState;
+    case 'SERVICES_LOADED':
+      var response = action.data.services;
+      var services = state.services.map(service => {
+        var newService = response.find(s => s.name === service.name);
+        if (newService) {
+          newService = Object.assign(newService, { selected: true });
+        } else {
+          newService = { id: null };
+        }
+        return Object.assign(service, newService);
+      });
+      return {
+        ...state,
+        isRequestingInfo: false,
+        services: services
+      };
     default:
       return state;
   }

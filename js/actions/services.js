@@ -36,10 +36,14 @@ function addError() {
   };
 }
 
-function setEditMode() {
-  return {
-    type: 'SET_SERVICES_EDIT_MODE'
-  };
+function getServices() {
+  return (dispatch, getState) => {
+    dispatch({ type: 'REQUEST_LOAD_SERVICES', data: {} });
+
+    api.get('/barber/services', { headers: { 'Authorization': `Token ${getState().user.token}` } })
+      .then(response => dispatch({ type: 'SERVICES_LOADED', data: response.data }))
+      .catch(error => dispatch({ type: 'SERVICES_LOAD_FAILED', data: error.data }));
+  }
 }
 
-export {createServices, toggleService, changeServicePrice, addError, setEditMode};
+export {createServices, toggleService, changeServicePrice, addError, getServices};

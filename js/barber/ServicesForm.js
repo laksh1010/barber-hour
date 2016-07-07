@@ -5,16 +5,18 @@ import {
   StyleSheet,
   StatusBar,
   TextInput,
-  Switch
+  Switch,
+  ActivityIndicator
 } from 'react-native';
 
 import { connect } from 'react-redux';
 
+import Toolbar from '../common/Toolbar';
 import Button from '../common/Button';
 import ImageChooser from './ImageChooser';
 import formStyle from '../forms/style';
 
-import { createServices, toggleService, changeServicePrice, addError, setEditMode } from '../actions/services';
+import { createServices, toggleService, changeServicePrice, addError, getServices } from '../actions/services';
 
 class ServicesForm extends Component {
   _createServices() {
@@ -43,7 +45,7 @@ class ServicesForm extends Component {
 
   componentDidMount() {
     if (this.props.edit) {
-      this.props.dispatch(setEditMode());
+      this.props.dispatch(getServices());
     }
   }
 
@@ -67,6 +69,14 @@ class ServicesForm extends Component {
     this.props.dispatch(changeServicePrice(name, price));
   }
 
+  _getButtonLabel() {
+    if (this.props.edit) {
+      return this.props.isLoading ? 'Alterando...' : 'Alterar';
+    } else {
+      return this.props.isLoading ? 'Cadastrando...' : 'Avançar';
+    }
+  }
+
   render() {
     var errorMessage;
 
@@ -74,14 +84,26 @@ class ServicesForm extends Component {
       errorMessage = <Text style={formStyle.errorBlock}>Por favor, selecione pelo menos um serviço.</Text>;
     }
 
-    var buttonLabel = this.props.edit ? 'Alterar' : 'Avançar';
+    var content;
+    if (this.props.form.isRequestingInfo) {
+      content = <ActivityIndicator size='small' />;
+    }
+
+    var toolbarContent;
+    if (this.props.edit) {
+      toolbarContent = <Toolbar backIcon navigator={this.props.navigator} />;
+    }
+
+    var isLoading = this.props.form.isLoading || this.props.form.isRequestingInfo;
 
     return(
       <View style={styles.container}>
         <StatusBar backgroundColor='#C5C5C5'/>
+        {toolbarContent}
         <View style={styles.innerContainer}>
           <Text style={styles.title}>Serviços</Text>
           <Text style={styles.info}>Selecione os serviços que você realiza:</Text>
+          {content}
           <View style={styles.formContainer}>
             {this.props.form.services.map((service) => {
               var errorBlock = service.error ? (
@@ -95,6 +117,7 @@ class ServicesForm extends Component {
                     onChangeText={(text) => {this.changeServicePrice(service.name, text)}}
                     value={service.price}
                     placeholder='preço (R$)'
+                    editable={!isLoading}
                     keyboardType='numeric' />
                   {errorBlock}
                 </View>
@@ -106,6 +129,7 @@ class ServicesForm extends Component {
                   <Switch
                     style={styles.serviceSwitch}
                     onValueChange={(value) => {this.toggleService(service.name, value)}}
+                    disabled={isLoading}
                     value={service.selected} />
                   {price}
                 </View>
@@ -113,7 +137,11 @@ class ServicesForm extends Component {
             })}
           </View>
           {errorMessage}
-          <Button containerStyle={styles.button} text={buttonLabel} onPress={this._createServices.bind(this)} />
+          <Button
+            containerStyle={styles.button}
+            text={this._getButtonLabel()}
+            disabled={isLoading}
+            onPress={this._createServices.bind(this)} />
         </View>
       </View>
     );
