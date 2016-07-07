@@ -3,6 +3,7 @@ import addressForm from '../forms/Address';
 
 const initialState = {
   isLoading: false,
+  isRequestingInfo: false,
   success: false,
   auto: 'none',
   fields: {
@@ -41,11 +42,49 @@ function address(state = initialState, action) {
     case 'REQUEST_ADDRESS_INFO':
       return {
         ...state,
+        isRequestingInfo: true,
+        fields: {
+          zipcode: {
+            ...state.fields.zipcode,
+            editable: false
+          },
+          street: {
+            ...state.fields.street,
+            editable: false
+          },
+          district: {
+            ...state.fields.district,
+            editable: false
+          },
+          number: {
+            ...state.fields.number,
+            editable: false
+          }
+        },
         zipcode: action.zipcode
       };
     case 'ZIPCODE_LOADED':
       return {
         ...state,
+        isRequestingInfo: false,
+        fields: {
+          zipcode: {
+            ...state.fields.zipcode,
+            editable: true
+          },
+          street: {
+            ...state.fields.street,
+            editable: true
+          },
+          district: {
+            ...state.fields.district,
+            editable: true
+          },
+          number: {
+            ...state.fields.number,
+            editable: true
+          }
+        },
         street: action.data.logradouro,
         district: action.data.bairro
       };
@@ -63,29 +102,51 @@ function address(state = initialState, action) {
           zipcode: {
             ...state.fields.zipcode,
             hasError: !!zipcode,
-            error: zipcodeError
+            error: zipcodeError,
+            editable: true
           },
           street: {
             ...state.fields.street,
             hasError: !!street,
-            error: streetError
+            error: streetError,
+            editable: true
           },
           district: {
             ...state.fields.district,
             hasError: !!district,
-            error: districtError
+            error: districtError,
+            editable: true
           },
           number: {
             ...state.fields.number,
             hasError: !!number,
-            error: numberError
-          },
+            error: numberError,
+            editable: true
+          }
         }
       };
     case 'REQUEST_ADDRESS':
       return {
         ...initialState,
         isLoading: true,
+        fields: {
+          zipcode: {
+            ...state.fields.zipcode,
+            editable: false
+          },
+          street: {
+            ...state.fields.street,
+            editable: false
+          },
+          district: {
+            ...state.fields.district,
+            editable: false
+          },
+          number: {
+            ...state.fields.number,
+            editable: false
+          }
+        },
         zipcode: action.data.zipcode,
         street: action.data.street,
         district: action.data.district,
@@ -93,17 +154,62 @@ function address(state = initialState, action) {
       };
     case 'ADDRESS_CREATED':
       return {
-        ...state,
+        ...initialState,
         isLoading: false,
         success: true
       };
-    case 'SET_ADDRESS_EDIT_MODE':
+    case 'REQUEST_LOAD_ADDRESS':
       return {
         ...state,
-        success: false
+        success: false,
+        isRequestingInfo: true,
+        fields: {
+          zipcode: {
+            ...state.fields.zipcode,
+            editable: false
+          },
+          street: {
+            ...state.fields.street,
+            editable: false
+          },
+          district: {
+            ...state.fields.district,
+            editable: false
+          },
+          number: {
+            ...state.fields.number,
+            editable: false
+          }
+        }
       };
-    case 'LOGGED_OUT':
-      return initialState;
+    case 'ADDRESS_LOADED':
+      var {address} = action.data;
+      return {
+        ...state,
+        isRequestingInfo: false,
+        fields: {
+          zipcode: {
+            ...state.fields.zipcode,
+            editable: true
+          },
+          street: {
+            ...state.fields.street,
+            editable: true
+          },
+          district: {
+            ...state.fields.district,
+            editable: true
+          },
+          number: {
+            ...state.fields.number,
+            editable: true
+          }
+        },
+        zipcode: address.zipcode,
+        street: address.street,
+        district: address.district,
+        number: address.number
+      };
     default:
       return state;
   }

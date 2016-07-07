@@ -20,12 +20,6 @@ function loadZipcode(zipcode) {
   }
 }
 
-function setEditMode() {
-  return {
-    type: 'SET_ADDRESS_EDIT_MODE'
-  };
-}
-
 function updateAddress(data) {
   return (dispatch, getState) => {
     dispatch({ type: 'REQUEST_ADDRESS', data: data });
@@ -36,4 +30,14 @@ function updateAddress(data) {
   }
 }
 
-export {createAddress, loadZipcode, setEditMode, updateAddress};
+function getAddress() {
+  return (dispatch, getState) => {
+    dispatch({ type: 'REQUEST_LOAD_ADDRESS', data: {} });
+
+    api.get('/barber/address', { headers: { 'Authorization': `Token ${getState().user.token}` } })
+      .then(response => dispatch({ type: 'ADDRESS_LOADED', data: response.data }))
+      .catch(error => dispatch({ type: 'ADDRES_LOAD_FAILED', data: error.data }));
+  }
+}
+
+export {createAddress, loadZipcode, getAddress, updateAddress};

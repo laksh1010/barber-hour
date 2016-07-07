@@ -4,7 +4,8 @@ import {
   Text,
   StyleSheet,
   StatusBar,
-  TextInput
+  TextInput,
+  ActivityIndicator
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -15,7 +16,7 @@ import Button from '../common/Button';
 import ServicesForm from './ServicesForm';
 import Toolbar from '../common/Toolbar';
 
-import { createAddress, loadZipcode, setEditMode, updateAddress } from '../actions/address';
+import { createAddress, loadZipcode, getAddress, updateAddress } from '../actions/address';
 
 class AddressForm extends Component {
   _createAddress() {
@@ -32,7 +33,7 @@ class AddressForm extends Component {
 
   componentDidMount() {
     if (this.props.edit) {
-      this.props.dispatch(setEditMode());
+      this.props.dispatch(getAddress());
     }
   }
 
@@ -64,6 +65,14 @@ class AddressForm extends Component {
     }
   }
 
+  _getButtonLabel() {
+    if (this.props.edit) {
+      return this.props.isLoading ? 'Alterando...' : 'Alterar';
+    } else {
+      return this.props.isLoading ? 'Cadastrando...' : 'Avançar';
+    }
+  }
+
   render() {
     const Address = t.struct({
       zipcode: t.String,
@@ -75,8 +84,11 @@ class AddressForm extends Component {
     var formOptions = this.props.form;
     formOptions.fields.zipcode.onBlur = this.loadZipcode.bind(this);
 
-    var buttonLabel = this.props.edit ? 'Alterar' : 'Avançar';
     var infoPrefix = this.props.edit ? 'Altere' : 'Cadastre';
+    var content;
+    if (this.props.form.isRequestingInfo) {
+      content = <ActivityIndicator size='small' />;
+    }
 
     return(
       <View style={styles.container}>
@@ -85,10 +97,15 @@ class AddressForm extends Component {
         <View style={styles.innerContainer}>
           <Text style={styles.title}>Endereço</Text>
           <Text style={styles.info}>{infoPrefix} o endereço de sua barbearia:</Text>
+          {content}
           <View style={styles.formContainer}>
             <Form ref='form' type={Address} options={formOptions} value={this.getFormValue()} />
           </View>
-          <Button containerStyle={styles.button} text={buttonLabel} onPress={this._createAddress.bind(this)} />
+          <Button
+            containerStyle={styles.button}
+            text={this._getButtonLabel()}
+            disabled={this.props.form.isLoading || this.props.form.isRequestingInfo}
+            onPress={this._createAddress.bind(this)} />
         </View>
       </View>
     );

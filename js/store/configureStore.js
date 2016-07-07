@@ -20,7 +20,7 @@ function configureStore(onComplete) {
   const store = autoRehydrate()(createBarberHourStore)(reducers);
   persistStore(store, {
     storage: AsyncStorage,
-    whitelist: ['user', 'address', 'services', 'scheduleTemplates', 'images', 'barbers', 'appointments']
+    whitelist: ['user', 'services', 'scheduleTemplates', 'images', 'barbers', 'appointments']
   }, onComplete);
   if (isDebuggingInChrome) {
     window.store = store;
