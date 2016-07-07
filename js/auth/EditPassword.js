@@ -44,6 +44,8 @@ class EditPassword extends Component {
       password_confirmation: t.String
     });
 
+    const buttonLabel = this.props.form.isLoading ? 'Alterando...' : 'Alterar';
+
     return(
       <View style={styles.container}>
         <StatusBar backgroundColor='#C5C5C5'/>
@@ -51,7 +53,7 @@ class EditPassword extends Component {
         <View style={styles.innerContainer}>
           <Text style={styles.title}>Alterar senha</Text>
           <Form ref='form' type={Password} options={this.props.form} value={this.getFormValue()} />
-          <Button containerStyle={styles.button} text='Alterar' onPress={this._update.bind(this)} />
+          <Button containerStyle={styles.button} text={buttonLabel} onPress={this._update.bind(this)} disabled={this.props.form.isLoading} />
         </View>
       </View>
     );

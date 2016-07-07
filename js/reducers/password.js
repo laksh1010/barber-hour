@@ -36,12 +36,14 @@ function password(state = initialState, action) {
           password: {
             ...state.fields.password,
             hasError: !!password,
-            error: passwordError
+            error: passwordError,
+            editable: true
           },
           password_confirmation: {
             ...state.fields.password_confirmation,
             hasError: !!password_confirmation,
-            error: passwordConfirmationError
+            error: passwordConfirmationError,
+            editable: true
           }
         }
       };
@@ -49,13 +51,33 @@ function password(state = initialState, action) {
       return {
         ...initialState,
         isLoading: true,
+        fields: {
+          password: {
+            ...state.fields.password,
+            editable: false
+          },
+          password_confirmation: {
+            ...state.fields.password_confirmation,
+            editable: false
+          }
+        },
         password: action.data.password,
         password_confirmation: action.data.password_confirmation
       };
     case 'PASSWORD_UPDATED':
       return {
         ...initialState,
-        success: true
+        success: true,
+        fields: {
+          password: {
+            ...state.fields.password,
+            editable: true
+          },
+          password_confirmation: {
+            ...state.fields.password_confirmation,
+            editable: true
+          }
+        }
       };
     default:
       return state;

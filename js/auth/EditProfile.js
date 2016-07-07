@@ -54,7 +54,7 @@ class EditProfile extends Component {
         <View style={styles.innerContainer}>
           <Text style={styles.title}>Editar conta</Text>
           <Form ref='form' type={Account} options={this.props.form} value={this.getFormValue()} />
-          <Button containerStyle={styles.button} text={buttonLabel} onPress={this._update.bind(this)} />
+          <Button containerStyle={styles.button} text={buttonLabel} onPress={this._update.bind(this)} disabled={this.props.form.isLoading} />
         </View>
       </View>
     );
