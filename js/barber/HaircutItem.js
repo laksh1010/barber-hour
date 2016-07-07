@@ -31,7 +31,6 @@ export default class HaircutItem extends Component {
   }
 
   render() {
-    console.log(appointment)
     const { appointment } = this.props;
     const { schedule, customer } = appointment;
 
