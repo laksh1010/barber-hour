@@ -53,16 +53,22 @@ class AccountTypeSelector extends Component {
             onPress={() => {this._setAccountType('Customer')}}
             icon='moustache'
             text='Cliente'
+            disabled={this.props.isLoading}
             selected={this.props.accountType === 'Customer'} />
           <SelectableImageButton
             containerStyle={styles.buttonContainer}
             onPress={() => {this._setAccountType('Barber')}}
             icon='razor'
             text='Barbeiro'
+            disabled={this.props.isLoading}
             selected={this.props.accountType === 'Barber'} />
         </View>
         {errorMessage}
-        <Button containerStyle={styles.button} text='Avançar' onPress={this._openNextStep.bind(this)} />
+        <Button
+          containerStyle={styles.button}
+          text='Avançar'
+          disabled={this.props.isLoading}
+          onPress={this._openNextStep.bind(this)} />
       </View>
     );
   }
@@ -73,7 +79,8 @@ function select(store) {
     name: store.user.name,
     email: store.user.email,
     accountType: store.user.type,
-    error: store.user.error
+    error: store.user.error,
+    isLoading: store.user.isLoading
   };
 }
 
