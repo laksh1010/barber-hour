@@ -1,5 +1,6 @@
 const initialState = {
   isLoading: false,
+  isRequestingInfo: false,
   success: false,
   error: false,
   scheduleTemplates: [
@@ -85,19 +86,34 @@ function scheduleTemplates(state = initialState, action) {
         return Object.assign(scheduleTemplate, newScheduleTemplate);
       });
       return {
-        ...state,
-        isLoading: false,
-        error: false,
+        ...initialState,
         success: true,
         scheduleTemplates: scheduleTemplates
       };
-    case 'SET_SCHEDULE_TEMPLATES_EDIT_MODE':
+    case 'REQUEST_LOAD_SCHEDULE_TEMPLATES':
       return {
         ...state,
-        success: false
+        success: false,
+        isRequestingInfo: true
       };
-    case 'LOGGED_OUT':
-      return initialState;
+    case 'SCHEDULE_TEMPLATES_LOADED':
+      var {schedule_templates, service_duration} = action.data;
+      var serviceDuration = { value: service_duration, error: null };
+      var scheduleTemplates = state.scheduleTemplates.map(scheduleTemplate => {
+        var newScheduleTemplate = schedule_templates.find(s => s.weekday === scheduleTemplate.weekday);
+        return Object.assign(scheduleTemplate, {
+          id: newScheduleTemplate.id,
+          opensAt: { value: newScheduleTemplate.opens_at, error: null },
+          closesAt: { value: newScheduleTemplate.closes_at, error: null },
+          active: newScheduleTemplate.active
+        });
+      });
+      return {
+        ...state,
+        isRequestingInfo: false,
+        scheduleTemplates: scheduleTemplates,
+        serviceDuration: serviceDuration
+      };
     default:
       return state;
   }

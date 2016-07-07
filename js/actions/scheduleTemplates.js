@@ -46,10 +46,14 @@ function addError() {
   };
 }
 
-function setEditMode() {
-  return {
-    type: 'SET_SCHEDULE_TEMPLATES_EDIT_MODE'
-  };
+function getScheduleTemplates() {
+  return (dispatch, getState) => {
+    dispatch({ type: 'REQUEST_LOAD_SCHEDULE_TEMPLATES', data: {} });
+
+    api.get('/barber/schedule_templates', { headers: { 'Authorization': `Token ${getState().user.token}` } })
+      .then(response => dispatch({ type: 'SCHEDULE_TEMPLATES_LOADED', data: response.data }))
+      .catch(error => dispatch({ type: 'SCHEDULE_TEMPLATES_LOAD_FAILED', data: error.data }));
+  }
 }
 
 export {
@@ -58,5 +62,5 @@ export {
   changeScheduleTemplateTime,
   changeServiceDuration,
   addError,
-  setEditMode
+  getScheduleTemplates
 };

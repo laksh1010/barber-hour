@@ -7,11 +7,13 @@ import {
   TextInput,
   Switch,
   TimePickerAndroid,
-  ScrollView
+  ScrollView,
+  ActivityIndicator
 } from 'react-native';
 
 import { connect } from 'react-redux';
 
+import Toolbar from '../common/Toolbar';
 import Button from '../common/Button';
 import WaitReview from './WaitReview';
 import formStyle from '../forms/style';
@@ -21,7 +23,7 @@ import {
   toggleScheduleTemplate,
   changeScheduleTemplateTime,
   addError,
-  setEditMode,
+  getScheduleTemplates,
   changeServiceDuration
 } from '../actions/scheduleTemplates';
 
@@ -56,9 +58,15 @@ class ScheduleBuilder extends Component {
     }
   }
 
+  _valueToTime(value) {
+    if (value) {
+      return value.replace('.', ':');
+    }
+  }
+
   componentDidMount() {
     if (this.props.edit) {
-      this.props.dispatch(setEditMode());
+      this.props.dispatch(getScheduleTemplates());
     }
   }
 
@@ -100,6 +108,14 @@ class ScheduleBuilder extends Component {
     return hour + ':' + (minute < 10 ? '0' + minute : minute);
   }
 
+  _getButtonLabel() {
+    if (this.props.edit) {
+      return this.props.isLoading ? 'Alterando...' : 'Alterar';
+    } else {
+      return this.props.isLoading ? 'Cadastrando...' : 'Avançar';
+    }
+  }
+
   render() {
     var errorMessage;
 
@@ -107,15 +123,27 @@ class ScheduleBuilder extends Component {
       errorMessage = <Text style={formStyle.errorBlock}>Por favor, selecione pelo menos um dia.</Text>;
     }
 
-    var buttonLabel = this.props.edit ? 'Alterar' : 'Avançar';
+    var content;
+    if (this.props.form.isRequestingInfo) {
+      content = <ActivityIndicator size='small' />;
+    }
+
+    var toolbarContent;
+    if (this.props.edit) {
+      toolbarContent = <Toolbar backIcon navigator={this.props.navigator} />;
+    }
+
+    var isLoading = this.props.form.isLoading || this.props.form.isRequestingInfo;
 
     return(
       <View style={styles.container}>
         <ScrollView>
           <StatusBar backgroundColor='#C5C5C5'/>
+          {toolbarContent}
           <View style={styles.innerContainer}>
             <Text style={styles.title}>Agenda semanal</Text>
             <Text style={styles.info}>Selecione os dias e horários que você trabalha:</Text>
+            {content}
             <View style={styles.formContainer}>
               {this.props.form.scheduleTemplates.map((scheduleTemplate) => {
                 var time = scheduleTemplate.active ? (
@@ -124,7 +152,8 @@ class ScheduleBuilder extends Component {
                       style={formStyle.textbox.normal}
                       placeholder='abre às'
                       keyboardType='numeric'
-                      value={scheduleTemplate.opensAt.value}
+                      value={this._valueToTime(scheduleTemplate.opensAt.value)}
+                      editable={!isLoading}
                       onFocus={() => {this.showPicker(scheduleTemplate.weekday, 'opensAt')}} />
                     {scheduleTemplate.opensAt.error ? (
                         <Text style={formStyle.errorBlock}>{scheduleTemplate.opensAt.error}</Text>
@@ -133,7 +162,8 @@ class ScheduleBuilder extends Component {
                       style={formStyle.textbox.normal}
                       placeholder='fecha às'
                       keyboardType='numeric'
-                      value={scheduleTemplate.closesAt.value}
+                      value={this._valueToTime(scheduleTemplate.closesAt.value)}
+                      editable={!isLoading}
                       onFocus={() => {this.showPicker(scheduleTemplate.weekday, 'closesAt')}} />
                     {scheduleTemplate.closesAt.error ? (
                         <Text style={formStyle.errorBlock}>{scheduleTemplate.closesAt.error}</Text>
@@ -147,6 +177,7 @@ class ScheduleBuilder extends Component {
                     <Switch
                       style={styles.toggle}
                       onValueChange={(value) => {this.toggleScheduleTemplate(scheduleTemplate.weekday, value)}}
+                      disabled={isLoading}
                       value={scheduleTemplate.active} />
                     {time}
                   </View>
@@ -158,7 +189,8 @@ class ScheduleBuilder extends Component {
                   style={[formStyle.textbox.normal, styles.serviceDurationInput]}
                   placeholder='horas:minutos'
                   onChangeText={(text) => {this.changeServiceDuration(text)}}
-                  value={this.props.form.serviceDuration.value}
+                  value={this._valueToTime(this.props.form.serviceDuration.value)}
+                  editable={!isLoading}
                   keyboardType='numeric'/>
               </View>
             </View>
@@ -167,7 +199,11 @@ class ScheduleBuilder extends Component {
               ) : <View />}
             <Text style={formStyle.helpBlock.normal}>Use o formato: horas:minutos</Text>
             {errorMessage}
-            <Button containerStyle={styles.button} text={buttonLabel} onPress={this._createScheduleTemplates.bind(this)} />
+            <Button
+              containerStyle={styles.button}
+              text={this._getButtonLabel()}
+              disabled={isLoading}
+              onPress={this._createScheduleTemplates.bind(this)} />
           </View>
         </ScrollView>
       </View>

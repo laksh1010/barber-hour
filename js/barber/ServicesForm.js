@@ -43,6 +43,12 @@ class ServicesForm extends Component {
     }
   }
 
+  _valueToPrice(value) {
+    if (value) {
+      return value.replace('.', ',');
+    }
+  }
+
   componentDidMount() {
     if (this.props.edit) {
       this.props.dispatch(getServices());
@@ -115,7 +121,7 @@ class ServicesForm extends Component {
                   <TextInput
                     style={formStyle.textbox.normal}
                     onChangeText={(text) => {this.changeServicePrice(service.name, text)}}
-                    value={service.price}
+                    value={this._valueToPrice(service.price)}
                     placeholder='preço (R$)'
                     editable={!isLoading}
                     keyboardType='numeric' />
