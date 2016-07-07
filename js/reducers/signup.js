@@ -48,29 +48,51 @@ function signup(state = initialState, action) {
           name: {
             ...state.fields.name,
             hasError: !!name,
-            error: nameError
+            error: nameError,
+            editable: true
           },
           email: {
             ...state.fields.email,
             hasError: !!email,
-            error: emailError
+            error: emailError,
+            editable: true
           },
           password: {
             ...state.fields.password,
             hasError: !!password,
-            error: passwordError
+            error: passwordError,
+            editable: true
           },
           password_confirmation: {
             ...state.fields.password_confirmation,
             hasError: !!password_confirmation,
-            error: passwordConfirmationError
-          },
+            error: passwordConfirmationError,
+            editable: true
+          }
         }
       };
     case 'REQUEST_SIGNUP':
       return {
         ...initialState,
         isLoading: true,
+        fields: {
+          name: {
+            ...state.fields.name,
+            editable: false
+          },
+          email: {
+            ...state.fields.email,
+            editable: false
+          },
+          password: {
+            ...state.fields.password,
+            editable: false
+          },
+          password_confirmation: {
+            ...state.fields.password_confirmation,
+            editable: false
+          }
+        },
         name: action.data.name,
         email: action.data.email,
         password: action.data.password,

@@ -64,6 +64,8 @@ class SignupForm extends Component {
       password_confirmation: t.String
     });
 
+    const buttonLabel = this.props.form.isLoading ? 'Cadastrando...' : 'Cadastrar-se';
+
     return(
       <View style={styles.container}>
         <StatusBar backgroundColor='#C5C5C5'/>
@@ -71,11 +73,19 @@ class SignupForm extends Component {
         <View style={styles.formContainer}>
           <View>
             <Form ref='form' type={Signup} options={this.props.form} value={this.getFormValue()} />
-            <Button containerStyle={styles.button} text='Cadastrar-se' onPress={this._signup.bind(this)} />
+            <Button
+              containerStyle={styles.button}
+              text={buttonLabel}
+              disabled={this.props.form.isLoading}
+              onPress={this._signup.bind(this)} />
           </View>
         </View>
         <View style={styles.signupContainer}>
-          <LargeButton text='Já possui uma conta? ' linkText='Entrar.' onPress={this._openLogin.bind(this)} />
+          <LargeButton
+            text='Já possui uma conta? '
+            linkText='Entrar.'
+            disabled={this.props.form.isLoading}
+            onPress={this._openLogin.bind(this)} />
         </View>
       </View>
     );
