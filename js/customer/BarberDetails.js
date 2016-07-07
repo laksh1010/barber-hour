@@ -99,9 +99,13 @@ class BarberDetails extends Component {
           <View style={styles.selectableButtonContainer}>
             {days.map((day, index) => {
               return(
-                <SelectableButton key={index} title={day.schedules[0].day_name}
+                <SelectableButton
+                  key={index}
+                  title={day.schedules[0].day_name}
                   text={`${day.number} ${day.schedules[0].month_name}`}
-                  selected={day === selectedDay} onPress={() => this._selectDay(index)} />
+                  selected={day === selectedDay}
+                  disabled={this.props.appointment.isLoading}
+                  onPress={() => this._selectDay(index)} />
               )
             })}
           </View>
@@ -109,8 +113,12 @@ class BarberDetails extends Component {
           <View style={styles.selectableButtonContainer}>
             {selectedDay.schedules.map(schedule => {
               return(
-                <SelectableButton key={schedule.id} title={schedule.hour} disabled={schedule.disabled}
-                  selected={schedule.selected} onPress={() => this._selectSchedule(schedule)} />
+                <SelectableButton
+                  key={schedule.id}
+                  title={schedule.hour}
+                  disabled={this.props.appointment.isLoading || schedule.disabled}
+                  selected={schedule.selected}
+                  onPress={() => this._selectSchedule(schedule)} />
               )
             })}
           </View>
@@ -123,6 +131,8 @@ class BarberDetails extends Component {
     if (this.props.appointment.error) {
       errorMessage = <Text style={formStyle.errorBlock}>{this.props.appointment.error}</Text>;
     }
+
+    const buttonLabel = this.props.appointment.isLoading ? 'Agendando...' : 'Agendar';
 
     return(
       <View style={styles.container}>
@@ -151,6 +161,7 @@ class BarberDetails extends Component {
                   <Text style={styles.price}>{service.name}: {service.formatted_price}</Text>
                   <Switch
                     onValueChange={(value) => {this._toggleService(service.id, value)}}
+                    disabled={this.props.appointment.isLoading}
                     value={service.selected} />
                 </View>
               )
@@ -159,7 +170,11 @@ class BarberDetails extends Component {
           <View style={styles.separator} />
           <View style={styles.innerContainer}>
             {errorMessage}
-            <Button containerStyle={styles.button} text='Agendar' onPress={this._confirmSchedule.bind(this)} />
+            <Button
+              containerStyle={styles.button}
+              text={buttonLabel}
+              onPress={this._confirmSchedule.bind(this)}
+              disabled={this.props.appointment.isLoading} />
           </View>
         </ScrollView>
       </View>
