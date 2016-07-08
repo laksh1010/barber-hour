@@ -15,5 +15,6 @@ export default combineReducers({
   barbers: require('./barbers'),
   schedules: require('./schedules'),
   appointment: require('./appointment'),
-  appointments: require('./appointments')
+  appointments: require('./appointments'),
+  forgotPassword: require('./forgotPassword')
 });
