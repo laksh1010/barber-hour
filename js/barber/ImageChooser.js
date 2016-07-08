@@ -53,7 +53,9 @@ class ImageChooser extends Component {
   }
 
   _createImages() {
-    if (this.props.form.images.length) {
+    var images = this.props.form.images.filter(image => !image.destroyed);
+
+    if (images.length) {
       var data = this.props.form.images.map(image => {
         var newImage = { id: image.id, _destroy: image.destroyed };
         if (image.source) {
