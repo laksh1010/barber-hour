@@ -7,7 +7,8 @@ import {
   TouchableNativeFeedback,
   TextInput,
   TouchableOpacity,
-  StatusBar
+  StatusBar,
+  Linking
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -26,6 +27,7 @@ import Button from '../common/Button';
 import TextSeparator from '../common/TextSeparator';
 import LargeButton from '../common/LargeButton';
 import ForgotPassword from './ForgotPassword';
+import NewPasswordForm from './NewPasswordForm';
 import Email from '../forms/Email';
 
 class Login extends Component {
@@ -54,6 +56,29 @@ class Login extends Component {
   _onFacebookLogin(event) {
     if (!this.props.form.isLoading) {
       this.props.dispatch(loginWithFacebook(event));
+    }
+  }
+
+  componentDidMount() {
+    var url = Linking.getInitialURL().then((url) => {
+      if (url) {
+        this._handleURL(url);
+      }
+    })
+  }
+
+  _handleURL(url) {
+    var [action, params] = url.split('://')[1].split('?');
+
+    if (action === 'reset-password') {
+      var [param, value] = params.split('=');
+      
+      if (param === 'token' && value) {
+        this.props.navigator.resetTo({
+          component: NewPasswordForm,
+          passProps: { token: value }
+        });
+      }
     }
   }
 

@@ -10,4 +10,20 @@ function sendResetPassword(data) {
   }
 }
 
-export {sendResetPassword};
+function newPassword(data, token) {
+  return (dispatch) => {
+    dispatch({ type: 'REQUEST_NEW_PASSWORD', data: data });
+
+    var requestData = {
+      password: data.password,
+      password_confirmation: data.password_confirmation,
+      reset_password_token: token
+    };
+
+    api.post('/user/update_password', { user: requestData })
+      .then(response => dispatch({ type: 'NEW_PASSWORD_CREATED', data: response.data }))
+      .catch(error => dispatch({ type: 'INVALID_NEW_PASSWORD', data: error.data }));
+  }
+}
+
+export {sendResetPassword, newPassword};
