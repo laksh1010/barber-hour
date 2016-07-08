@@ -29,7 +29,8 @@ class NewPasswordForm extends Component {
   componentDidUpdate() {
     if (this.props.form.success) {
       this.props.navigator.resetTo({
-        component: Login
+        component: Login,
+        passProps: { skipDeepLinking: true }
       });
     }
   }

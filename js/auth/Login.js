@@ -61,7 +61,7 @@ class Login extends Component {
 
   componentDidMount() {
     var url = Linking.getInitialURL().then((url) => {
-      if (url) {
+      if (url && !this.props.skipDeepLinking) {
         this._handleURL(url);
       }
     })
@@ -72,7 +72,7 @@ class Login extends Component {
 
     if (action === 'reset-password') {
       var [param, value] = params.split('=');
-      
+
       if (param === 'token' && value) {
         this.props.navigator.resetTo({
           component: NewPasswordForm,
