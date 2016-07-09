@@ -10,10 +10,6 @@ import Logo from '../common/Logo';
 import Main from './Main';
 
 export default class WaitReview extends Component {
-  componentDidMount() {
-    setTimeout(this._openMain.bind(this), 1500);
-  }
-
   _openMain() {
     this.props.navigator.replace({
       component: Main

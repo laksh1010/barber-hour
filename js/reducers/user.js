@@ -5,7 +5,8 @@ const initialState = {
   name: null,
   email: null,
   token: null,
-  type: null
+  type: null,
+  signupStep: null
 };
 
 function user(state = initialState, action) {
@@ -30,7 +31,8 @@ function user(state = initialState, action) {
         isLoading: false,
         name,
         email,
-        token
+        token,
+        signupStep: 'AccountTypeSelector'
       };
     case 'REQUEST_CHOOSE_TYPE':
       var {type} = action.data;
@@ -46,7 +48,39 @@ function user(state = initialState, action) {
         ...state,
         isLoading: false,
         error: false,
-        type
+        type,
+        signupStep: (type === 'Barber' ? 'AddressForm' : 'PhoneForm')
+      };
+    case 'PHONE_VERIFICATION_SENT':
+      return {
+        ...state,
+        signupStep: 'VerifyPhone'
+      };
+    case 'PHONE_VERIFIED':
+    case 'ACCOUNT_REVIEWED':
+      return {
+        ...state,
+        signupStep: null
+      };
+    case 'ADDRESS_CREATED':
+      return {
+        ...state,
+        signupStep: (state.signupStep ? 'ServicesForm' : null)
+      };
+    case 'SERVICES_CREATED':
+      return {
+        ...state,
+        signupStep: (state.signupStep ? 'ImageChooser' : null)
+      };
+    case 'IMAGES_CREATED':
+      return {
+        ...state,
+        signupStep: (state.signupStep ? 'ScheduleBuilder' : null)
+      };
+    case 'SCHEDULE_TEMPLATES_CREATED':
+      return {
+        ...state,
+        signupStep: (state.signupStep ? 'WaitReview' : null)
       };
     case 'ADD_ACCOUNT_ERROR':
       return {
