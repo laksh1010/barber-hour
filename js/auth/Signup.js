@@ -31,7 +31,8 @@ import { loginWithFacebook } from '../actions/auth';
 class Signup extends Component {
   _openLogin() {
     this.props.navigator.replace({
-      component: Login
+      component: Login,
+      passProps: { skipDeepLinking: this.props.skipDeepLinking }
     });
   }
 
@@ -49,7 +50,8 @@ class Signup extends Component {
 
   _openSignupForm() {
     this.props.navigator.replace({
-      component: SignupForm
+      component: SignupForm,
+      passProps: { skipDeepLinking: this.props.skipDeepLinking }
     });
   }
 

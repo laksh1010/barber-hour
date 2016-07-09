@@ -41,7 +41,8 @@ class Login extends Component {
 
   _openSignup() {
     this.props.navigator.replace({
-      component: Signup
+      component: Signup,
+      passProps: { skipDeepLinking: this.props.skipDeepLinking }
     });
   }
 

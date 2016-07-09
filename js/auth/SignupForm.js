@@ -27,7 +27,8 @@ import { signup } from '../actions/account';
 class SignupForm extends Component {
   _openLogin() {
     this.props.navigator.replace({
-      component: Login
+      component: Login,
+      passProps: { skipDeepLinking: this.props.skipDeepLinking }
     });
   }
 
