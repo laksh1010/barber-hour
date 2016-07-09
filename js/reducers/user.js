@@ -6,25 +6,27 @@ const initialState = {
   email: null,
   token: null,
   type: null,
+  admin: false,
   signupStep: null
 };
 
 function user(state = initialState, action) {
   switch (action.type) {
     case 'LOGGED_IN':
-      var {name, email, token, type} = action.data.user;
+      var {name, email, token, type, admin} = action.data.user;
       return {
         isLoggedIn: true,
         isLoading: false,
         name,
         email,
         token,
-        type
+        type,
+        admin
       };
     case 'LOGGED_OUT':
       return initialState;
     case 'SIGNED_UP':
-      var {name, email, token} = action.data.user;
+      var {name, email, token, admin} = action.data.user;
       return {
         ...state,
         isLoggedIn: true,
@@ -32,6 +34,7 @@ function user(state = initialState, action) {
         name,
         email,
         token,
+        admin,
         signupStep: 'AccountTypeSelector'
       };
     case 'REQUEST_CHOOSE_TYPE':

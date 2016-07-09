@@ -17,5 +17,6 @@ export default combineReducers({
   appointment: require('./appointment'),
   appointments: require('./appointments'),
   forgotPassword: require('./forgotPassword'),
-  newPassword: require('./newPassword')
+  newPassword: require('./newPassword'),
+  admin: require('./admin')
 });

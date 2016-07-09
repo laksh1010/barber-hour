@@ -14,6 +14,7 @@ import PrivacyPolicy from '../auth/PrivacyPolicy';
 import ServiceTerms from '../auth/ServiceTerms';
 import EditProfile from '../auth/EditProfile';
 import EditPassword from '../auth/EditPassword';
+import ReviewBarberList from '../admin/ReviewBarberList';
 
 import { logout } from '../actions/auth';
 
@@ -50,7 +51,26 @@ class Profile extends Component {
     this.props.dispatch(logout());
   }
 
+  _reviewBarbers() {
+    this.props.navigator.push({
+      component: ReviewBarberList
+    });
+  }
+
   render() {
+    var content;
+    if (this.props.isAdmin) {
+      content = (
+        <TouchableNativeFeedback
+          onPress={this._reviewBarbers.bind(this)}
+          background={TouchableNativeFeedback.SelectableBackground()}>
+          <View style={styles.item}>
+            <Text style={styles.subtitle}>Revisar barbearias</Text>
+          </View>
+        </TouchableNativeFeedback>
+      )
+    };
+
     return(
       <View style={styles.container}>
         <StatusBar backgroundColor='#C5C5C5'/>
@@ -70,6 +90,7 @@ class Profile extends Component {
               <Text style={styles.subtitle}>Alterar senha</Text>
             </View>
           </TouchableNativeFeedback>
+          {content}
         </View>
 
         <View style={styles.about}>
@@ -102,7 +123,13 @@ class Profile extends Component {
   }
 }
 
-export default connect()(Profile);
+function select(store) {
+  return {
+    isAdmin: store.user.admin
+  };
+}
+
+export default connect(select)(Profile);
 
 var styles = StyleSheet.create({
   container: {
