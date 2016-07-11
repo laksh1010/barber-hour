@@ -7,21 +7,23 @@ import {
   TouchableNativeFeedback,
 } from 'react-native';
 
+import ReviewBarber from './ReviewBarber';
+
 export default class ReviewBarberListItem extends Component {
-  _openDetails() {
+  _openReviewBarber() {
     this.props.navigator.push({
-      component: HaircutDetails,
-      passProps: {appointment: this.props.appointment}
+      component: ReviewBarber,
+      passProps: {barberID: this.props.barber.id}
     });
   }
 
   render() {
-    const { barber } = this.props;
+    const {barber} = this.props;
     const active = barber.active ? 'Ativado' : 'Desativado';
     const activeStyle = barber.active ? {color: 'green'} : {color: 'red'};
 
     return(
-      <TouchableNativeFeedback onPress={this._openDetails.bind(this)}>
+      <TouchableNativeFeedback onPress={this._openReviewBarber.bind(this)}>
         <View style={styles.card}>
           <View>
             <Text style={styles.name}>{barber.name}</Text>

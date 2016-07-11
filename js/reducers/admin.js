@@ -11,6 +11,7 @@ function admin(state = initialState, action) {
       var barber = state.barbers.find(barber => barber.id === barberID);
       var index = state.barbers.findIndex(barber => barber.id === barberID);
       return {
+        ...state,
         barbers: [
           ...state.barbers.slice(0, index),
           Object.assign(barber, { active: active }),
@@ -18,6 +19,7 @@ function admin(state = initialState, action) {
         ]
       };
     case 'REQUEST_ADMIN_BARBERS':
+    case 'REQUEST_ADMIN_BARBER_UPDATE':
       return {
         ...state,
         isLoading: true,
@@ -31,11 +33,24 @@ function admin(state = initialState, action) {
         error: false,
         barbers: barbers
       };
+    case 'ADMIN_BARBER_UPDATED':
+      return {
+        ...state,
+        isLoading: false,
+        error: false,
+        success: true
+      };
     case 'REQUEST_ADMIN_BARBERS_ERROR':
+    case 'INVALID_ADMIN_BARBER_UPDATE':
       return {
         ...state,
         isLoading: false,
         error: true
+      };
+    case 'SET_ADMIN_BARBERS_EDIT_MODE':
+      return {
+        ...state,
+        success: false
       };
     default:
       return state;
