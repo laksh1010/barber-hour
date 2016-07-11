@@ -13,6 +13,7 @@
     "react-native": "^0.29.0",
     "react-native-facebook-login": "^1.2.0",
     "react-native-image-picker": "^0.18.17",
+    "react-native-push-notification": "^2.0.0",
     "react-native-scrollable-tab-view": "^0.4.2",
     "react-native-vector-icons": "^2.0.2",
     "react-redux": "~4.4.5",
