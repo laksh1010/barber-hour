@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 
 import Logo from '../common/Logo';
+import Button from '../common/Button';
 import Main from './Main';
 
 export default class WaitReview extends Component {
@@ -24,6 +25,7 @@ export default class WaitReview extends Component {
         <View style={styles.innerContainer}>
           <Text style={styles.title}>Cadastro completo!</Text>
           <Text style={styles.info}>Nossa equipe vai revisar as informações e entrar em contato para ativar sua barbearia.</Text>
+          <Button containerStyle={styles.button} text='OK' onPress={this._openMain.bind(this)} />
         </View>
       </View>
     );
@@ -47,6 +49,9 @@ var styles = StyleSheet.create({
     marginTop: 20,
     fontSize: 16,
     textAlign: 'center'
+  },
+  button: {
+    marginTop: 20,
   },
   logo: {
     marginTop: 20

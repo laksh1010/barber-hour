@@ -25,7 +25,6 @@ export default class AppointmentCanceled extends Component {
         <View style={styles.innerContainer}>
           <Text style={styles.title}>Horário cancelado :/</Text>
           <Text style={styles.info}>Seu horário foi cancelado.</Text>
-          <Text style={styles.info}>O barbeiro será notificado do cancelamento.</Text>
           <Button containerStyle={styles.button} text='Voltar' onPress={this._openMain.bind(this)} />
         </View>
       </View>

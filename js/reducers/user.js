@@ -60,7 +60,7 @@ function user(state = initialState, action) {
         signupStep: 'VerifyPhone'
       };
     case 'PHONE_VERIFIED':
-    case 'ACCOUNT_REVIEWED':
+    case 'SCHEDULE_TEMPLATES_CREATED':
       return {
         ...state,
         signupStep: null
@@ -79,11 +79,6 @@ function user(state = initialState, action) {
       return {
         ...state,
         signupStep: (state.signupStep ? 'ScheduleBuilder' : null)
-      };
-    case 'SCHEDULE_TEMPLATES_CREATED':
-      return {
-        ...state,
-        signupStep: (state.signupStep ? 'WaitReview' : null)
       };
     case 'ADD_ACCOUNT_ERROR':
       return {
