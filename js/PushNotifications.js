@@ -17,7 +17,6 @@ class PushNotifications extends Component {
   }
 
   _onRegister(registration) {
-    console.log('_onRegister', registration)
     var {isLoggedIn} = this.props;
 
     if (isLoggedIn) {
@@ -29,7 +28,6 @@ class PushNotifications extends Component {
 
   _enablePush(registration) {
     var {isAdmin, token, type} = this.props;
-    console.log('_enablePush', isAdmin, token, type)
 
     if (isAdmin) {
       Pubnub.enablePushNotificationsOnChannel('admin', registration.token);
@@ -43,7 +41,6 @@ class PushNotifications extends Component {
 
   _disablePush(registration) {
     var {channels} = this.props;
-    console.log('_disablePush', channels)
 
     if (channels.length) {
       channels.map(channel => {
