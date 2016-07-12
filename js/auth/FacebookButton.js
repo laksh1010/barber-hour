@@ -11,11 +11,7 @@ export default class FacebookButton extends Component {
   };
 
   _onPress() {
-    if (!this.context.isLoggedIn) {
-      this.context.login();
-    } else {
-      this.context.logout();
-    }
+    this.context.login();
   }
 
   render() {
