@@ -25,7 +25,7 @@ export default class AppointmentScheduled extends Component {
         <View style={styles.innerContainer}>
           <Text style={styles.title}>Horário agendado!</Text>
           <Text style={styles.info}>Seu horário foi agendado com sucesso.</Text>
-          <Text style={styles.info}>Meia hora antes você receberá uma notificação para confirmar sua presença.</Text>
+          <Text style={styles.info}>Uma hora antes você receberá uma notificação para lembrá-lo.</Text>
           <Button containerStyle={styles.button} text='Voltar' onPress={this._openMain.bind(this)} />
         </View>
       </View>
