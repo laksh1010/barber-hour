@@ -30,6 +30,7 @@ import ForgotPassword from './ForgotPassword';
 import NewPasswordForm from './NewPasswordForm';
 import Email from '../forms/Email';
 import PushNotifications from '../PushNotifications';
+import AccountTypeSelector from './AccountTypeSelector';
 
 class Login extends Component {
   _openForgotPassowrd() {
@@ -86,8 +87,15 @@ class Login extends Component {
 
   componentDidUpdate() {
     if (this.props.isLoggedIn) {
-      var component = this.props.type === 'Barber' ? BarberMain : CustomerMain;
-      this.props.navigator.replace({component: component});
+      let component = AccountTypeSelector;
+
+      if (this.props.type === 'Barber') {
+        component = BarberMain;
+      } else if (this.props.type === 'Customer') {
+        component = CustomerMain;
+      }
+
+      this.props.navigator.replace({component});
     }
   }
 

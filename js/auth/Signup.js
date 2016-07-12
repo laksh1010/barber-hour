@@ -58,8 +58,11 @@ class Signup extends Component {
   componentDidUpdate() {
     if (this.props.isLoggedIn) {
       let component = AccountTypeSelector;
-      if (this.props.type) {
-        component = this.props.type === 'Barber' ? BarberMain : CustomerMain;
+
+      if (this.props.type === 'Barber') {
+        component = BarberMain;
+      } else if (this.props.type === 'Customer') {
+        component = CustomerMain;
       }
 
       this.props.navigator.replace({component});
