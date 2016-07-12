@@ -70,7 +70,7 @@ class Login extends Component {
   }
 
   _handleURL(url) {
-    var [action, params] = url.split('://')[1].split('?');
+    var [action, params] = url.split('/')[3].split('?');
 
     if (action === 'reset-password') {
       var [param, value] = params.split('=');
