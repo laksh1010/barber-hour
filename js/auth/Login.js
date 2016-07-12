@@ -29,6 +29,7 @@ import LargeButton from '../common/LargeButton';
 import ForgotPassword from './ForgotPassword';
 import NewPasswordForm from './NewPasswordForm';
 import Email from '../forms/Email';
+import PushNotifications from '../PushNotifications';
 
 class Login extends Component {
   _openForgotPassowrd() {
@@ -143,6 +144,7 @@ class Login extends Component {
             disabled={this.props.form.isLoading}
             onPress={this._openSignup.bind(this)} />
         </View>
+        <PushNotifications />
       </View>
     );
   }

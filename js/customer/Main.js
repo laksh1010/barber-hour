@@ -8,51 +8,15 @@ import {
 } from 'react-native';
 
 import ScrollableTabView from 'react-native-scrollable-tab-view';
-import PushNotification from 'react-native-push-notification';
-import { connect } from 'react-redux';
 
 import Toolbar from '../common/Toolbar';
 import IconTabBar from '../common/IconTabBar';
 import BarberList from './BarberList';
 import HaircutHistory from './HaircutHistory';
 import Profile from './Profile';
-import Pubnub from '../Pubnub';
-import { gcmSenderID } from '../env';
+import PushNotifications from '../PushNotifications';
 
-class Main extends Component {
-  componentDidMount() {
-    PushNotification.configure({
-      onRegister: this._onRegister.bind(this),
-      onNotification: this._onNotification.bind(this),
-      senderID: gcmSenderID
-    });
-  }
-
-  _onRegister(registration) {
-    var {isAdmin, token} = this.props;
-
-    if (isAdmin) {
-      Pubnub.enablePushNotificationsOnChannel('admin', registration.token);
-    }
-
-    Pubnub.enablePushNotificationsOnChannel(`customer_${token}`, registration.token);
-  }
-
-  _onNotification(notification) {
-    if (notification.data) {
-      this._showNotification(notification);
-    } else {
-      this._openNotification(notification);
-    }
-  }
-
-  _showNotification(notification) {
-    PushNotification.localNotification(notification);
-  }
-
-  _openNotification(notification) {
-  }
-
+export default class Main extends Component {
   render() {
     return(
       <View style={styles.container}>
@@ -70,19 +34,11 @@ class Main extends Component {
             <Profile navigator={this.props.navigator} />
           </ScrollView>
         </ScrollableTabView>
+        <PushNotifications />
       </View>
     );
   }
 }
-
-function select(store) {
-  return {
-    isAdmin: store.user.admin,
-    token: store.user.token
-  };
-}
-
-export default connect(select)(Main);
 
 var styles = StyleSheet.create({
   container: {
