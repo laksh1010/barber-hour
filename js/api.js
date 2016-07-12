@@ -1,7 +1,9 @@
 import axios from 'axios';
 
+import { apiHost } from './env';
+
 const instance = axios.create({
-  baseURL: 'http://192.168.0.103:3000',
+  baseURL: apiHost,
   headers: {'Content-Type': 'application/json'}
 });
 
