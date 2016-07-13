@@ -15,6 +15,7 @@
     "react-native-image-picker": "^0.18.17",
     "react-native-push-notification": "^2.0.0",
     "react-native-scrollable-tab-view": "^0.4.2",
+    "react-native-swiper": "^1.4.6",
     "react-native-vector-icons": "^2.0.2",
     "react-redux": "~4.4.5",
     "redux": "~3.2.1",
