@@ -115,10 +115,13 @@ class ImageChooser extends Component {
     if (this.props.form.isRequestingInfo) {
       content = <ActivityIndicator size='small' />;
     }
+
     var isLoading = this.props.form.isLoading || this.props.form.isRequestingInfo;
-    var onPress = isLoading ? null : this._addImage.bind(this);
-    var opacity = isLoading ? { opacity: .6 } : { opacity: 1 };
     var images = this.props.form.images.filter(image => !image.destroyed);
+
+    var onPress = isLoading || images.length === 5 ? null : this._addImage.bind(this);
+    var opacity = isLoading || images.length === 5 ? { opacity: .6 } : { opacity: 1 };
+
     var toolbarContent;
     if (this.props.edit) {
       toolbarContent = <Toolbar backIcon navigator={this.props.navigator} />;
@@ -131,6 +134,7 @@ class ImageChooser extends Component {
         <View style={styles.innerContainer}>
           <Text style={styles.title}>Fotos</Text>
           <Text style={styles.info}>{infoPrefix} fotos de sua barbearia:</Text>
+          <Text style={[formStyle.helpBlock.normal, {textAlign: 'center'}]}>Máximo de fotos: 5</Text>
           {content}
           <View style={styles.formContainer}>
             <TouchableNativeFeedback background={TouchableNativeFeedback.SelectableBackground()} onPress={onPress}>
@@ -195,7 +199,8 @@ var styles = StyleSheet.create({
   formContainer: {
     marginTop: 10,
     flexDirection: 'row',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    justifyContent: 'center'
   },
   image: {
     borderWidth: 1,
