@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 
 import { connect } from 'react-redux';
+import Swiper from 'react-native-swiper';
 
 import Button from '../common/Button';
 import Toolbar from '../common/Toolbar';
@@ -139,7 +140,19 @@ class BarberDetails extends Component {
         <ScrollView>
           <StatusBar backgroundColor='#C5C5C5'/>
           <Toolbar backIcon border title={barber.name} navigator={navigator} />
-          <Image source={{uri: images[0].url}} style={styles.image} />
+          <Swiper
+            height={300}
+            loop={false}
+            dot={<View style={styles.carouselIndicator} />}
+            activeDot={<View style={styles.carouselActiveIndicator} />}>
+            {images.map(image => {
+              return(
+                <View key={image.id} style={styles.carouselPage}>
+                  <Image source={{uri: image.url}} style={styles.image} />
+                </View>
+              )
+            })}
+          </Swiper>
           <View style={styles.separator} />
           <View style={styles.innerContainer}>
             <Text style={styles.title}>{barber.name}</Text>
@@ -220,7 +233,7 @@ var styles = StyleSheet.create({
   },
   image: {
     width: null,
-    height: 200,
+    height: 300,
     flex: 1,
     resizeMode: 'cover'
   },
@@ -247,5 +260,23 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around'
+  },
+  carouselPage: {
+    justifyContent: 'center',
+    backgroundColor: 'transparent',
+  },
+  carouselIndicator: {
+    backgroundColor: 'rgba(255,255,255,.3)',
+    width: 5,
+    height: 5,
+    borderRadius: 4,
+    margin: 3
+  },
+  carouselActiveIndicator: {
+    backgroundColor: '#fff',
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    margin: 3
   }
 });
