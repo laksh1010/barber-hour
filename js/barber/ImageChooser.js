@@ -97,9 +97,9 @@ class ImageChooser extends Component {
 
   _getButtonLabel() {
     if (this.props.edit) {
-      return this.props.isLoading ? 'Alterando...' : 'Alterar';
+      return this.props.form.isLoading ? 'Alterando...' : 'Alterar';
     } else {
-      return this.props.isLoading ? 'Cadastrando...' : 'Avançar';
+      return this.props.form.isLoading ? 'Cadastrando...' : 'Avançar';
     }
   }
 
