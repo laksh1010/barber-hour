@@ -1,4 +1,4 @@
-import uuid from 'node-uuid';
+import uuid from 'react-native-uuid';
 
 const initialState = {
   isLoading: false,
