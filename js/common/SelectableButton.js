@@ -19,8 +19,8 @@ const SelectableImageButton = (props) => {
 
   const containerStyle = styles[`${styleKey}Container`];
   const textStyle = styles[`${styleKey}Text`];
-  const background = props.disabled ? null : TouchableNativeFeedback.SelectableBackground();
-  const onPress = props.disabled ? null : props.onPress;
+  const background = props.disabled && !props.onPressIfDisabled ? null : TouchableNativeFeedback.SelectableBackground();
+  const onPress = props.disabled && !props.onPressIfDisabled ? null : props.onPress;
 
   return(
     <TouchableNativeFeedback background={background} onPress={onPress}>

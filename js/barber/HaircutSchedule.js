@@ -2,49 +2,111 @@ import React, { Component } from 'react';
 import {
   View,
   StyleSheet,
-  ListView,
-  RecyclerViewBackedScrollView,
   ActivityIndicator,
   Text,
   RefreshControl,
-  ScrollView
+  ScrollView,
+  Alert
 } from 'react-native';
 
 import { connect } from 'react-redux';
 
-import HaircutItem from './HaircutItem';
-import { listAppointments } from '../actions/appointments';
+import SelectableButton from '../common/SelectableButton';
+import HaircutDetails from './HaircutDetails';
+import { listSchedules, selectDay, toggleActive } from '../actions/schedules';
 
 class HaircutSchedule extends Component {
   componentDidMount() {
-    if (this.props.dataSource.getRowCount() === 0) {
-      this.props.dispatch(listAppointments('barber'));
-    }
-  }
-
-  _renderRow(rowData, sectionID, rowID) {
-    return(<HaircutItem key={rowID} navigator={this.props.navigator} appointment={rowData} />);
+    this.props.dispatch(listSchedules());
   }
 
   _onRefresh() {
-    this.props.dispatch(listAppointments('barber'));
+    this.props.dispatch(listSchedules());
+  }
+
+  _selectDay(index) {
+    this.props.dispatch(selectDay(index));
+  }
+
+  _scheduleClicked(schedule) {
+    if (schedule.scheduled_appointment_id) {
+      this._openHaircutDetails(schedule);
+    } else {
+      this._confirmToggleActive(schedule);
+    }
+  }
+
+  _confirmToggleActive(schedule) {
+    const action = schedule.active ? 'desativar' : 'ativar';
+
+    Alert.alert(
+      `${action} horário`,
+      `Tem certeza que deseja ${action} esse horário?`,
+      [
+        {text: `Sim, ${action} horário`, onPress: () => {this._toggleActive(schedule)} },
+        {text: 'Cancelar', style: 'cancel'},
+      ]
+    );
+  }
+
+  _toggleActive(schedule) {
+    const data = {
+      active: !schedule.active
+    };
+    this.props.dispatch(toggleActive(schedule.id, data));
+  }
+
+  _openHaircutDetails(schedule) {
+    const appointment = this.props.appointments.appointments.find(a => a.id === schedule.scheduled_appointment_id);
+
+    this.props.navigator.push({
+      component: HaircutDetails,
+      passProps: {appointment: appointment}
+    });
   }
 
   render() {
-    var refreshControl = <RefreshControl refreshing={this.props.isLoading} onRefresh={this._onRefresh.bind(this)} />
+    const {days, isLoading} = this.props.schedules;
+    const selectedDay = days.find(day => day.selected);
+
+    var refreshControl = <RefreshControl refreshing={isLoading} onRefresh={this._onRefresh.bind(this)} />
     var content;
 
-    if (this.props.isLoading) {
+    if (isLoading || days.length === 0) {
       content = <ActivityIndicator />;
-    } else if (this.props.dataSource.getRowCount() === 0) {
-      content = <ScrollView refreshControl={refreshControl}><Text>Você não possui nenhum corte.</Text></ScrollView>;
     } else {
       content =
-        <ListView
-          dataSource={this.props.dataSource}
-          renderRow={this._renderRow.bind(this)}
-          refreshControl={refreshControl}
-          renderScrollComponent={props => <RecyclerViewBackedScrollView {...props} />}/>;
+        <ScrollView refreshControl={refreshControl}>
+          <View style={styles.innerContainer}>
+            <Text style={styles.info}>Dia:</Text>
+            <View style={styles.selectableButtonContainer}>
+              {days.map((day, index) => {
+                return(
+                  <SelectableButton
+                    key={index}
+                    title={day.schedules[0].day_name}
+                    text={`${day.number} ${day.schedules[0].month_name}`}
+                    selected={day === selectedDay}
+                    onPress={() => this._selectDay(index)} />
+                )
+              })}
+            </View>
+            <Text style={styles.info}>Horários:</Text>
+            <View style={styles.selectableButtonContainer}>
+              {selectedDay.schedules.map(schedule => {
+                return(
+                  <SelectableButton
+                    key={schedule.id}
+                    title={schedule.hour}
+                    disabled={schedule.disabled && !schedule.scheduled_appointment_id}
+                    selected={schedule.scheduled_appointment_id}
+                    onPressIfDisabled={true}
+                    onPress={() => this._scheduleClicked(schedule)} />
+                )
+              })}
+            </View>
+          </View>
+        </ScrollView>
     }
 
     return(
@@ -55,14 +117,10 @@ class HaircutSchedule extends Component {
   }
 }
 
-const dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1.id !== r2.id });
-
 function select(store) {
-  var scheduledAppointments = store.appointments.appointments.filter(appointment => appointment.status === 'scheduled');
-
   return {
-    dataSource: dataSource.cloneWithRows(scheduledAppointments),
-    isLoading: store.appointments.isLoading
+    schedules: store.schedules,
+    appointments: store.appointments
   };
 }
 
@@ -78,5 +136,22 @@ var styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
     paddingTop: 10
+  },
+  innerContainer: {
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 20,
+    paddingRight: 20,
+  },
+  info: {
+    fontSize: 16,
+    textAlign: 'center',
+    flex: 1
+  },
+  selectableButtonContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignSelf: 'stretch',
+    justifyContent: 'center'
   },
 });

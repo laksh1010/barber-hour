@@ -42,6 +42,7 @@ function schedules(state = initialState, action) {
         ]
       };
     case 'REQUEST_SCHEDULES':
+    case 'REQUEST_TOGGLE_SCHEDULE_ACTIVE':
       return {
         ...state,
         isLoading: true,
@@ -80,7 +81,29 @@ function schedules(state = initialState, action) {
         error: false,
         days: newDays
       };
+    case 'SCHEDULE_ACTIVE_TOGGLED':
+      const {schedule} = action.data;
+      var day = state.days.find(day => day.number === schedule.day_number);
+      var dayIndex = state.days.findIndex(day => day.number === schedule.day_number);
+      var scheduleIndex = day.schedules.findIndex(s => s.id === schedule.id);
+      var schedules = [
+        ...day.schedules.slice(0, scheduleIndex),
+        schedule,
+        ...day.schedules.slice(scheduleIndex + 1)
+      ];
+
+      return {
+        ...state,
+        isLoading: false,
+        error: false,
+        days: [
+          ...state.days.slice(0, dayIndex),
+          Object.assign(day, { schedules: schedules }),
+          ...state.days.slice(dayIndex + 1)
+        ]
+      };
     case 'REQUEST_SCHEDULES_ERROR':
+    case 'REQUEST_TOGGLE_SCHEDULE_ACTIVE_ERROR':
       return {
         ...state,
         isLoading: false,
