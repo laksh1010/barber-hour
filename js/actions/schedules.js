@@ -4,7 +4,7 @@ function listSchedules(data) {
   return (dispatch, getState) => {
     dispatch({ type: 'REQUEST_SCHEDULES' });
 
-    const url = getState().user.type === 'customer' ? `/customer/barbers/${data.id}/schedules` : 'barber/schedules';
+    const url = getState().user.type === 'Customer' ? `/customer/barbers/${data.id}/schedules` : 'barber/schedules';
 
     api.get(url, { headers: { 'Authorization': `Token ${getState().user.token}` } })
       .then(response => dispatch({ type: 'SCHEDULES_LOADED', data: response.data }))

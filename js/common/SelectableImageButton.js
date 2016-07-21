@@ -3,10 +3,10 @@ import {
   View,
   Text,
   StyleSheet,
-  TouchableNativeFeedback,
 } from 'react-native';
 
 import BarberIcon from './BarberIcon';
+import Touchable from './Touchable';
 
 const SelectableImageButton = (props) => {
   const containerStyle = props.selected ? styles.selectedContainer : styles.unselectedContainer;
@@ -16,12 +16,12 @@ const SelectableImageButton = (props) => {
   const onPress = props.disabled ? null : props.onPress;
 
   return(
-    <TouchableNativeFeedback background={TouchableNativeFeedback.SelectableBackground()} onPress={onPress}>
-      <View style={[containerStyle, styles.container, props.containerStyle, opacity]}>
+    <Touchable style={[containerStyle, styles.container, props.containerStyle, opacity]} onPress={onPress}>
+      <View style={{alignItems: 'center', flexDirection: 'row', padding: 5}}>
         <BarberIcon name={props.icon} size={80} color={iconColor} />
         <Text style={[textStyle, styles.text, props.textStyle]}>{props.text}</Text>
       </View>
-    </TouchableNativeFeedback>
+    </Touchable>
   );
 };
 

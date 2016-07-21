@@ -6,6 +6,7 @@ const initialState = {
   auto: 'none',
   fields: {
     email: {
+      autoCapitalize: 'none',
       placeholder: 'e-mail',
       keyboardType: 'email-address',
       error: 'e-mail inválido',

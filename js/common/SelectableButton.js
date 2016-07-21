@@ -3,9 +3,10 @@ import {
   View,
   Text,
   StyleSheet,
-  TouchableNativeFeedback,
   Image
 } from 'react-native';
+
+import Touchable from './Touchable';
 
 const SelectableImageButton = (props) => {
   let styleKey;
@@ -19,16 +20,15 @@ const SelectableImageButton = (props) => {
 
   const containerStyle = styles[`${styleKey}Container`];
   const textStyle = styles[`${styleKey}Text`];
-  const background = props.disabled && !props.onPressIfDisabled ? null : TouchableNativeFeedback.SelectableBackground();
   const onPress = props.disabled && !props.onPressIfDisabled ? null : props.onPress;
 
   return(
-    <TouchableNativeFeedback background={background} onPress={onPress}>
+    <Touchable style={[containerStyle, styles.container, props.containerStyle]} onPress={onPress}>
       <View style={[containerStyle, styles.container, props.containerStyle]}>
         <Text style={[textStyle, styles.text, props.textStyle]}>{props.title}</Text>
         <Text style={[textStyle, styles.text, props.textStyle]}>{props.text}</Text>
       </View>
-    </TouchableNativeFeedback>
+    </Touchable>
   );
 };
 

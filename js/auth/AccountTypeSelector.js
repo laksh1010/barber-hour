@@ -3,7 +3,8 @@ import {
   View,
   Text,
   StyleSheet,
-  StatusBar
+  StatusBar,
+  Platform
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -28,7 +29,8 @@ class AccountTypeSelector extends Component {
       });
     } else if (this.props.accountType === 'Barber') {
       this.props.navigator.push({
-        component: AddressForm
+        component: AddressForm,
+        title: 'Endereço'
       });
     } else {
       this.props.dispatch(addError());
@@ -92,6 +94,7 @@ var styles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: 'white',
     padding: 20,
+    marginTop: Platform.OS === 'ios' ? 55 : 0
   },
   buttonContainer: {
     marginTop: 10,

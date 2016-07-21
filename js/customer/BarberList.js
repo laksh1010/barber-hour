@@ -31,7 +31,7 @@ class BarberList extends Component {
   }
 
   render() {
-    var refreshControl = <RefreshControl refreshing={this.props.isLoading} onRefresh={this._onRefresh.bind(this)} />
+    var refreshControl = <RefreshControl refreshing={this.props.isLoading || false} onRefresh={this._onRefresh.bind(this)} />
     var content;
 
     if (this.props.isLoading) {

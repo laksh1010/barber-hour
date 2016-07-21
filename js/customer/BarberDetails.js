@@ -53,8 +53,13 @@ class BarberDetails extends Component {
     const barber = this.props.barbers.barbers.find(barber => barber.id === barberID);
     const {days} = this.props.schedules;
     const selectedDay = days.find(day => day.selected);
-    const selectedServices = barber.services.filter(service => service.selected);
-    const selectedSchedule = selectedDay.schedules.find(schedule => schedule.selected);
+    var selectedServices = [];
+    var selectedSchedule;
+
+    if (selectedDay) {
+      selectedServices = barber.services.filter(service => service.selected);
+      selectedSchedule = selectedDay.schedules.find(schedule => schedule.selected);
+    }
 
     if (selectedServices.length && selectedSchedule) {
       Alert.alert(

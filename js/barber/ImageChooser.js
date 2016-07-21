@@ -4,10 +4,10 @@ import {
   Text,
   StyleSheet,
   StatusBar,
-  TouchableNativeFeedback,
   Image,
   Alert,
-  ActivityIndicator
+  ActivityIndicator,
+  Platform
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 
 import Toolbar from '../common/Toolbar';
 import Button from '../common/Button';
+import Touchable from '../common/Touchable';
 import ScheduleBuilder from './ScheduleBuilder';
 import formStyle from '../forms/style';
 
@@ -30,7 +31,14 @@ class ImageChooser extends Component {
       chooseFromLibraryButtonTitle: 'Escolher da galeria'
     }, (response) => {
       if (!response.didCancel && !response.error) {
-        const dataURI = `data:${response.type};base64,${response.data}`;
+        var dataURI;
+        if (response.type) {
+          dataURI = `data:${response.type};base64,${response.data}`;
+        } else {
+          var splittedURI = response.uri.split('.');
+          var extension = splittedURI[splittedURI.length - 1];
+          dataURI = `data:image/${extension};base64,${response.data}`;
+        }
         const source = {uri: response.uri, isStatic: true, dataURI: dataURI};
         this.props.dispatch(addImage(source));
       }
@@ -81,7 +89,8 @@ class ImageChooser extends Component {
         this.props.navigator.pop();
       } else {
         this.props.navigator.resetTo({
-          component: ScheduleBuilder
+          component: ScheduleBuilder,
+          title: 'Agenda'
         });
       }
     }
@@ -137,22 +146,21 @@ class ImageChooser extends Component {
           <Text style={[formStyle.helpBlock.normal, {textAlign: 'center'}]}>Máximo de fotos: 5</Text>
           {content}
           <View style={styles.formContainer}>
-            <TouchableNativeFeedback background={TouchableNativeFeedback.SelectableBackground()} onPress={onPress}>
+            <Touchable style={[styles.image, opacity]} onPress={onPress}>
               <View style={[styles.image, opacity]}>
                 <Icon name='control-point' size={25} />
               </View>
-            </TouchableNativeFeedback>
+            </Touchable>
             {images.map((image) => {
               return(
-                <TouchableNativeFeedback key={image.uid}
-                  background={TouchableNativeFeedback.SelectableBackground()}
+                <Touchable key={image.uid}
                   onPress={() => {this._confirmImageDeletion(image.uid)}}>
                   <View style={styles.imageContainer}>
                     <Image
                       source={this._getImageURL(image)}
                       style={styles.image} />
                   </View>
-                </TouchableNativeFeedback>
+                </Touchable>
               )
             })}
           </View>
@@ -181,6 +189,7 @@ var styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: 'white',
+    marginTop: Platform.OS === 'ios' ? 55 : 0
   },
   innerContainer: {
     padding: 20,
