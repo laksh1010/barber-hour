@@ -8,7 +8,8 @@ import {
   Text,
   RefreshControl,
   ScrollView,
-  StatusBar
+  StatusBar,
+  Platform
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -75,6 +76,7 @@ var styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: 'white',
+    marginTop: Platform.OS === 'ios' ? 60 : 0
   },
   listContainer: {
     backgroundColor: '#F8F8F8',

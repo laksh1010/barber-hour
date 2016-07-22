@@ -23,7 +23,7 @@ class Profile extends Component {
   _editProfile() {
     this.props.navigator.push({
       component: EditProfile,
-      title: 'Editar perfil'
+      title: 'Editar conta'
     });
   }
 

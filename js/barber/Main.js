@@ -4,7 +4,8 @@ import {
   Text,
   StyleSheet,
   StatusBar,
-  ScrollView
+  ScrollView,
+  Platform
 } from 'react-native';
 
 import ScrollableTabView from 'react-native-scrollable-tab-view';
@@ -44,6 +45,7 @@ var styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
+    marginTop: Platform.OS === 'ios' ? 60 : 0
   },
   tabView: {
     flex: 1,

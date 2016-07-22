@@ -6,7 +6,6 @@ import {
   StatusBar,
   Image,
   ScrollView,
-  TouchableNativeFeedback,
   Switch
 } from 'react-native';
 

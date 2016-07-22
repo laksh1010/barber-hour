@@ -4,10 +4,10 @@ import {
   Text,
   StyleSheet,
   Image,
-  TouchableNativeFeedback,
 } from 'react-native';
 
 import ReviewBarber from './ReviewBarber';
+import Touchable from '../common/Touchable';
 
 export default class ReviewBarberListItem extends Component {
   _openReviewBarber() {
@@ -23,15 +23,15 @@ export default class ReviewBarberListItem extends Component {
     const activeStyle = barber.active ? {color: 'green'} : {color: 'red'};
 
     return(
-      <TouchableNativeFeedback onPress={this._openReviewBarber.bind(this)}>
-        <View style={styles.card}>
+      <Touchable style={styles.card} onPress={this._openReviewBarber.bind(this)}>
+        <View>
           <View>
             <Text style={styles.name}>{barber.name}</Text>
             <Text style={styles.barber}>{barber.email}</Text>
             <Text style={[styles.barber, activeStyle]}>{active}</Text>
           </View>
         </View>
-      </TouchableNativeFeedback>
+      </Touchable>
     );
   }
 }

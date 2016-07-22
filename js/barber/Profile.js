@@ -4,7 +4,7 @@ import {
   Text,
   StyleSheet,
   StatusBar,
-  TouchableNativeFeedback
+  Platform
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -18,66 +18,82 @@ import PrivacyPolicy from '../auth/PrivacyPolicy';
 import ServiceTerms from '../auth/ServiceTerms';
 import EditProfile from '../auth/EditProfile';
 import EditPassword from '../auth/EditPassword';
+import Touchable from '../common/Touchable';
 
 import { logout } from '../actions/auth';
 
 class Profile extends Component {
   _editProfile() {
     this.props.navigator.push({
-      component: EditProfile
+      component: EditProfile,
+      title: 'Editar conta'
     });
   }
 
   _editPassword() {
     this.props.navigator.push({
-      component: EditPassword
+      component: EditPassword,
+      title: 'Editar senha'
     });
   }
 
   _editAddress() {
     this.props.navigator.push({
       component: AddressForm,
-      passProps: { edit: true }
+      passProps: { edit: true },
+      title: 'Editar endereço'
     });
   }
 
   _editImages() {
     this.props.navigator.push({
       component: ImageChooser,
-      passProps: { edit: true }
+      passProps: { edit: true },
+      title: 'Editar fotos'
     });
   }
 
   _scheduleBuilder() {
     this.props.navigator.push({
       component: ScheduleBuilder,
-      passProps: { edit: true }
+      passProps: { edit: true },
+      title: 'Editar agenda'
     });
   }
 
   _editServices() {
     this.props.navigator.push({
       component: ServicesForm,
-      passProps: { edit: true }
+      passProps: { edit: true },
+      title: 'Editar serviços'
     });
   }
 
   _openServiceTerms() {
     this.props.navigator.push({
-      component: ServiceTerms
+      component: ServiceTerms,
+      title: 'Termos de uso'
     });
   }
 
   _openPrivacyPolicy() {
     this.props.navigator.push({
-      component: PrivacyPolicy
+      component: PrivacyPolicy,
+      title: 'Política de privacidade'
     });
   }
 
   _logout() {
-    this.props.navigator.resetTo({
-      component: Login
-    });
+    const route = {
+      component: Login,
+      title: 'Barber Hour'
+    };
+
+    if (Platform.OS === 'ios') {
+      this.props.navigator.replace(route);
+    } else {
+      this.props.navigator.resetTo(route);
+    }
 
     this.props.dispatch(logout());
   }
@@ -88,75 +104,57 @@ class Profile extends Component {
         <StatusBar backgroundColor='#C5C5C5'/>
         <View style={styles.account}>
           <Text style={styles.header}>Conta</Text>
-          <TouchableNativeFeedback
-            onPress={this._editProfile.bind(this)}
-            background={TouchableNativeFeedback.SelectableBackground()}>
-            <View style={styles.item}>
-              <Text style={styles.subtitle}>Editar conta</Text>
-            </View>
-          </TouchableNativeFeedback>
-          <TouchableNativeFeedback
-            onPress={this._editPassword.bind(this)}
-            background={TouchableNativeFeedback.SelectableBackground()}>
-            <View style={styles.item}>
-              <Text style={styles.subtitle}>Alterar senha</Text>
-            </View>
-          </TouchableNativeFeedback>
-          <TouchableNativeFeedback
-            onPress={this._editAddress.bind(this)}
-            background={TouchableNativeFeedback.SelectableBackground()}>
-            <View style={styles.item}>
-              <Text style={styles.subtitle}>Alterar endereço</Text>
-            </View>
-          </TouchableNativeFeedback>
-          <TouchableNativeFeedback
-            onPress={this._editImages.bind(this)}
-            background={TouchableNativeFeedback.SelectableBackground()}>
-            <View style={styles.item}>
-              <Text style={styles.subtitle}>Alterar fotos</Text>
-            </View>
-          </TouchableNativeFeedback>
-          <TouchableNativeFeedback
-            onPress={this._scheduleBuilder.bind(this)}
-            background={TouchableNativeFeedback.SelectableBackground()}>
-            <View style={styles.item}>
-              <Text style={styles.subtitle}>Alterar modelo de agenda</Text>
-            </View>
-          </TouchableNativeFeedback>
-          <TouchableNativeFeedback
-            onPress={this._editServices.bind(this)}
-            background={TouchableNativeFeedback.SelectableBackground()}>
-            <View style={styles.item}>
-              <Text style={styles.subtitle}>Alterar serviços disponíveis</Text>
-            </View>
-          </TouchableNativeFeedback>
+          <Touchable
+            style={styles.item}
+            onPress={this._editProfile.bind(this)}>
+            <Text style={styles.subtitle}>Editar conta</Text>
+          </Touchable>
+          <Touchable
+            style={styles.item}
+            onPress={this._editPassword.bind(this)}>
+            <Text style={styles.subtitle}>Alterar senha</Text>
+          </Touchable>
+          <Touchable
+            style={styles.item}
+            onPress={this._editAddress.bind(this)}>
+            <Text style={styles.subtitle}>Alterar endereço</Text>
+          </Touchable>
+          <Touchable
+            style={styles.item}
+            onPress={this._editImages.bind(this)}>
+            <Text style={styles.subtitle}>Alterar fotos</Text>
+          </Touchable>
+          <Touchable
+            style={styles.item}
+            onPress={this._scheduleBuilder.bind(this)}>
+            <Text style={styles.subtitle}>Alterar modelo de agenda</Text>
+          </Touchable>
+          <Touchable
+            style={styles.item}
+            onPress={this._editServices.bind(this)}>
+            <Text style={styles.subtitle}>Alterar serviços disponíveis</Text>
+          </Touchable>
         </View>
 
         <View style={styles.about}>
           <Text style={styles.header}>Sobre</Text>
-            <TouchableNativeFeedback
-              onPress={this._openServiceTerms.bind(this)}
-              background={TouchableNativeFeedback.SelectableBackground()}>
-              <View style={styles.item}>
-                <Text style={styles.subtitle}>Termos de uso</Text>
-              </View>
-            </TouchableNativeFeedback>
-          <TouchableNativeFeedback
-            onPress={this._openPrivacyPolicy.bind(this)}
-            background={TouchableNativeFeedback.SelectableBackground()}>
-            <View style={styles.item}>
-              <Text style={styles.subtitle}>Política de privacidade</Text>
-            </View>
-          </TouchableNativeFeedback>
+            <Touchable
+              style={styles.item}
+              onPress={this._openServiceTerms.bind(this)}>
+              <Text style={styles.subtitle}>Termos de uso</Text>
+            </Touchable>
+          <Touchable
+            style={styles.item}
+            onPress={this._openPrivacyPolicy.bind(this)}>
+            <Text style={styles.subtitle}>Política de privacidade</Text>
+          </Touchable>
         </View>
 
-        <TouchableNativeFeedback
-          onPress={this._logout.bind(this)}
-          background={TouchableNativeFeedback.SelectableBackground()}>
-          <View style={[styles.item, styles.lastItem]}>
-            <Text style={styles.subtitle}>Sair</Text>
-          </View>
-        </TouchableNativeFeedback>
+        <Touchable
+          style={[styles.item, styles.lastItem]}
+          onPress={this._logout.bind(this)}>
+          <Text style={styles.subtitle}>Sair</Text>
+        </Touchable>
       </View>
     );
   }
