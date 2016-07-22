@@ -180,6 +180,7 @@ class BarberDetails extends Component {
                   <Switch
                     onValueChange={(value) => {this._toggleService(service.id, value)}}
                     disabled={this.props.appointment.isLoading}
+                    onTintColor='#004575'
                     value={service.selected} />
                 </View>
               )

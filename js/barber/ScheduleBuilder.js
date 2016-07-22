@@ -9,7 +9,9 @@ import {
   TimePickerAndroid,
   ScrollView,
   ActivityIndicator,
-  Platform
+  Platform,
+  Modal,
+  DatePickerIOS
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -29,6 +31,19 @@ import {
 } from '../actions/scheduleTemplates';
 
 class ScheduleBuilder extends Component {
+  constructor(props) {
+    super(props);
+    var date = new Date();
+    date.setMinutes(0);
+
+    this.state = {
+      modalVisible: false,
+      date: date,
+      weekday: null,
+      field: null
+    };
+  }
+
   _createScheduleTemplates() {
     var active = this.props.form.scheduleTemplates.filter(scheduleTemplate => scheduleTemplate.active);
 
@@ -95,7 +110,26 @@ class ScheduleBuilder extends Component {
     this.props.dispatch(changeServiceDuration(serviceDuration));
   }
 
-  async showPicker(weekday, field) {
+  showPicker(weekday, field) {
+    if (Platform.OS === 'ios') {
+      this.showIOSPicker(weekday, field);
+    } else {
+      this.showAndroidPicker(weekday, field);
+    }
+  }
+
+  showIOSPicker(weekday, field) {
+    this.setState({modalVisible: true, weekday: weekday, field: field});
+  }
+
+  selectTime() {
+    var {weekday, field, date} = this.state;
+    var [hour, minutes] = date.toTimeString().split(':');
+    this.updateTime(weekday, field, `${hour}:${minutes}`);
+    this.setState({modalVisible: false, weekday: null, field: null});
+  }
+
+  async showAndroidPicker(weekday, field) {
     try {
       const {action, minute, hour} = await TimePickerAndroid.open({is24Hour: true});
       if (action === TimePickerAndroid.timeSetAction) {
@@ -134,6 +168,31 @@ class ScheduleBuilder extends Component {
       toolbarContent = <Toolbar backIcon navigator={this.props.navigator} />;
     }
 
+    var modalContent;
+    if (Platform.OS === 'ios') {
+      modalContent = (
+        <Modal
+          transparent={false}
+          visible={this.state.modalVisible}
+          animationType='slide'>
+          <View style={styles.container}>
+            <View style={styles.innerContainer}>
+              <Text style={styles.title}>Selecione o horário:</Text>
+              <DatePickerIOS
+                mode='time'
+                date={this.state.date}
+                onDateChange={(date) => this.setState({date: date})}
+                minuteInterval={30}/>
+              <Button
+                text='OK'
+                containerStyle={styles.button}
+                onPress={this.selectTime.bind(this)} />
+            </View>
+          </View>
+        </Modal>
+      );
+    }
+
     var isLoading = this.props.form.isLoading || this.props.form.isRequestingInfo;
 
     return(
@@ -141,6 +200,7 @@ class ScheduleBuilder extends Component {
         <ScrollView>
           <StatusBar backgroundColor='#C5C5C5'/>
           {toolbarContent}
+          {modalContent}
           <View style={styles.innerContainer}>
             <Text style={styles.title}>Agenda semanal</Text>
             <Text style={styles.info}>Selecione os dias e horários que você trabalha:</Text>
@@ -179,6 +239,7 @@ class ScheduleBuilder extends Component {
                       style={styles.toggle}
                       onValueChange={(value) => {this.toggleScheduleTemplate(scheduleTemplate.weekday, value)}}
                       disabled={isLoading}
+                      onTintColor='#004575'
                       value={scheduleTemplate.active} />
                     {time}
                   </View>
@@ -225,7 +286,6 @@ var styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: 'white',
-    marginTop: Platform.OS === 'ios' ? 55 : 0
   },
   innerContainer: {
     padding: 20,
@@ -246,19 +306,21 @@ var styles = StyleSheet.create({
   },
   row: {
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   name: {
     fontSize: 16,
-    flex: .5
+    flex: .5,
   },
   time: {
-    flex: .3
+    flex: .3,
   },
   toggle: {
-    flex: .2
+    marginBottom: 5,
+    marginRight: 5
   },
   serviceDurationInput: {
-    flex: .2
+    flex: .2,
+    marginLeft: 5
   }
 });

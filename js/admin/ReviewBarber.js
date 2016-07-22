@@ -104,6 +104,7 @@ class ReviewBarber extends Component {
             <Switch
               onValueChange={(value) => {this._toggleActive(barberID, value)}}
               disabled={this.props.form.isLoading}
+              onTintColor='#004575'
               value={barber.active} />
           </View>
           <View style={styles.separator} />

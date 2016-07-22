@@ -7,7 +7,6 @@ import {
   Image,
   ScrollView,
   TouchableNativeFeedback,
-  Switch,
   Alert
 } from 'react-native';
 

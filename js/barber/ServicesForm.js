@@ -138,6 +138,7 @@ class ServicesForm extends Component {
                     style={styles.serviceSwitch}
                     onValueChange={(value) => {this.toggleService(service.name, value)}}
                     disabled={isLoading}
+                    onTintColor='#004575'
                     value={service.selected} />
                   {price}
                 </View>
@@ -200,6 +201,7 @@ var styles = StyleSheet.create({
     flex: .3
   },
   serviceSwitch: {
-    flex: .2
+    marginBottom: 5,
+    marginRight: 5
   }
 });
