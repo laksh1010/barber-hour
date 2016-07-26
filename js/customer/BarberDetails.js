@@ -9,7 +9,8 @@ import {
   TouchableNativeFeedback,
   Switch,
   Alert,
-  ActivityIndicator
+  ActivityIndicator,
+  Platform
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -287,6 +288,6 @@ var styles = StyleSheet.create({
     margin: 3
   },
   toggle: {
-    marginBottom: 5,
+    marginBottom: Platform.OS === 'ios' ? 5 : 0,
   }
 });

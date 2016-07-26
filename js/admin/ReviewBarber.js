@@ -6,7 +6,8 @@ import {
   StatusBar,
   Image,
   ScrollView,
-  Switch
+  Switch,
+  Platform
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -205,6 +206,6 @@ var styles = StyleSheet.create({
     margin: 3
   },
   toggle: {
-    marginLeft: 5,
+    marginLeft: Platform.OS === 'ios' ? 5 : 0,
   }
 });

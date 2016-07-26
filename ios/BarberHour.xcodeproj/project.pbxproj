@@ -659,8 +659,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				5C0660791D3C0FDC007E87AF /* MaterialIcons.ttf in Resources */,
-				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				5CB9B07F1D413EA6006B651A /* BarberTools.ttf in Resources */,
+				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 
 const Touchable = (props) => {
-  const background;
+  var background;
   if (props.backgroundColor) {
     background = TouchableNativeFeedback.Ripple(props.backgroundColor);
   } else {

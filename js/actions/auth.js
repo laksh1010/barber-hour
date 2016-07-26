@@ -1,15 +1,18 @@
 import api from '../api';
 
-function loginWithFacebook(event) {
+function loginWithFacebook(data) {
   return (dispatch) => {
-    let {provider, profile} = event;
-    let {name, email, id} = profile;
+    fetch(`https://graph.facebook.com/me?fields=id,name,email&access_token=${data.credentials.token}`)
+      .then(response => response.json())
+      .then(data => {
+        let {name, email, id} = data;
 
-    dispatch({ type: 'REQUEST_LOGIN', data: { email: email } });
+        dispatch({ type: 'REQUEST_LOGIN', data: { email: email } });
 
-    api.post('/user/omniauth', { user: { email: email, uid: id, provider: provider, name: name } })
-      .then(response => dispatch({ type: 'LOGGED_IN', data: response.data }))
-      .catch(error => dispatch({ type: 'INVALID_LOGIN', status: error.status }));
+        api.post('/user/omniauth', { user: { email: email, uid: id, provider: 'facebook', name: name } })
+          .then(response => dispatch({ type: 'LOGGED_IN', data: response.data }))
+          .catch(error => dispatch({ type: 'INVALID_LOGIN', status: error.status }));
+      });
   }
 }
 

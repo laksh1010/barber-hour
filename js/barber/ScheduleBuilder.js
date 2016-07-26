@@ -320,8 +320,8 @@ var styles = StyleSheet.create({
     flex: .3,
   },
   toggle: {
-    marginBottom: 5,
-    marginRight: 5
+    marginBottom: Platform.OS === 'ios' ? 5 : 0,
+    marginRight: Platform.OS === 'ios' ? 5 : 0
   },
   serviceDurationInput: {
     flex: .2,

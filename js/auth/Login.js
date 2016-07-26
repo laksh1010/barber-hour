@@ -63,10 +63,7 @@ class Login extends Component {
     if (!this.props.form.isLoading) {
       FBLoginManager.loginWithPermissions(['email', 'public_profile'], (error, data) => {
         if (!error) {
-          console.log('Login data: ', data);
           this.props.dispatch(loginWithFacebook(data));
-        } else {
-          console.log('Error: ', data);
         }
       });
     }
