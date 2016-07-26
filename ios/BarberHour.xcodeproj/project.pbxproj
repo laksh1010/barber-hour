@@ -785,6 +785,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.barberhour.Barber-Hour";
 				PRODUCT_NAME = "Barber Hour";
 				PROVISIONING_PROFILE = "";
 			};
@@ -812,6 +813,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.barberhour.Barber-Hour";
 				PRODUCT_NAME = "Barber Hour";
 				PROVISIONING_PROFILE = "";
 			};
