@@ -3,16 +3,17 @@ import {
   View,
   Text,
   StyleSheet,
-  TouchableNativeFeedback,
 } from 'react-native';
+
+import Touchable from './Touchable';
 
 const SmallButton = (props) => {
   return(
-    <TouchableNativeFeedback background={TouchableNativeFeedback.SelectableBackground()} onPress={props.onPress}>
-      <View style={[styles.containerStyle, props.containerStyle]}>
+    <Touchable style={[styles.containerStyle, props.containerStyle]} onPress={props.onPress}>
+      <View>
         <Text style={[styles.textStyle, props.textStyle]}>{props.text}</Text>
       </View>
-    </TouchableNativeFeedback>
+    </Touchable>
   );
 };
 

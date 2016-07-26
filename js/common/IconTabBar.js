@@ -3,11 +3,11 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableNativeFeedback,
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import BarberIcon from './BarberIcon';
+import Touchable from './Touchable';
 
 export default class IconTabBar extends React.Component {
   render() {
@@ -18,7 +18,7 @@ export default class IconTabBar extends React.Component {
             const IconComponent = tab === 'event' ? Icon : BarberIcon;
             const color = this.props.activeTab == i ? 'rgb(59,89,152)' : 'rgb(204,204,204)';
             return(
-              <TouchableNativeFeedback key={tab} onPress={() => this.props.goToPage(i)} background={TouchableNativeFeedback.SelectableBackground()}>
+              <Touchable style={styles.tab} key={tab} onPress={() => this.props.goToPage(i)}>
                 <View style={styles.tab}>
                   <IconComponent
                     name={tab}
@@ -26,7 +26,7 @@ export default class IconTabBar extends React.Component {
                     color={color}/>
                   <Text style={[styles.title, {color: color}]}>{this.props.titles[i]}</Text>
                 </View>
-              </TouchableNativeFeedback>
+              </Touchable>
             )
           })}
         </View>

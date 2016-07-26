@@ -4,6 +4,7 @@ import {
   Text,
   StyleSheet,
   StatusBar,
+  Platform
 } from 'react-native';
 
 import Logo from '../common/Logo';
@@ -13,7 +14,8 @@ import Login from './Login';
 export default class ResetPasswordSent extends Component {
   _openLogin() {
     this.props.navigator.replace({
-      component: Login
+      component: Login,
+      title: 'Barber Hour'
     });
   }
 
@@ -37,6 +39,7 @@ var styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: 'white',
+    marginTop: Platform.OS === 'ios' ? 55 : 0
   },
   innerContainer: {
     padding: 20,

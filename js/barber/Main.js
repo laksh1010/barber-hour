@@ -4,7 +4,8 @@ import {
   Text,
   StyleSheet,
   StatusBar,
-  ScrollView
+  ScrollView,
+  Platform
 } from 'react-native';
 
 import ScrollableTabView from 'react-native-scrollable-tab-view';
@@ -22,8 +23,11 @@ export default class Main extends Component {
       <View style={styles.container}>
         <StatusBar backgroundColor='#C5C5C5'/>
         <Toolbar border navigator={this.props.navigator} />
-        <ScrollableTabView tabBarPosition='bottom'
-          renderTabBar={() => <IconTabBar titles={['Agenda', 'Histórico de cortes', 'Minha conta']} />}>
+        <ScrollableTabView
+          scrollWithoutAnimation={true}
+          locked={true}
+          tabBarPosition='bottom'
+          renderTabBar={() => <IconTabBar titles={['Agenda', 'Cortes', 'Conta']} />}>
           <View tabLabel='event' style={[styles.tabView, styles.tabViewWithoutPadding]}>
             <HaircutSchedule navigator={this.props.navigator} />
           </View>
@@ -44,6 +48,7 @@ var styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
+    marginTop: Platform.OS === 'ios' ? 60 : 0
   },
   tabView: {
     flex: 1,

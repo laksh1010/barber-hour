@@ -8,11 +8,12 @@ import {
   TextInput,
   TouchableOpacity,
   StatusBar,
-  Linking
+  Linking,
+  Platform
 } from 'react-native';
 
 import { connect } from 'react-redux';
-import {FBLogin, FBLoginManager} from 'react-native-facebook-login';
+import {FBLoginManager} from 'react-native-facebook-login';
 import t from 'tcomb-form-native';
 const Form = t.form.Form;
 
@@ -36,7 +37,8 @@ class Login extends Component {
   _openForgotPassowrd() {
     if (!this.props.form.isLoading) {
       this.props.navigator.push({
-        component: ForgotPassword
+        component: ForgotPassword,
+        title: 'Redefinir senha'
       });
     }
   }
@@ -44,6 +46,7 @@ class Login extends Component {
   _openSignup() {
     this.props.navigator.replace({
       component: Signup,
+      title: 'Barber Hour',
       passProps: { skipDeepLinking: this.props.skipDeepLinking }
     });
   }
@@ -56,9 +59,13 @@ class Login extends Component {
     }
   }
 
-  _onFacebookLogin(event) {
+  _onFacebookLogin() {
     if (!this.props.form.isLoading) {
-      this.props.dispatch(loginWithFacebook(event));
+      FBLoginManager.loginWithPermissions(['email', 'public_profile'], (error, data) => {
+        if (!error) {
+          this.props.dispatch(loginWithFacebook(data));
+        }
+      });
     }
   }
 
@@ -79,7 +86,8 @@ class Login extends Component {
       if (param === 'token' && value) {
         this.props.navigator.resetTo({
           component: NewPasswordForm,
-          passProps: { token: value }
+          passProps: { token: value },
+          title: 'Nova senha'
         });
       }
     }
@@ -95,7 +103,7 @@ class Login extends Component {
         component = CustomerMain;
       }
 
-      this.props.navigator.replace({component});
+      this.props.navigator.replace({component: component, title: 'Barber Hour'});
     }
   }
 
@@ -134,16 +142,12 @@ class Login extends Component {
             </TouchableOpacity>
           </View>
           <TextSeparator style={styles.separatorContainer} />
-          <FBLogin
-            buttonView={
-              <FacebookButton
-                style={styles.facebookButton}
-                text='Entrar com o Facebook'
-                disabled={this.props.form.isLoading}/>
-            }
-            loginBehavior={FBLoginManager.LoginBehaviors.Native}
-            permissions={['email']}
-            onLogin={this._onFacebookLogin.bind(this)} />
+          <Button
+            outline
+            containerStyle={styles.facebookButton}
+            text='Entrar com o Facebook'
+            disabled={this.props.form.isLoading}
+            onPress={this._onFacebookLogin.bind(this)} />
         </View>
         <View style={styles.signupContainer}>
           <LargeButton
@@ -173,7 +177,8 @@ var styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: 'white',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    marginTop: Platform.OS === 'ios' ? 60 : 0
   },
   logo: {
     width: 140,

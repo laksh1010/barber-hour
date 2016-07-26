@@ -5,7 +5,8 @@ import {
   StyleSheet,
   StatusBar,
   TextInput,
-  ActivityIndicator
+  ActivityIndicator,
+  Platform
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -42,9 +43,12 @@ class AddressForm extends Component {
       if (this.props.edit) {
         this.props.navigator.pop();
       } else {
-        this.props.navigator.resetTo({
-          component: ServicesForm
-        });
+        const route = {
+          component: ServicesForm,
+          title: 'Serviços'
+        };
+
+        Platform.OS === 'ios' ? this.props.navigator.replace(route) : this.props.navigator.resetTo(route);
       }
     }
   }
@@ -125,6 +129,7 @@ var styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: 'white',
+    marginTop: Platform.OS === 'ios' ? 55 : 0
   },
   innerContainer: {
     padding: 20,

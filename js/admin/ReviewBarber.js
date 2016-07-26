@@ -6,8 +6,8 @@ import {
   StatusBar,
   Image,
   ScrollView,
-  TouchableNativeFeedback,
-  Switch
+  Switch,
+  Platform
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -104,6 +104,8 @@ class ReviewBarber extends Component {
             <Switch
               onValueChange={(value) => {this._toggleActive(barberID, value)}}
               disabled={this.props.form.isLoading}
+              onTintColor='#004575'
+              style={styles.toggle}
               value={barber.active} />
           </View>
           <View style={styles.separator} />
@@ -202,5 +204,8 @@ var styles = StyleSheet.create({
     height: 8,
     borderRadius: 4,
     margin: 3
+  },
+  toggle: {
+    marginLeft: Platform.OS === 'ios' ? 5 : 0,
   }
 });

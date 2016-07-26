@@ -7,7 +7,8 @@ import {
   TouchableNativeFeedback,
   TextInput,
   TouchableOpacity,
-  StatusBar
+  StatusBar,
+  Platform
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -28,7 +29,8 @@ class SignupForm extends Component {
   _openLogin() {
     this.props.navigator.replace({
       component: Login,
-      passProps: { skipDeepLinking: this.props.skipDeepLinking }
+      passProps: { skipDeepLinking: this.props.skipDeepLinking },
+      title: 'Barber Hour'
     });
   }
 
@@ -43,7 +45,8 @@ class SignupForm extends Component {
   componentDidUpdate() {
     if (this.props.isLoggedIn) {
       this.props.navigator.replace({
-        component: AccountTypeSelector
+        component: AccountTypeSelector,
+        title: 'Tipo de conta'
       });
     }
   }
@@ -107,7 +110,8 @@ var styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: 'white',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    marginTop: Platform.OS === 'ios' ? 70 : 0
   },
   logo: {
     width: 140,

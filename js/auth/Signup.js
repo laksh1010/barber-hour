@@ -7,11 +7,12 @@ import {
   TouchableNativeFeedback,
   TextInput,
   TouchableOpacity,
-  StatusBar
+  StatusBar,
+  Platform
 } from 'react-native';
 
 import { connect } from 'react-redux';
-import {FBLogin, FBLoginManager} from 'react-native-facebook-login';
+import {FBLoginManager} from 'react-native-facebook-login';
 
 import Login from './Login';
 import FacebookButton from './FacebookButton';
@@ -38,20 +39,23 @@ class Signup extends Component {
 
   _openPrivacyPolicy() {
     this.props.navigator.push({
-      component: PrivacyPolicy
+      component: PrivacyPolicy,
+      title: 'Política de privacidade'
     });
   }
 
   _openServiceTerms() {
     this.props.navigator.push({
-      component: ServiceTerms
+      component: ServiceTerms,
+      title: 'Termos de uso'
     });
   }
 
   _openSignupForm() {
     this.props.navigator.replace({
       component: SignupForm,
-      passProps: { skipDeepLinking: this.props.skipDeepLinking }
+      passProps: { skipDeepLinking: this.props.skipDeepLinking },
+      title: 'Barber Hour'
     });
   }
 
@@ -65,8 +69,16 @@ class Signup extends Component {
         component = CustomerMain;
       }
 
-      this.props.navigator.replace({component});
+      this.props.navigator.replace({component: component, title: 'Barber Hour'});
     }
+  }
+
+  _onFacebookLogin() {
+    FBLoginManager.loginWithPermissions(['email', 'public_profile'], (error, data) => {
+      if (!error) {
+        this.props.dispatch(loginWithFacebook(data));
+      }
+    });
   }
 
   render() {
@@ -90,11 +102,10 @@ class Signup extends Component {
             </View>
           </View>
           <TextSeparator style={styles.separatorContainer} />
-          <FBLogin
-            buttonView={<FacebookButton text='Cadastrar-se com o Facebook'/>}
-            loginBehavior={FBLoginManager.LoginBehaviors.Native}
-            permissions={['email']}
-            onLogin={(event) => this.props.dispatch(loginWithFacebook(event))} />
+          <Button
+            outline
+            text='Cadastrar-se com o Facebook'
+            onPress={this._onFacebookLogin.bind(this)} />
         </View>
         <View style={styles.signupContainer}>
           <LargeButton text='Já possui uma conta? ' linkText='Entrar.' onPress={this._openLogin.bind(this)} />
@@ -118,7 +129,8 @@ var styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: 'white',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    marginTop: Platform.OS === 'ios' ? 70 : 0
   },
   formContainer: {
     paddingLeft: 20,

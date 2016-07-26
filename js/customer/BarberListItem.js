@@ -4,11 +4,11 @@ import {
   Text,
   StyleSheet,
   Image,
-  TouchableNativeFeedback,
 } from 'react-native';
 
 import BarberDetails from './BarberDetails';
 import BarberIcon from '../common/BarberIcon';
+import Touchable from '../common/Touchable';
 
 export default class BarberListItem extends Component {
   _openDetails() {
@@ -24,8 +24,8 @@ export default class BarberListItem extends Component {
     const {address, services, images} = barber;
 
     return (
-      <TouchableNativeFeedback onPress={this._openDetails.bind(this)}>
-        <View style={styles.card}>
+      <Touchable style={styles.card} onPress={this._openDetails.bind(this)}>
+        <View>
           <View style={styles.row}>
             <Image style={styles.thumb} source={{uri: images[0].url}}/>
             <View key={barber.id} style={styles.infoContainer}>
@@ -43,7 +43,7 @@ export default class BarberListItem extends Component {
             </View>
           </View>
         </View>
-      </TouchableNativeFeedback>
+      </Touchable>
     );
   }
 }
@@ -54,7 +54,10 @@ var styles = StyleSheet.create({
     backgroundColor: 'white',
     borderColor: '#E8E8E8',
     borderWidth: 1,
-    padding: 10,
+    paddingTop: 10,
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingBottom: 15,
     marginBottom: 10,
     borderRadius: 2,
     elevation: 2,
@@ -66,7 +69,7 @@ var styles = StyleSheet.create({
     borderRadius: 2
   },
   row: {
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   name: {
     fontWeight: 'bold',
@@ -89,6 +92,6 @@ var styles = StyleSheet.create({
   },
   serviceContainer: {
     flexDirection: 'row',
-    marginTop: 5
+    marginTop: 5,
   }
 });

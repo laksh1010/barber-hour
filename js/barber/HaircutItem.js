@@ -4,12 +4,12 @@ import {
   Text,
   StyleSheet,
   Image,
-  TouchableNativeFeedback,
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import HaircutDetails from './HaircutDetails';
+import Touchable from '../common/Touchable';
 
 export default class HaircutItem extends Component {
   _openDetails() {
@@ -35,8 +35,8 @@ export default class HaircutItem extends Component {
     const { schedule, customer } = appointment;
 
     return(
-      <TouchableNativeFeedback onPress={this._openDetails.bind(this)}>
-        <View style={styles.card}>
+      <Touchable style={styles.card} onPress={this._openDetails.bind(this)}>
+        <View>
           <View>
             <Text style={styles.date}>{schedule.day_number} de {schedule.month_name} às {schedule.hour}</Text>
             <Text style={styles.customer}>{customer.name}</Text>
@@ -46,7 +46,7 @@ export default class HaircutItem extends Component {
             </View>
           </View>
         </View>
-      </TouchableNativeFeedback>
+      </Touchable>
     );
   }
 }

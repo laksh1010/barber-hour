@@ -27,15 +27,9 @@
 		5C06605B1D3C0827007E87AF /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C0660581D3C0827007E87AF /* FBSDKShareKit.framework */; };
 		5C0660631D3C0EC6007E87AF /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C0660621D3C0EAE007E87AF /* libRNImagePicker.a */; };
 		5C06606A1D3C0F1C007E87AF /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C0660691D3C0F15007E87AF /* libRCTPushNotification.a */; };
-		5C0660741D3C0FDC007E87AF /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5C06606C1D3C0FDC007E87AF /* Entypo.ttf */; };
-		5C0660751D3C0FDC007E87AF /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5C06606D1D3C0FDC007E87AF /* EvilIcons.ttf */; };
-		5C0660761D3C0FDC007E87AF /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5C06606E1D3C0FDC007E87AF /* FontAwesome.ttf */; };
-		5C0660771D3C0FDC007E87AF /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5C06606F1D3C0FDC007E87AF /* Foundation.ttf */; };
-		5C0660781D3C0FDC007E87AF /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5C0660701D3C0FDC007E87AF /* Ionicons.ttf */; };
 		5C0660791D3C0FDC007E87AF /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5C0660711D3C0FDC007E87AF /* MaterialIcons.ttf */; };
-		5C06607A1D3C0FDC007E87AF /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5C0660721D3C0FDC007E87AF /* Octicons.ttf */; };
-		5C06607B1D3C0FDC007E87AF /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5C0660731D3C0FDC007E87AF /* Zocial.ttf */; };
 		5C0660821D3C1065007E87AF /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C0660811D3C1054007E87AF /* libRNVectorIcons.a */; };
+		5CB9B07F1D413EA6006B651A /* BarberTools.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5CB9B07E1D413EA6006B651A /* BarberTools.ttf */; };
 		702F4D9E8BEB47999AF19735 /* libRCTFBLogin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4668772E03094BD29E4924F4 /* libRCTFBLogin.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 /* End PBXBuildFile section */
@@ -160,7 +154,7 @@
 		00E356F21AD99517003FC87E /* BarberHourTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BarberHourTests.m; sourceTree = "<group>"; };
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
 		139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* BarberHour.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BarberHour.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07F961A680F5B00A75B9A /* Barber Hour.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Barber Hour.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = BarberHour/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = BarberHour/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -174,15 +168,9 @@
 		5C0660581D3C0827007E87AF /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = "../node_modules/react-native-facebook-login/FacebookSDK/FBSDKShareKit.framework"; sourceTree = "<group>"; };
 		5C06605D1D3C0EAE007E87AF /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
 		5C0660641D3C0F15007E87AF /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTPushNotification.xcodeproj; path = "../node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj"; sourceTree = "<group>"; };
-		5C06606C1D3C0FDC007E87AF /* Entypo.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Entypo.ttf; sourceTree = "<group>"; };
-		5C06606D1D3C0FDC007E87AF /* EvilIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = EvilIcons.ttf; sourceTree = "<group>"; };
-		5C06606E1D3C0FDC007E87AF /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.ttf; sourceTree = "<group>"; };
-		5C06606F1D3C0FDC007E87AF /* Foundation.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Foundation.ttf; sourceTree = "<group>"; };
-		5C0660701D3C0FDC007E87AF /* Ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Ionicons.ttf; sourceTree = "<group>"; };
 		5C0660711D3C0FDC007E87AF /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialIcons.ttf; sourceTree = "<group>"; };
-		5C0660721D3C0FDC007E87AF /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Octicons.ttf; sourceTree = "<group>"; };
-		5C0660731D3C0FDC007E87AF /* Zocial.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Zocial.ttf; sourceTree = "<group>"; };
 		5C06607C1D3C1054007E87AF /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
+		5CB9B07E1D413EA6006B651A /* BarberTools.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = BarberTools.ttf; path = ../../../android/app/src/main/assets/fonts/BarberTools.ttf; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		CD4A0ACCED954DDA8B70F9C3 /* RCTFBLogin.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTFBLogin.xcodeproj; path = "../node_modules/react-native-facebook-login/RCTFBLogin.xcodeproj"; sourceTree = "<group>"; };
@@ -346,14 +334,8 @@
 		5C06606B1D3C0FDC007E87AF /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				5C06606C1D3C0FDC007E87AF /* Entypo.ttf */,
-				5C06606D1D3C0FDC007E87AF /* EvilIcons.ttf */,
-				5C06606E1D3C0FDC007E87AF /* FontAwesome.ttf */,
-				5C06606F1D3C0FDC007E87AF /* Foundation.ttf */,
-				5C0660701D3C0FDC007E87AF /* Ionicons.ttf */,
+				5CB9B07E1D413EA6006B651A /* BarberTools.ttf */,
 				5C0660711D3C0FDC007E87AF /* MaterialIcons.ttf */,
-				5C0660721D3C0FDC007E87AF /* Octicons.ttf */,
-				5C0660731D3C0FDC007E87AF /* Zocial.ttf */,
 			);
 			name = Fonts;
 			path = "../node_modules/react-native-vector-icons/Fonts";
@@ -423,7 +405,7 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* BarberHour.app */,
+				13B07F961A680F5B00A75B9A /* Barber Hour.app */,
 				00E356EE1AD99517003FC87E /* BarberHourTests.xctest */,
 			);
 			name = Products;
@@ -465,7 +447,7 @@
 			);
 			name = BarberHour;
 			productName = "Hello World";
-			productReference = 13B07F961A680F5B00A75B9A /* BarberHour.app */;
+			productReference = 13B07F961A680F5B00A75B9A /* Barber Hour.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -480,6 +462,9 @@
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
+					};
+					13B07F861A680F5B00A75B9A = {
+						DevelopmentTeam = AQ9QYX2WAY;
 					};
 				};
 			};
@@ -674,14 +659,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				5C0660791D3C0FDC007E87AF /* MaterialIcons.ttf in Resources */,
-				5C06607A1D3C0FDC007E87AF /* Octicons.ttf in Resources */,
-				5C06607B1D3C0FDC007E87AF /* Zocial.ttf in Resources */,
+				5CB9B07F1D413EA6006B651A /* BarberTools.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				5C0660761D3C0FDC007E87AF /* FontAwesome.ttf in Resources */,
-				5C0660751D3C0FDC007E87AF /* EvilIcons.ttf in Resources */,
-				5C0660781D3C0FDC007E87AF /* Ionicons.ttf in Resources */,
-				5C0660771D3C0FDC007E87AF /* Foundation.ttf in Resources */,
-				5C0660741D3C0FDC007E87AF /* Entypo.ttf in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -787,6 +766,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEAD_CODE_STRIPPING = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../node_modules/react-native-facebook-login/FacebookSDK";
 				HEADER_SEARCH_PATHS = (
@@ -804,7 +785,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_NAME = BarberHour;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.barberhour.Barber-Hour";
+				PRODUCT_NAME = "Barber Hour";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -812,6 +795,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../node_modules/react-native-facebook-login/FacebookSDK";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -828,7 +813,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_NAME = BarberHour;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.barberhour.Barber-Hour";
+				PRODUCT_NAME = "Barber Hour";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

@@ -4,6 +4,7 @@ import {
   Text,
   StyleSheet,
   StatusBar,
+  Platform
 } from 'react-native';
 
 import Logo from '../common/Logo';
@@ -13,7 +14,8 @@ import Main from './Main';
 export default class WaitReview extends Component {
   _openMain() {
     this.props.navigator.replace({
-      component: Main
+      component: Main,
+      title: 'Barber Hour'
     });
   }
 
@@ -37,6 +39,7 @@ var styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: 'white',
+    marginTop: Platform.OS === 'ios' ? 60 : 0
   },
   innerContainer: {
     padding: 20,

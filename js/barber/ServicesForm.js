@@ -6,7 +6,8 @@ import {
   StatusBar,
   TextInput,
   Switch,
-  ActivityIndicator
+  ActivityIndicator,
+  Platform
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -60,9 +61,12 @@ class ServicesForm extends Component {
       if (this.props.edit) {
         this.props.navigator.pop();
       } else {
-        this.props.navigator.resetTo({
-          component: ImageChooser
-        });
+        const route = {
+          component: ImageChooser,
+          title: 'Fotos'
+        };
+
+        Platform.OS === 'ios' ? this.props.navigator.replace(route) : this.props.navigator.resetTo(route);
       }
     }
   }
@@ -136,6 +140,7 @@ class ServicesForm extends Component {
                     style={styles.serviceSwitch}
                     onValueChange={(value) => {this.toggleService(service.name, value)}}
                     disabled={isLoading}
+                    onTintColor='#004575'
                     value={service.selected} />
                   {price}
                 </View>
@@ -167,6 +172,7 @@ var styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: 'white',
+    marginTop: Platform.OS === 'ios' ? 55 : 0
   },
   innerContainer: {
     padding: 20,
@@ -197,6 +203,7 @@ var styles = StyleSheet.create({
     flex: .3
   },
   serviceSwitch: {
-    flex: .2
+    marginBottom: Platform.OS === 'ios' ? 5 : 0,
+    marginRight: Platform.OS === 'ios' ? 5 : 0
   }
 });

@@ -3,8 +3,9 @@ import {
   View,
   Text,
   StyleSheet,
-  TouchableNativeFeedback,
 } from 'react-native';
+
+import Touchable from './Touchable';
 
 const LargeButton = (props) => {
   const opacity = props.disabled ? { opacity: .6 } : { opacity: 1 };
@@ -12,11 +13,11 @@ const LargeButton = (props) => {
 
   return(
     <View style={styles.container}>
-      <TouchableNativeFeedback background={TouchableNativeFeedback.SelectableBackground()} onPress={onPress}>
+      <Touchable style={[styles.button, opacity]} onPress={onPress}>
         <View style={[styles.button, opacity]}>
           <Text>{props.text}</Text><Text style={styles.link}>{props.linkText}</Text>
         </View>
-      </TouchableNativeFeedback>
+      </Touchable>
     </View>
   );
 };

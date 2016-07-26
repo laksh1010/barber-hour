@@ -9,7 +9,8 @@ import {
   TouchableNativeFeedback,
   Switch,
   Alert,
-  ActivityIndicator
+  ActivityIndicator,
+  Platform
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -53,8 +54,13 @@ class BarberDetails extends Component {
     const barber = this.props.barbers.barbers.find(barber => barber.id === barberID);
     const {days} = this.props.schedules;
     const selectedDay = days.find(day => day.selected);
-    const selectedServices = barber.services.filter(service => service.selected);
-    const selectedSchedule = selectedDay.schedules.find(schedule => schedule.selected);
+    var selectedServices = [];
+    var selectedSchedule;
+
+    if (selectedDay) {
+      selectedServices = barber.services.filter(service => service.selected);
+      selectedSchedule = selectedDay.schedules.find(schedule => schedule.selected);
+    }
 
     if (selectedServices.length && selectedSchedule) {
       Alert.alert(
@@ -175,6 +181,8 @@ class BarberDetails extends Component {
                   <Switch
                     onValueChange={(value) => {this._toggleService(service.id, value)}}
                     disabled={this.props.appointment.isLoading}
+                    onTintColor='#004575'
+                    style={styles.toggle}
                     value={service.selected} />
                 </View>
               )
@@ -278,5 +286,8 @@ var styles = StyleSheet.create({
     height: 8,
     borderRadius: 4,
     margin: 3
+  },
+  toggle: {
+    marginBottom: Platform.OS === 'ios' ? 5 : 0,
   }
 });

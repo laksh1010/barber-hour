@@ -13,7 +13,7 @@
     "react-native-facebook-login": "^1.2.0",
     "react-native-image-picker": "^0.18.17",
     "react-native-push-notification": "^2.0.0",
-    "react-native-scrollable-tab-view": "^0.4.2",
+    "react-native-scrollable-tab-view": "^0.5.3",
     "react-native-swiper": "^1.4.6",
     "react-native-uuid": "^1.4.8",
     "react-native-vector-icons": "^2.0.2",

@@ -72,8 +72,10 @@ class HaircutSchedule extends Component {
     var refreshControl = <RefreshControl refreshing={isLoading} onRefresh={this._onRefresh.bind(this)} />
     var content;
 
-    if (isLoading || days.length === 0) {
+    if (isLoading) {
       content = <ActivityIndicator />;
+    } else if (days.length === 0) {
+      content = <ScrollView refreshControl={refreshControl}><Text>Você não possui uma agenda.</Text></ScrollView>;
     } else {
       content =
         <ScrollView refreshControl={refreshControl}>

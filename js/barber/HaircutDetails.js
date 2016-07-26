@@ -7,8 +7,8 @@ import {
   Image,
   ScrollView,
   TouchableNativeFeedback,
-  Switch,
-  Alert
+  Alert,
+  Platform
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -119,6 +119,7 @@ var styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: 'white',
+    marginTop: Platform.OS === 'ios' ? 60 : 0
   },
   innerContainer: {
     paddingTop: 10,

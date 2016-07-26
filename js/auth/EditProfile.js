@@ -4,7 +4,8 @@ import {
   Text,
   StyleSheet,
   StatusBar,
-  TextInput
+  TextInput,
+  Platform
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -76,6 +77,7 @@ var styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: 'white',
+    marginTop: Platform.OS === 'ios' ? 60 : 0
   },
   innerContainer: {
     padding: 20,

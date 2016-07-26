@@ -4,6 +4,7 @@ import {
   Text,
   StyleSheet,
   StatusBar,
+  Platform
 } from 'react-native';
 
 import Logo from '../common/Logo';
@@ -37,6 +38,7 @@ var styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: 'white',
+    marginTop: Platform.OS === 'ios' ? 70 : 0
   },
   innerContainer: {
     padding: 20,
