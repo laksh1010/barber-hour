@@ -181,7 +181,7 @@ var styles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: 'white',
     justifyContent: 'space-between',
-    marginTop: Platform.OS === 'ios' ? 70 : 0
+    marginTop: Platform.OS === 'ios' ? 60 : 0
   },
   logo: {
     width: 140,

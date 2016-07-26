@@ -26,7 +26,9 @@ const SelectableImageButton = (props) => {
     <Touchable style={[containerStyle, styles.container, props.containerStyle]} onPress={onPress}>
       <View style={[containerStyle, styles.container, props.containerStyle]}>
         <Text style={[textStyle, styles.text, props.textStyle]}>{props.title}</Text>
-        <Text style={[textStyle, styles.text, props.textStyle]}>{props.text}</Text>
+        {props.text ? (
+          <Text style={[textStyle, styles.text, props.textStyle]}>{props.text}</Text>
+        ) : null}
       </View>
     </Touchable>
   );

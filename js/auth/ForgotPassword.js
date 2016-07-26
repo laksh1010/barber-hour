@@ -4,7 +4,8 @@ import {
   Text,
   StyleSheet,
   StatusBar,
-  TextInput
+  TextInput,
+  Platform
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -30,7 +31,8 @@ class ForgotPassword extends Component {
   componentDidUpdate() {
     if (this.props.form.success) {
       this.props.navigator.replace({
-        component: ResetPasswordSent
+        component: ResetPasswordSent,
+        title: 'Redefinir senha'
       });
     }
   }
@@ -81,6 +83,7 @@ var styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: 'white',
+    marginTop: Platform.OS === 'ios' ? 55 : 0
   },
   innerContainer: {
     padding: 20,
