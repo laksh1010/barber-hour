@@ -289,7 +289,6 @@ var styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: 'white',
-    marginTop: Platform.OS === 'ios' ? 55 : 0
   },
   innerContainer: {
     padding: 20,

@@ -156,6 +156,7 @@ class ImageChooser extends Component {
             {images.map((image) => {
               return(
                 <Touchable key={image.uid}
+                  style={styles.imageContainer}
                   onPress={() => {this._confirmImageDeletion(image.uid)}}>
                   <View style={styles.imageContainer}>
                     <Image
