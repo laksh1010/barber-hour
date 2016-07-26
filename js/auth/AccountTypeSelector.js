@@ -25,7 +25,8 @@ class AccountTypeSelector extends Component {
   _openNextStep() {
     if (this.props.accountType === 'Customer') {
       this.props.navigator.push({
-        component: PhoneForm
+        component: PhoneForm,
+        title: 'Confirmar número'
       });
     } else if (this.props.accountType === 'Barber') {
       this.props.navigator.push({

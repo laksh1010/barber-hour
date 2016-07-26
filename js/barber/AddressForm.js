@@ -43,10 +43,12 @@ class AddressForm extends Component {
       if (this.props.edit) {
         this.props.navigator.pop();
       } else {
-        this.props.navigator.resetTo({
+        const route = {
           component: ServicesForm,
           title: 'Serviços'
-        });
+        };
+
+        Platform.OS === 'ios' ? this.props.navigator.replace(route) : this.props.navigator.resetTo(route);
       }
     }
   }

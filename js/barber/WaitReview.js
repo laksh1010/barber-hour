@@ -14,7 +14,8 @@ import Main from './Main';
 export default class WaitReview extends Component {
   _openMain() {
     this.props.navigator.replace({
-      component: Main
+      component: Main,
+      title: 'Barber Hour'
     });
   }
 

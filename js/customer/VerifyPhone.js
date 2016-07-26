@@ -4,7 +4,8 @@ import {
   Text,
   StyleSheet,
   StatusBar,
-  TextInput
+  TextInput,
+  Platform
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -29,7 +30,8 @@ class VerifyPhone extends Component {
   componentDidUpdate() {
     if (this.props.form.success) {
       this.props.navigator.resetTo({
-        component: Main
+        component: Main,
+        title: 'Barber Hour'
       });
     }
   }
@@ -78,6 +80,7 @@ var styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: 'white',
+    marginTop: Platform.OS === 'ios' ? 55 : 0
   },
   innerContainer: {
     padding: 20,

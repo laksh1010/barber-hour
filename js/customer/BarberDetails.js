@@ -181,6 +181,7 @@ class BarberDetails extends Component {
                     onValueChange={(value) => {this._toggleService(service.id, value)}}
                     disabled={this.props.appointment.isLoading}
                     onTintColor='#004575'
+                    style={styles.toggle}
                     value={service.selected} />
                 </View>
               )
@@ -284,5 +285,8 @@ var styles = StyleSheet.create({
     height: 8,
     borderRadius: 4,
     margin: 3
+  },
+  toggle: {
+    marginBottom: 5,
   }
 });

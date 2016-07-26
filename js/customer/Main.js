@@ -23,8 +23,11 @@ export default class Main extends Component {
       <View style={styles.container}>
         <StatusBar backgroundColor='#C5C5C5'/>
         <Toolbar border navigator={this.props.navigator} />
-        <ScrollableTabView tabBarPosition='bottom'
-          renderTabBar={() => <IconTabBar titles={['Barbearias', 'Histórico de cortes', 'Minha conta']} />}>
+        <ScrollableTabView
+          scrollWithoutAnimation={true}
+          locked={true}
+          tabBarPosition='bottom'
+          renderTabBar={() => <IconTabBar titles={['Barbearias', 'Cortes', 'Conta']} />}>
           <View tabLabel='pole' style={[styles.tabView, styles.tabViewWithoutPadding]}>
             <BarberList navigator={this.props.navigator} />
           </View>

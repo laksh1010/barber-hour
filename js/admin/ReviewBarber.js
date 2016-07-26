@@ -104,6 +104,7 @@ class ReviewBarber extends Component {
               onValueChange={(value) => {this._toggleActive(barberID, value)}}
               disabled={this.props.form.isLoading}
               onTintColor='#004575'
+              style={styles.toggle}
               value={barber.active} />
           </View>
           <View style={styles.separator} />
@@ -202,5 +203,8 @@ var styles = StyleSheet.create({
     height: 8,
     borderRadius: 4,
     margin: 3
+  },
+  toggle: {
+    marginLeft: 5,
   }
 });

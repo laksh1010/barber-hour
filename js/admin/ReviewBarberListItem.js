@@ -11,9 +11,12 @@ import Touchable from '../common/Touchable';
 
 export default class ReviewBarberListItem extends Component {
   _openReviewBarber() {
+    var {name, id} = this.props.barber;
+
     this.props.navigator.push({
       component: ReviewBarber,
-      passProps: {barberID: this.props.barber.id}
+      passProps: {barberID: id},
+      title: name
     });
   }
 
