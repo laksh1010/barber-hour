@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
-import {
-  Navigator
-} from 'react-native';
 
 import { connect } from 'react-redux';
 
-import RouteMapper from './RouteMapper';
+import AppNavigator from './AppNavigator';
 import Login from './auth/Login';
 import BarberMain from './barber/Main';
 import CustomerMain from './customer/Main';
@@ -60,11 +57,7 @@ class BarberHourApp extends Component {
     }
 
     return (
-      <Navigator
-        initialRoute={{ component: component }}
-        configureScene={() => Navigator.SceneConfigs.FadeAndroid}
-        renderScene={RouteMapper}
-      />
+      <AppNavigator initialRoute={{ component: component, title: 'Barber Hour' }} />
     );
   }
 }
