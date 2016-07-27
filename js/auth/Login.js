@@ -70,15 +70,20 @@ class Login extends Component {
   }
 
   componentDidMount() {
-    var url = Linking.getInitialURL().then((url) => {
-      if (url && !this.props.skipDeepLinking) {
-        this._handleURL(url);
-      }
-    })
+    Linking.addEventListener('url', this._handleURL.bind(this));
+    Linking.getInitialURL().then(url => this._handleURL({url}));
   }
 
-  _handleURL(url) {
-    var [action, params] = url.split('/')[3].split('?');
+  componentWillUnmount() {
+    Linking.removeEventListener('url', this._handleURL.bind(this));
+  }
+
+  _handleURL({url}) {
+    if (!url || this.props.skipDeepLinking) {
+      return;
+    }
+
+    var [action, params] = url.split('/')[2].split('?');
 
     if (action === 'reset-password') {
       var [param, value] = params.split('=');

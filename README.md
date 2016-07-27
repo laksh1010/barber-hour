@@ -6,7 +6,7 @@ On-demand appointment management for barber shops
 ## TO DO:
 
 - [x] Replace default iOS launch screen
-- [x] Fixes Facebook login in iOS
-- [ ] Fixes deep linking in iOS
+- [x] Fix Facebook login in iOS
+- [x] Fix deep linking in iOS
 - [ ] Add push notifications in iOS
-- [ ] Refactor navigator
+- [x] Refactor navigator

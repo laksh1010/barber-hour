@@ -25,9 +25,10 @@ const initialState = {
 function password(state = initialState, action) {
   switch (action.type) {
     case 'INVALID_NEW_PASSWORD':
-      var {password, password_confirmation} = action.data;
+      var {password, password_confirmation, reset_password_token} = action.data;
       var passwordError = !!password ? password[0] : state.fields.password.error;
       var passwordConfirmationError = !!password_confirmation ? password_confirmation[0] : state.fields.password_confirmation.error;
+      var resetPasswordTokenError = !!reset_password_token ? reset_password_token[0] : passwordConfirmationError;
 
       return {
         ...state,
@@ -41,8 +42,8 @@ function password(state = initialState, action) {
           },
           password_confirmation: {
             ...state.fields.password_confirmation,
-            hasError: !!password_confirmation,
-            error: passwordConfirmationError,
+            hasError: !!password_confirmation || !!reset_password_token,
+            error: resetPasswordTokenError,
             editable: true
           }
         }

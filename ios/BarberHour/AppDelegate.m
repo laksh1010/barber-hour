@@ -16,6 +16,7 @@
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
 
 #import "RCTPushNotificationManager.h"
+#import "RCTLinkingManager.h"
 
 @implementation AppDelegate
 
@@ -48,10 +49,16 @@
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-  return [[FBSDKApplicationDelegate sharedInstance] application:application
-                                                        openURL:url
-                                              sourceApplication:sourceApplication
-                                                     annotation:annotation];
+  
+  if ([[url scheme]  isEqual: @"barber-hour"]) {
+    return [RCTLinkingManager application:application openURL:url
+                        sourceApplication:sourceApplication annotation:annotation];
+  } else {
+    return [[FBSDKApplicationDelegate sharedInstance] application:application
+                                                          openURL:url
+                                                sourceApplication:sourceApplication
+                                                       annotation:annotation];
+  }
 }
 
 // Required to register for notifications
