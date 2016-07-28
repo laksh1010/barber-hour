@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Platform } from 'react';
 
 import PushNotification from 'react-native-push-notification';
 import { connect } from 'react-redux';
@@ -63,6 +63,9 @@ class PushNotifications extends Component {
   }
 
   _openNotification(notification) {
+    if (Platform.OS === 'ios') {
+      PushNotification.setApplicationIconBadgeNumber(0);
+    }
   }
 
   render() {

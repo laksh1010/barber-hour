@@ -1,9 +1,12 @@
+import { Platform } from 'react-native';
+
 import { pubnubSubscribeKey } from './env';
-const apiHost = `http://pubsub.pubnub.com/v1/push/sub-key/${pubnubSubscribeKey}`;
+const apiHost = `https://pubsub.pubnub.com/v1/push/sub-key/${pubnubSubscribeKey}`;
 
 export default class Pubnub {
   static _sendRequest(deviceID, type, channel) {
-    fetch(`${apiHost}/devices/${deviceID}?type=gcm&${type}=${channel}`);
+    const pushType = Platform.OS === 'ios' ? 'apns' : 'gcm';
+    fetch(`${apiHost}/devices/${deviceID}?type=${pushType}&${type}=${channel}`);
   }
 
   static enablePushNotificationsOnChannel(channel, deviceID) {

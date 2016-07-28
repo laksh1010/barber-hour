@@ -462,6 +462,11 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = AQ9QYX2WAY;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -751,8 +756,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development IOS Push Services: com.barberhour";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: ltegon93@gmail.com (8JXK3JG58F)";
 				DEAD_CODE_STRIPPING = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../node_modules/react-native-facebook-login/FacebookSDK";
 				HEADER_SEARCH_PATHS = (
@@ -771,9 +776,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.barberhour.Barber-Hour";
+				PRODUCT_BUNDLE_IDENTIFIER = com.barberhour;
 				PRODUCT_NAME = "Barber Hour";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "181f6e85-f1d4-4a18-8172-ca1aea6a80ba";
 			};
 			name = Debug;
 		};
@@ -782,8 +787,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development IOS Push Services: com.barberhour";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: ltegon93@gmail.com (8JXK3JG58F)";
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../node_modules/react-native-facebook-login/FacebookSDK";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -801,9 +806,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.barberhour.Barber-Hour";
+				PRODUCT_BUNDLE_IDENTIFIER = com.barberhour;
 				PRODUCT_NAME = "Barber Hour";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "181f6e85-f1d4-4a18-8172-ca1aea6a80ba";
 			};
 			name = Release;
 		};
