@@ -8,5 +8,5 @@ On-demand appointment management for barber shops
 - [x] Replace default iOS launch screen
 - [x] Fix Facebook login in iOS
 - [x] Fix deep linking in iOS
-- [ ] Add push notifications in iOS
+- [x] Add push notifications in iOS
 - [x] Refactor navigator
