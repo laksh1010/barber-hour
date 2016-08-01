@@ -9,7 +9,8 @@ const initialState = {
       placeholder: 'número de celular',
       keyboardType: 'numeric',
       error: 'digite o número de celular',
-      stylesheet: formStyle
+      stylesheet: formStyle,
+      help: 'digite somente números, incluindo o DDD'
     }
   },
   phone: null

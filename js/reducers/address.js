@@ -11,7 +11,8 @@ const initialState = {
       placeholder: 'CEP',
       keyboardType: 'numeric',
       error: 'digite o CEP',
-      stylesheet: formStyle
+      stylesheet: formStyle,
+      help: 'digite somente números'
     },
     street: {
       placeholder: 'rua',
