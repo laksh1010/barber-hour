@@ -5,7 +5,8 @@ import {
   StyleSheet,
   StatusBar,
   TextInput,
-  Platform
+  Platform,
+  TouchableOpacity
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -15,8 +16,9 @@ const Form = t.form.Form;
 import Button from '../common/Button';
 import Main from '../customer/Main';
 import Toolbar from '../common/Toolbar';
+import formStyle from '../forms/style';
 
-import { verifyPhone } from '../actions/verifyPhone';
+import { startPhoneVerification, verifyPhone } from '../actions/verifyPhone';
 
 class VerifyPhone extends Component {
   _verifyPhone() {
@@ -27,12 +29,20 @@ class VerifyPhone extends Component {
     }
   }
 
+  _resendCode() {
+    if (!this.props.form.isResequestingCode) {
+      this.props.dispatch(startPhoneVerification({ phone: this.props.phone }));
+    }
+  }
+
   componentDidUpdate() {
     if (this.props.form.success) {
-      this.props.navigator.resetTo({
+      const route = {
         component: Main,
         title: 'Barber Hour'
-      });
+      };
+
+      Platform.OS === 'ios' ? this.props.navigator.replace(route) : this.props.navigator.resetTo(route);
     }
   }
 
@@ -45,6 +55,7 @@ class VerifyPhone extends Component {
   render() {
     const VerifyCode = t.struct({verification_code: t.String});
     const buttonLabel = this.props.form.isLoading ? 'Confirmando...' : 'Confimar cadastro';
+    const linkText = this.props.form.isResequestingCode ? ' Enviando...' : ' Enviar novamente';
 
     return(
       <View style={styles.container}>
@@ -59,8 +70,11 @@ class VerifyPhone extends Component {
           <Button
             containerStyle={styles.button}
             text={buttonLabel}
-            disabled={this.props.form.isLoading}
+            disabled={this.props.form.isLoading || this.props.form.isResequestingCode}
             onPress={this._verifyPhone.bind(this)} />
+          <TouchableOpacity style={styles.linkContainer} onPress={this._resendCode.bind(this)}>
+            <Text style={formStyle.helpBlock.normal}>Não recebeu o cógido?<Text style={styles.link}>{linkText}</Text></Text>
+          </TouchableOpacity>
         </View>
       </View>
     );
@@ -69,7 +83,8 @@ class VerifyPhone extends Component {
 
 function select(store) {
   return {
-    form: store.verifyPhone
+    form: store.verifyPhone,
+    phone: store.user.phone
   };
 }
 
@@ -97,6 +112,12 @@ var styles = StyleSheet.create({
     marginTop: 20
   },
   formContainer: {
+    marginTop: 10
+  },
+  link: {
+    fontWeight: 'bold'
+  },
+  linkContainer: {
     marginTop: 10
   }
 });

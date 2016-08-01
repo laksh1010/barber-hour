@@ -10,5 +10,5 @@ On-demand appointment management for barber shops
 - [x] Fix deep linking in iOS
 - [x] Add push notifications in iOS
 - [x] Refactor navigator
-- [ ] Add resend sms link in phone confirmation
-- [ ] Add help label in phone and zipcode inputs
+- [x] Add resend sms link in phone confirmation
+- [x] Add help label in phone and zipcode inputs

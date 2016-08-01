@@ -16,7 +16,7 @@ const initialState = {
   phone: null
 };
 
-function verifyPhone(state = initialState, action) {
+function startPhoneVerification(state = initialState, action) {
   switch (action.type) {
     case 'REQUEST_PHONE_VERIFICATION_ERROR':
       return {
@@ -45,7 +45,8 @@ function verifyPhone(state = initialState, action) {
       };
     case 'PHONE_VERIFICATION_SENT':
       return {
-        ...initialState,
+        ...state,
+        isLoading: false,
         success: true
       };
     default:
@@ -53,4 +54,4 @@ function verifyPhone(state = initialState, action) {
   }
 }
 
-module.exports = verifyPhone;
+module.exports = startPhoneVerification;

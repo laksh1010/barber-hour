@@ -7,7 +7,8 @@ const initialState = {
   token: null,
   type: null,
   admin: false,
-  signupStep: null
+  signupStep: null,
+  phone: null
 };
 
 function user(state = initialState, action) {
@@ -55,8 +56,10 @@ function user(state = initialState, action) {
         signupStep: (type === 'Barber' ? 'AddressForm' : 'PhoneForm')
       };
     case 'PHONE_VERIFICATION_SENT':
+      var {phone} = action.data;
       return {
         ...state,
+        phone,
         signupStep: 'VerifyPhone'
       };
     case 'PHONE_VERIFIED':

@@ -29,10 +29,12 @@ class PhoneForm extends Component {
 
   componentDidUpdate() {
     if (this.props.form.success) {
-      this.props.navigator.push({
+      const route = {
         component: VerifyPhone,
         title: 'Confirmar número'
-      });
+      };
+
+      Platform.OS === 'ios' ? this.props.navigator.replace(route) : this.props.navigator.resetTo(route);
     }
   }
 

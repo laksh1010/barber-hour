@@ -47,6 +47,16 @@ function verifyPhone(state = initialState, action) {
         ...initialState,
         success: true
       };
+    case 'REQUEST_START_PHONE_VERIFICATION':
+      return {
+        ...state,
+        isResequestingCode: true
+      };
+    case 'PHONE_VERIFICATION_SENT':
+      return {
+        ...state,
+        isResequestingCode: false
+      };
     default:
       return state;
   }
