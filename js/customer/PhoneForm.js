@@ -16,7 +16,7 @@ import Button from '../common/Button';
 import Toolbar from '../common/Toolbar';
 import VerifyPhone from './VerifyPhone';
 
-import { startPhoneVerification } from '../actions/verifyPhone';
+import { startPhoneVerification, setEditMode } from '../actions/verifyPhone';
 
 class PhoneForm extends Component {
   _sendConfirmation() {
@@ -24,6 +24,12 @@ class PhoneForm extends Component {
     // if are any validation errors, value will be null
     if (value !== null) {
       this.props.dispatch(startPhoneVerification(value));
+    }
+  }
+
+  componentDidMount() {
+    if (this.props.edit) {
+      this.props.dispatch(setEditMode());
     }
   }
 

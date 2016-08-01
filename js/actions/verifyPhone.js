@@ -20,4 +20,10 @@ function verifyPhone(data) {
   }
 }
 
-export {startPhoneVerification, verifyPhone};
+function setEditMode() {
+  return {
+    type: 'SET_PHONE_EDIT_MODE'
+  };
+}
+
+export {startPhoneVerification, verifyPhone, setEditMode};

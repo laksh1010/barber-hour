@@ -16,6 +16,7 @@ const Form = t.form.Form;
 import Button from '../common/Button';
 import Main from '../customer/Main';
 import Toolbar from '../common/Toolbar';
+import PhoneForm from './PhoneForm';
 import formStyle from '../forms/style';
 
 import { startPhoneVerification, verifyPhone } from '../actions/verifyPhone';
@@ -33,6 +34,16 @@ class VerifyPhone extends Component {
     if (!this.props.form.isResequestingCode) {
       this.props.dispatch(startPhoneVerification({ phone: this.props.phone }));
     }
+  }
+
+  _editNumber() {
+    const route = {
+      component: PhoneForm,
+      title: 'Confirmar número',
+      passProps: { edit: true }
+    };
+
+    Platform.OS === 'ios' ? this.props.navigator.replace(route) : this.props.navigator.resetTo(route);
   }
 
   componentDidUpdate() {
@@ -55,7 +66,7 @@ class VerifyPhone extends Component {
   render() {
     const VerifyCode = t.struct({verification_code: t.String});
     const buttonLabel = this.props.form.isLoading ? 'Confirmando...' : 'Confimar cadastro';
-    const linkText = this.props.form.isResequestingCode ? ' Enviando...' : ' Enviar novamente';
+    const linkText = this.props.form.isResequestingCode ? 'Enviando...' : 'Enviar novamente';
 
     return(
       <View style={styles.container}>
@@ -72,9 +83,16 @@ class VerifyPhone extends Component {
             text={buttonLabel}
             disabled={this.props.form.isLoading || this.props.form.isResequestingCode}
             onPress={this._verifyPhone.bind(this)} />
-          <TouchableOpacity style={styles.linkContainer} onPress={this._resendCode.bind(this)}>
-            <Text style={formStyle.helpBlock.normal}>Não recebeu o cógido?<Text style={styles.link}>{linkText}</Text></Text>
-          </TouchableOpacity>
+          <View style={styles.linkContainer}>
+            <Text style={formStyle.helpBlock.normal}>Não recebeu o cógido?</Text>
+            <TouchableOpacity onPress={this._resendCode.bind(this)}>
+              <Text style={[formStyle.helpBlock.normal, styles.link]}>{linkText}</Text>
+            </TouchableOpacity>
+            <Text style={formStyle.helpBlock.normal}>ou</Text>
+            <TouchableOpacity onPress={this._editNumber.bind(this)}>
+              <Text style={[formStyle.helpBlock.normal, styles.link]}>Alterar número de celular</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     );
@@ -118,6 +136,8 @@ var styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   linkContainer: {
-    marginTop: 10
+    marginTop: 10,
+    flexDirection: 'row',
+    flexWrap: 'wrap'
   }
 });

@@ -49,6 +49,11 @@ function startPhoneVerification(state = initialState, action) {
         isLoading: false,
         success: true
       };
+    case 'SET_PHONE_EDIT_MODE':
+      return {
+        ...state,
+        success: false
+      };
     default:
       return state;
   }
