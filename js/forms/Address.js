@@ -7,11 +7,19 @@ function address(locals) {
       {locals.inputs.zipcode}
       {locals.inputs.street}
       <View style={styles.row}>
-        <View style={styles.districtInput}>
+        <View style={styles.largeInput}>
           {locals.inputs.district}
         </View>
-        <View style={styles.numberInput}>
+        <View style={styles.smallInput}>
           {locals.inputs.number}
+        </View>
+      </View>
+      <View style={styles.row}>
+        <View style={styles.largeInput}>
+          {locals.inputs.city}
+        </View>
+        <View style={styles.smallInput}>
+          {locals.inputs.state}
         </View>
       </View>
     </View>
@@ -22,10 +30,10 @@ var styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
   },
-  numberInput: {
+  smallInput: {
     flex: .3
   },
-  districtInput: {
+  largeInput: {
     flex: .7
   }
 });

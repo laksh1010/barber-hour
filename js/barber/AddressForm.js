@@ -58,7 +58,9 @@ class AddressForm extends Component {
       zipcode: this.props.form.zipcode,
       street: this.props.form.street,
       district: this.props.form.district,
-      number: this.props.form.number
+      number: this.props.form.number,
+      city: this.props.form.city,
+      state: this.props.form.state
     };
   }
 
@@ -82,7 +84,9 @@ class AddressForm extends Component {
       zipcode: t.String,
       street: t.String,
       district: t.String,
-      number: t.Number
+      number: t.Number,
+      city: t.String,
+      state: t.String,
     });
 
     var formOptions = this.props.form;
