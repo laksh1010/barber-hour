@@ -51,6 +51,9 @@ function schedules(state = initialState, action) {
     case 'SCHEDULES_LOADED':
       var {schedules} = action.data;
 
+      firstEnabledSchedule = schedules.filter(schedule => !schedule.disabled)[0];
+      selectedDayNumber = firstEnabledSchedule ? firstEnabledSchedule.day_number : schedules[0].day_number;
+
       dayNumbers = schedules.map(schedule => schedule.day_number);
       uniqueDayNumbers = [];
       dayNumbers.map(dayNumber => {
@@ -71,7 +74,7 @@ function schedules(state = initialState, action) {
         return {
           number: dayNumber,
           schedules: daySchedules,
-          selected: uniqueDayNumbers.indexOf(dayNumber) === 0
+          selected: dayNumber === selectedDayNumber
         };
       });
 
