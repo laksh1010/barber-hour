@@ -16,7 +16,7 @@ import { connect } from 'react-redux';
 import {FBLoginManager} from 'react-native-facebook-login';
 import t from 'tcomb-form-native';
 const Form = t.form.Form;
-import SmartScrollView from 'react-native-smart-scroll-view';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import { loginWithFacebook, login } from '../actions/auth';
 
@@ -132,7 +132,7 @@ class Login extends Component {
       <View style={styles.container}>
         <StatusBar backgroundColor='#C5C5C5'/>
         <Logo style={styles.logo} />
-        <SmartScrollView contentContainerStyle={styles.formContainer}>
+        <KeyboardAwareScrollView contentContainerStyle={styles.formContainer} viewIsInsideTabBar={true} enableAutoAutomaticScroll={true}>
           <View>
             <Form ref='form' type={Login} options={this.props.form} value={this.getFormValue()} />
             <Button
@@ -154,7 +154,7 @@ class Login extends Component {
             text='Entrar com o Facebook'
             disabled={this.props.form.isLoading}
             onPress={this._onFacebookLogin.bind(this)} />
-        </SmartScrollView>
+        </KeyboardAwareScrollView>
         <View style={styles.signupContainer}>
           <LargeButton
             text='Não tem uma conta? '
