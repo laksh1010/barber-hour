@@ -11,6 +11,7 @@
     "react": "^15.0.2",
     "react-native": "^0.29.0",
     "react-native-facebook-login": "^1.2.0",
+    "react-native-geocoder": "^0.4.4",
     "react-native-image-picker": "^0.18.17",
     "react-native-keyboard-aware-scroll-view": "^0.1.2",
     "react-native-push-notification": "^2.0.0",

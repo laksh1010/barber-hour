@@ -64,7 +64,7 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>Sua localização será utilizada para encontrar as barbearias mais próximas</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>BarberTools.ttf</string>

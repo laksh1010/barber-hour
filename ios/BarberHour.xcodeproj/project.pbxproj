@@ -29,6 +29,7 @@
 		5C0660791D3C0FDC007E87AF /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5C0660711D3C0FDC007E87AF /* MaterialIcons.ttf */; };
 		5C0660821D3C1065007E87AF /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C0660811D3C1054007E87AF /* libRNVectorIcons.a */; };
 		5CB9B07F1D413EA6006B651A /* BarberTools.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5CB9B07E1D413EA6006B651A /* BarberTools.ttf */; };
+		5CC7635E1D5D3E760047604A /* libRNGeocoder.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5CC7635B1D5D3E660047604A /* libRNGeocoder.a */; };
 		702F4D9E8BEB47999AF19735 /* libRCTFBLogin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4668772E03094BD29E4924F4 /* libRCTFBLogin.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 /* End PBXBuildFile section */
@@ -125,6 +126,13 @@
 			remoteGlobalIDString = 5DBEB1501B18CEA900B34395;
 			remoteInfo = RNVectorIcons;
 		};
+		5CC7635A1D5D3E660047604A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5CC7634A1D5D3E660047604A /* RNGeocoder.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BF8FCF941BFFB184000FCD37;
+			remoteInfo = RNGeocoder;
+		};
 		78C398B81ACF4ADC00677621 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */;
@@ -169,6 +177,7 @@
 		5C0660711D3C0FDC007E87AF /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialIcons.ttf; sourceTree = "<group>"; };
 		5C06607C1D3C1054007E87AF /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
 		5CB9B07E1D413EA6006B651A /* BarberTools.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = BarberTools.ttf; path = ../../../android/app/src/main/assets/fonts/BarberTools.ttf; sourceTree = "<group>"; };
+		5CC7634A1D5D3E660047604A /* RNGeocoder.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNGeocoder.xcodeproj; path = "../node_modules/react-native-geocoder/ios/RNGeocoder.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		CD4A0ACCED954DDA8B70F9C3 /* RCTFBLogin.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTFBLogin.xcodeproj; path = "../node_modules/react-native-facebook-login/RCTFBLogin.xcodeproj"; sourceTree = "<group>"; };
@@ -187,6 +196,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5CC7635E1D5D3E760047604A /* libRNGeocoder.a in Frameworks */,
 				5C0660821D3C1065007E87AF /* libRNVectorIcons.a in Frameworks */,
 				5C06606A1D3C0F1C007E87AF /* libRCTPushNotification.a in Frameworks */,
 				5C0660631D3C0EC6007E87AF /* libRNImagePicker.a in Frameworks */,
@@ -346,6 +356,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		5CC7634B1D5D3E660047604A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5CC7635B1D5D3E660047604A /* libRNGeocoder.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		78C398B11ACF4ADC00677621 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -357,6 +375,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				5CC7634A1D5D3E660047604A /* RNGeocoder.xcodeproj */,
 				5C06607C1D3C1054007E87AF /* RNVectorIcons.xcodeproj */,
 				5C0660641D3C0F15007E87AF /* RCTPushNotification.xcodeproj */,
 				5C06605D1D3C0EAE007E87AF /* RNImagePicker.xcodeproj */,
@@ -531,6 +550,10 @@
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 				},
 				{
+					ProductGroup = 5CC7634B1D5D3E660047604A /* Products */;
+					ProjectRef = 5CC7634A1D5D3E660047604A /* RNGeocoder.xcodeproj */;
+				},
+				{
 					ProductGroup = 5C06605E1D3C0EAE007E87AF /* Products */;
 					ProjectRef = 5C06605D1D3C0EAE007E87AF /* RNImagePicker.xcodeproj */;
 				},
@@ -630,6 +653,13 @@
 			fileType = archive.ar;
 			path = libRNVectorIcons.a;
 			remoteRef = 5C0660801D3C1054007E87AF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		5CC7635B1D5D3E660047604A /* libRNGeocoder.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNGeocoder.a;
+			remoteRef = 5CC7635A1D5D3E660047604A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		78C398B91ACF4ADC00677621 /* libRCTLinking.a */ = {
