@@ -8,7 +8,7 @@ import {
 
 import Touchable from './Touchable';
 
-const SelectableImageButton = (props) => {
+const SelectableButton = (props) => {
   let styleKey;
   if (props.disabled) {
     styleKey = 'disabled';
@@ -34,14 +34,14 @@ const SelectableImageButton = (props) => {
   );
 };
 
-export default SelectableImageButton;
+export default SelectableButton;
 
 var styles = StyleSheet.create({
   container: {
     borderRadius: 2,
     borderWidth: 1,
-    height: 60,
-    width: 80,
+    height: 70,
+    width: 90,
     margin: 5,
     padding: 10,
     alignItems: 'center',
