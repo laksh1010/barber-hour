@@ -8,7 +8,8 @@ const initialState = {
   type: null,
   admin: false,
   signupStep: null,
-  phone: null
+  phone: null,
+  city: null
 };
 
 function user(state = initialState, action) {
@@ -16,6 +17,7 @@ function user(state = initialState, action) {
     case 'LOGGED_IN':
       var {name, email, token, type, admin} = action.data.user;
       return {
+        ...state,
         isLoggedIn: true,
         isLoading: false,
         name,
@@ -87,6 +89,11 @@ function user(state = initialState, action) {
       return {
         ...state,
         error: true
+      };
+    case 'SELECT_CITY':
+      return {
+        ...state,
+        city: action.data.city
       };
     default:
       return state;
