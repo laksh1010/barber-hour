@@ -20,5 +20,6 @@ export default combineReducers({
   newPassword: require('./newPassword'),
   admin: require('./admin'),
   notification: require('./notification'),
-  cities: require('./cities')
+  cities: require('./cities'),
+  position: require('./position')
 });

@@ -91,6 +91,7 @@ function user(state = initialState, action) {
         error: true
       };
     case 'SELECT_CITY':
+    case 'CITY_FOUND':
       return {
         ...state,
         city: action.data.city
