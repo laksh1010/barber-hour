@@ -18,11 +18,9 @@ import Toolbar from '../common/Toolbar';
 import Touchable from '../common/Touchable';
 import formStyle from '../forms/style';
 
-import Geocoder from 'react-native-geocoder';
-
 CHARS_TO_SEARCH = 3;
 
-class SelectCity extends Component {
+class SearchCity extends Component {
   componentDidUpdate(prevProps) {
     var {isLoading, query} = this.props;
 
@@ -31,8 +29,8 @@ class SelectCity extends Component {
     }
   }
 
-  selectCity(cityId) {
-    this.props.dispatch(selectCity(cityId));
+  selectCity(city) {
+    this.props.dispatch(selectCity(city));
   }
 
   renderCity(rowData, sectionID, rowID) {
@@ -103,7 +101,7 @@ function select(store) {
   };
 }
 
-export default connect(select)(SelectCity);
+export default connect(select)(SearchCity);
 
 var styles = StyleSheet.create({
   scrollContainer: {
