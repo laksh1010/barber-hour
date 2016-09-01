@@ -17,6 +17,7 @@ import Button from '../common/Button';
 import Main from '../customer/Main';
 import Toolbar from '../common/Toolbar';
 import PhoneForm from './PhoneForm';
+import FindCityFromGPS from './FindCityFromGPS';
 import formStyle from '../forms/style';
 
 import { startPhoneVerification, verifyPhone } from '../actions/verifyPhone';
@@ -48,8 +49,9 @@ class VerifyPhone extends Component {
 
   componentDidUpdate() {
     if (this.props.form.success) {
+      var component = this.props.city ? Main : FindCityFromGPS;
       const route = {
-        component: Main,
+        component: component,
         title: 'Barber Hour'
       };
 
@@ -102,7 +104,8 @@ class VerifyPhone extends Component {
 function select(store) {
   return {
     form: store.verifyPhone,
-    phone: store.user.phone
+    phone: store.user.phone,
+    city: store.user.city
   };
 }
 

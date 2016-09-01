@@ -1,6 +1,6 @@
 import api from '../api';
 
-function listBarbers(data = {city_id: 1}) {
+function listBarbers(data) {
   return (dispatch, getState) => {
     dispatch({ type: 'REQUEST_BARBERS' });
 

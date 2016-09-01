@@ -33,6 +33,7 @@ import NewPasswordForm from './NewPasswordForm';
 import Email from '../forms/Email';
 import PushNotifications from '../PushNotifications';
 import AccountTypeSelector from './AccountTypeSelector';
+import FindCityFromGPS from '../customer/FindCityFromGPS';
 
 class Login extends Component {
   _openForgotPassowrd() {
@@ -106,7 +107,7 @@ class Login extends Component {
       if (this.props.type === 'Barber') {
         component = BarberMain;
       } else if (this.props.type === 'Customer') {
-        component = CustomerMain;
+        component = this.props.city ? CustomerMain : FindCityFromGPS;
       }
 
       this.props.navigator.replace({component: component, title: 'Barber Hour'});
@@ -172,7 +173,8 @@ function select(store) {
   return {
     form: store.login,
     isLoggedIn: store.user.isLoggedIn,
-    type: store.user.type
+    type: store.user.type,
+    city: store.user.city
   };
 }
 

@@ -10,6 +10,7 @@ import AccountTypeSelector from './auth/AccountTypeSelector';
 import AddressForm from './barber/AddressForm';
 import PhoneForm from './customer/PhoneForm';
 import VerifyPhone from './customer/VerifyPhone';
+import FindCityFromGPS from './customer/FindCityFromGPS';
 import ServicesForm from './barber/ServicesForm';
 import ImageChooser from './barber/ImageChooser';
 import ScheduleBuilder from './barber/ScheduleBuilder'
@@ -41,7 +42,7 @@ class BarberHourApp extends Component {
     if (this.props.type === 'Barber') {
       return BarberMain;
     } else if (this.props.type === 'Customer') {
-      return CustomerMain;
+      return this.props.city ? CustomerMain : FindCityFromGPS;
     }
   }
 
@@ -66,7 +67,8 @@ function select(store) {
   return {
     isLoggedIn: store.user.isLoggedIn,
     type: store.user.type,
-    signupStep: store.user.signupStep
+    signupStep: store.user.signupStep,
+    city: store.user.city
   };
 }
 

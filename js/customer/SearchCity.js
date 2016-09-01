@@ -67,25 +67,18 @@ class SearchCity extends Component {
     }
 
     return(
-      <ScrollView style={styles.scrollContainer}>
-        <View style={styles.container}>
-          <StatusBar backgroundColor='#C5C5C5'/>
-          <Toolbar backIcon navigator={this.props.navigator} />
-          <View style={styles.innerContainer}>
-            <Text style={styles.title}>Escolher cidade</Text>
-            <View style={styles.formContainer}>
-              <TextInput
-                style={formStyle.textbox.normal}
-                onChangeText={(text) => {this.onChangeText(text)}}
-                value={query}
-                placeholder='digite sua cidade'
-                autoCapitalize='none'
-                returnKeyType='search' />
-            </View>
-            <View style={styles.listContainer}>{content}</View>
-          </View>
+      <View>
+        <View style={styles.formContainer}>
+          <TextInput
+            style={formStyle.textbox.normal}
+            onChangeText={(text) => {this.onChangeText(text)}}
+            value={query}
+            placeholder='digite sua cidade'
+            autoCapitalize='none'
+            returnKeyType='search' />
         </View>
-      </ScrollView>
+        <View style={styles.listContainer}>{content}</View>
+      </View>
     );
   }
 }
@@ -104,17 +97,6 @@ function select(store) {
 export default connect(select)(SearchCity);
 
 var styles = StyleSheet.create({
-  scrollContainer: {
-    backgroundColor: 'white',
-  },
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    backgroundColor: 'white',
-  },
-  innerContainer: {
-    padding: 20,
-  },
   title: {
     fontSize: 24,
     textAlign: 'center'

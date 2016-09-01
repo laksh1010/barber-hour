@@ -5,7 +5,9 @@ import {
   ActivityIndicator,
   Text,
   StatusBar,
-  TouchableOpacity
+  TouchableOpacity,
+  Platform,
+  ScrollView
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -13,23 +15,28 @@ import { connect } from 'react-redux';
 import { getGeolocation } from '../actions/position';
 import Toolbar from '../common/Toolbar';
 import SearchCity from './SearchCity';
+import Main from './Main';
 
 class FindCityFromGPS extends Component {
   componentDidMount() {
-    if (!this.props.city) {
-      this.getGeolocation();
-    }
+    this.getGeolocation();
   }
 
   getGeolocation() {
     this.props.dispatch(getGeolocation());
   }
 
-  _openSearchCity() {
-    this.props.navigator.push({
-      component: SearchCity,
-      title: 'Escolher cidade'
-    });
+  componentDidUpdate() {
+    if (this.props.city) {
+      if (this.props.edit) {
+        this.props.navigator.pop();
+      } else {
+        this.props.navigator.replace({
+          component: Main,
+          title: 'Barber Hour'
+        });
+      }
+    }
   }
 
   render() {
@@ -47,9 +54,8 @@ class FindCityFromGPS extends Component {
       content = (
         <View style={styles.errorContainer}>
           <Text style={styles.info}>Não foi possível obter sua localização.</Text>
-          <TouchableOpacity onPress={this._openSearchCity.bind(this)}>
-            <Text style={styles.link}>Por favor, digite sua cidade.</Text>
-          </TouchableOpacity>
+          <Text style={styles.info}>Por favor, digite sua cidade.</Text>
+          <SearchCity />
         </View>
       );
     } else if (this.props.city) {
@@ -57,14 +63,16 @@ class FindCityFromGPS extends Component {
     }
 
     return(
-      <View style={styles.container}>
-        <StatusBar backgroundColor='#C5C5C5'/>
-        <Toolbar backIcon navigator={this.props.navigator} />
-        <View style={styles.innerContainer}>
-          <Text style={styles.title}>Escolher cidade</Text>
-          <View style={styles.formContainer}>{content}</View>
+      <ScrollView>
+        <View style={styles.container}>
+          <StatusBar backgroundColor='#C5C5C5'/>
+          <Toolbar backIcon navigator={this.props.navigator} />
+          <View style={styles.innerContainer}>
+            <Text style={styles.title}>Escolher cidade</Text>
+            <View style={styles.formContainer}>{content}</View>
+          </View>
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }
@@ -83,6 +91,7 @@ var styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: 'white',
+    marginTop: 10
   },
   innerContainer: {
     padding: 20,

@@ -7,18 +7,22 @@ import {
   ActivityIndicator,
   Text,
   RefreshControl,
-  ScrollView
+  ScrollView,
+  TouchableOpacity
 } from 'react-native';
 
 import { connect } from 'react-redux';
 
 import BarberListItem from './BarberListItem';
+import BarberIcon from '../common/BarberIcon';
+import FindCityFromGPS from './FindCityFromGPS';
 import { listBarbers } from '../actions/barbers';
 
 class BarberList extends Component {
   componentDidMount() {
     if (this.props.dataSource.getRowCount() === 0) {
-      this.props.dispatch(listBarbers());
+      var {city} = this.props;
+      this.props.dispatch(listBarbers({city_id: city.id}));
     }
   }
 
@@ -27,7 +31,16 @@ class BarberList extends Component {
   }
 
   _onRefresh() {
-    this.props.dispatch(listBarbers());
+    var {city} = this.props;
+    this.props.dispatch(listBarbers({city_id: city.id}));
+  }
+
+  _openFindCityFromGPS() {
+    this.props.navigator.push({
+      component: FindCityFromGPS,
+      title: 'Escolher cidade',
+      passProps: { edit: true }
+    });
   }
 
   render() {
@@ -37,7 +50,7 @@ class BarberList extends Component {
     if (this.props.isLoading) {
       content = <ActivityIndicator />;
     } else if (this.props.dataSource.getRowCount() === 0) {
-      content = <ScrollView refreshControl={refreshControl}><Text>Não há barbearias cadastradas.</Text></ScrollView>;
+      content = <ScrollView refreshControl={refreshControl}><Text>Não existem barbearias cadastradas.</Text></ScrollView>;
     } else {
       content =
         <ListView
@@ -49,6 +62,13 @@ class BarberList extends Component {
 
     return(
       <View style={styles.container}>
+        <View style={styles.infoContainer}>
+          <BarberIcon name='location' size={24} color='#003459' style={styles.icon} />
+          <Text style={styles.info}>{this.props.city.name} - {this.props.city.state.initials}</Text>
+          <TouchableOpacity onPress={this._openFindCityFromGPS.bind(this)}>
+            <Text style={styles.link}>Alterar</Text>
+          </TouchableOpacity>
+        </View>
         <View style={styles.listContainer}>{content}</View>
       </View>
     );
@@ -60,7 +80,8 @@ const dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1.id !=
 function select(store) {
   return {
     dataSource: dataSource.cloneWithRows(store.barbers.barbers),
-    isLoading: store.barbers.isLoading
+    isLoading: store.barbers.isLoading,
+    city: store.user.city
   };
 }
 
@@ -76,5 +97,23 @@ var styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
     paddingTop: 10
+  },
+  infoContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingTop: 10,
+    backgroundColor: '#F8F8F8',
+  },
+  icon: {
+    marginRight: 5,
+    marginLeft: 20
+  },
+  info: {
+    fontSize: 16,
+  },
+  link: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginLeft: 20
   },
 });

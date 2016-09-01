@@ -12,5 +12,7 @@ On-demand appointment management for barber shops
 - [x] Refactor navigator
 - [x] Add resend sms link in phone confirmation
 - [x] Add help label in phone and zipcode inputs
-- [ ] Try to get user's location with geocoding, picker with available cities as a fallback
+- [x] Try to get user's location with geocoding, picker with available cities as a fallback
 - [ ] Listen to silent notifications to update cached data
+- [ ] Fix login screen
+- [ ] Fix BarberDetails
