@@ -26,6 +26,13 @@ class BarberList extends Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    var {city} = this.props;
+    if (city.id !== prevProps.city.id) {
+      this.props.dispatch(listBarbers({city_id: city.id}));
+    }
+  }
+
   _renderRow(rowData, sectionID, rowID) {
     return(<BarberListItem key={rowID} navigator={this.props.navigator} barber={rowData} />);
   }

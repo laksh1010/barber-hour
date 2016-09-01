@@ -7,10 +7,8 @@ function getGeolocation(data) {
 
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        console.log('position', position)
         Geocoder.geocodePosition({ lat: position.coords.latitude, lng: position.coords.longitude })
           .then(res => {
-            console.log('res', res)
             var data = {city_state: res[0].adminArea, city_name: res[0].locality};
 
             api.get('/customer/city', { params: data, headers: { 'Authorization': `Token ${getState().user.token}` } })
@@ -19,7 +17,7 @@ function getGeolocation(data) {
           })
           .catch(err => dispatch({ type: 'REQUEST_FOUND_CITY_ERROR', data: err }));
       },
-      (error) => alert(error.message),
+      (error) => dispatch({ type: 'REQUEST_FOUND_CITY_ERROR', data: error }),
       {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
     );
   }
