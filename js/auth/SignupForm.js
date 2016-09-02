@@ -8,17 +8,15 @@ import {
   TextInput,
   TouchableOpacity,
   StatusBar,
-  Platform
+  Platform,
 } from 'react-native';
 
 import { connect } from 'react-redux';
 import {FBLogin, FBLoginManager} from 'react-native-facebook-login';
 import t from 'tcomb-form-native';
 const Form = t.form.Form;
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import Login from './Login';
-import Logo from '../common/Logo';
 import Button from '../common/Button';
 import LargeButton from '../common/LargeButton';
 import AccountTypeSelector from './AccountTypeSelector';
@@ -74,8 +72,8 @@ class SignupForm extends Component {
     return(
       <View style={styles.container}>
         <StatusBar backgroundColor='#C5C5C5'/>
-        <Logo style={styles.logo} />
-        <KeyboardAwareScrollView contentContainerStyle={styles.formContainer} viewIsInsideTabBar={true} enableAutoAutomaticScroll={true}>
+        <View style={styles.formContainer}>
+          <Image source={require('../../img/logo-inline.png')} style={styles.logo} />
           <View>
             <Form ref='form' type={Signup} options={this.props.form} value={this.getFormValue()} />
             <Button
@@ -84,7 +82,7 @@ class SignupForm extends Component {
               disabled={this.props.form.isLoading}
               onPress={this._signup.bind(this)} />
           </View>
-        </KeyboardAwareScrollView>
+        </View>
         <View style={styles.signupContainer}>
           <LargeButton
             text='Já possui uma conta? '
@@ -114,10 +112,6 @@ var styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginTop: Platform.OS === 'ios' ? 70 : 0
   },
-  logo: {
-    width: 140,
-    height: 140
-  },
   formContainer: {
     paddingLeft: 20,
     paddingRight: 20,
@@ -139,4 +133,8 @@ var styles = StyleSheet.create({
   signupContainer: {
     height: 55,
   },
+  logo: {
+    margin: 10,
+    alignSelf: 'center'
+  }
 });
