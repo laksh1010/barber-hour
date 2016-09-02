@@ -14,5 +14,5 @@ On-demand appointment management for barber shops
 - [x] Add help label in phone and zipcode inputs
 - [x] Try to get user's location with geocoding, picker with available cities as a fallback
 - [ ] Listen to silent notifications to update cached data
-- [ ] Fix login screen
+- [x] Fix login screen
 - [x] Fix BarberDetails
