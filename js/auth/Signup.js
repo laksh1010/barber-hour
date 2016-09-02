@@ -94,7 +94,7 @@ class Signup extends Component {
               <TouchableOpacity onPress={this._openServiceTerms.bind(this)}>
                 <Text style={styles.link}>Termos de uso</Text>
               </TouchableOpacity>
-              <Text> & com a </Text>
+              <Text> & a </Text>
               <TouchableOpacity onPress={this._openPrivacyPolicy.bind(this)}>
                 <Text style={styles.link}>política de privacidade</Text>
               </TouchableOpacity>
