@@ -18,7 +18,7 @@ function getGeolocation(data) {
           .catch(err => dispatch({ type: 'REQUEST_FOUND_CITY_ERROR', data: err }));
       },
       (error) => dispatch({ type: 'REQUEST_FOUND_CITY_ERROR', data: error }),
-      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+      {enableHighAccuracy: true, timeout: 5000, maximumAge: 1000}
     );
   }
 }

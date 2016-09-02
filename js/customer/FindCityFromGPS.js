@@ -63,10 +63,10 @@ class FindCityFromGPS extends Component {
     }
 
     return(
-      <ScrollView>
+      <ScrollView style={styles.scrollContainer}>
         <View style={styles.container}>
           <StatusBar backgroundColor='#C5C5C5'/>
-          <Toolbar backIcon navigator={this.props.navigator} />
+          <Toolbar backIcon={this.props.edit} navigator={this.props.navigator} />
           <View style={styles.innerContainer}>
             <Text style={styles.title}>Escolher cidade</Text>
             <View style={styles.formContainer}>{content}</View>
@@ -87,11 +87,14 @@ function select(store) {
 export default connect(select)(FindCityFromGPS);
 
 var styles = StyleSheet.create({
+  scrollContainer: {
+    backgroundColor: 'white',
+    flex: 1
+  },
   container: {
     flex: 1,
     flexDirection: 'column',
     backgroundColor: 'white',
-    marginTop: 10
   },
   innerContainer: {
     padding: 20,

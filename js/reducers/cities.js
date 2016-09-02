@@ -32,6 +32,12 @@ function cities(state = initialState, action) {
         ...state,
         query
       };
+    case 'SELECT_CITY':
+      var query = `${action.data.city.name} - ${action.data.city.state.initials}`;
+      return {
+        ...state,
+        query
+      };
     default:
       return state;
   }

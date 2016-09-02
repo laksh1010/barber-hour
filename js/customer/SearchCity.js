@@ -56,14 +56,13 @@ class SearchCity extends Component {
       content = <ActivityIndicator />;
     } else if (dataSource.getRowCount() === 0) {
       var text = query >= CHARS_TO_SEARCH ? '' : 'Nenhuma cidade foi encontrada.';
-      content = <Text>{query}</Text>;
+      content = <Text>{text}</Text>;
     } else {
       content =
         <ListView
           style={styles.list}
           dataSource={dataSource}
-          renderRow={this.renderCity.bind(this)}
-          renderScrollComponent={props => <RecyclerViewBackedScrollView {...props} />}/>;
+          renderRow={this.renderCity.bind(this)} />;
     }
 
     return(
