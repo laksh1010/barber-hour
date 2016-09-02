@@ -50,33 +50,36 @@ function schedules(state = initialState, action) {
       };
     case 'SCHEDULES_LOADED':
       var {schedules} = action.data;
+      var newDays = [];
 
-      firstEnabledSchedule = schedules.filter(schedule => !schedule.disabled)[0];
-      selectedDayNumber = firstEnabledSchedule ? firstEnabledSchedule.day_number : schedules[0].day_number;
+      if (schedules.length) {
+        firstEnabledSchedule = schedules.filter(schedule => !schedule.disabled)[0];
+        selectedDayNumber = firstEnabledSchedule ? firstEnabledSchedule.day_number : schedules[0].day_number;
 
-      dayNumbers = schedules.map(schedule => schedule.day_number);
-      uniqueDayNumbers = [];
-      dayNumbers.map(dayNumber => {
-        if (uniqueDayNumbers.indexOf(dayNumber) === -1) {
-          uniqueDayNumbers.push(dayNumber);
-        }
-      });
-
-      var newDays = uniqueDayNumbers.map(dayNumber => {
-        var daySchedules = schedules.reduce((memo, item) => {
-          if (item.day_number === dayNumber) {
-            memo.push(item);
+        dayNumbers = schedules.map(schedule => schedule.day_number);
+        uniqueDayNumbers = [];
+        dayNumbers.map(dayNumber => {
+          if (uniqueDayNumbers.indexOf(dayNumber) === -1) {
+            uniqueDayNumbers.push(dayNumber);
           }
+        });
 
-          return memo;
-        }, []);
+        newDays = uniqueDayNumbers.map(dayNumber => {
+          var daySchedules = schedules.reduce((memo, item) => {
+            if (item.day_number === dayNumber) {
+              memo.push(item);
+            }
 
-        return {
-          number: dayNumber,
-          schedules: daySchedules,
-          selected: dayNumber === selectedDayNumber
-        };
-      });
+            return memo;
+          }, []);
+
+          return {
+            number: dayNumber,
+            schedules: daySchedules,
+            selected: dayNumber === selectedDayNumber
+          };
+        });
+      }
 
       return {
         ...state,
