@@ -15,4 +15,4 @@ On-demand appointment management for barber shops
 - [x] Try to get user's location with geocoding, picker with available cities as a fallback
 - [ ] Listen to silent notifications to update cached data
 - [ ] Fix login screen
-- [ ] Fix BarberDetails
+- [x] Fix BarberDetails
