@@ -40,8 +40,8 @@ var styles = StyleSheet.create({
   container: {
     borderRadius: 2,
     borderWidth: 1,
-    height: 70,
-    width: 90,
+    height: 65,
+    width: 75,
     margin: 5,
     padding: 10,
     alignItems: 'center',
