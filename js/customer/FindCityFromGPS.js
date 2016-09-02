@@ -26,7 +26,11 @@ class FindCityFromGPS extends Component {
     this.props.dispatch(getGeolocation());
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
+    if (this.props.position.error !== prevProps.position.error) {
+      return;
+    }
+
     if (this.props.city) {
       if (this.props.edit) {
         this.props.navigator.pop();
@@ -95,6 +99,7 @@ var styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: 'white',
+    paddingTop: 10,
   },
   innerContainer: {
     padding: 20,

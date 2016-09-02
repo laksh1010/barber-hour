@@ -55,7 +55,7 @@ class SearchCity extends Component {
     if (isLoading) {
       content = <ActivityIndicator />;
     } else if (dataSource.getRowCount() === 0) {
-      var text = query >= CHARS_TO_SEARCH ? '' : 'Nenhuma cidade foi encontrada.';
+      var text = !query || query.length < CHARS_TO_SEARCH ? '' : 'Nenhuma cidade foi encontrada.';
       content = <Text>{text}</Text>;
     } else {
       content =

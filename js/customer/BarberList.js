@@ -108,6 +108,7 @@ var styles = StyleSheet.create({
   infoContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
     paddingTop: 10,
     backgroundColor: '#F8F8F8',
   },
