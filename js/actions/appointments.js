@@ -20,4 +20,14 @@ function cancelAppointment(userType, id) {
   }
 }
 
-export {listAppointments, cancelAppointment};
+function finishAppointment(id) {
+  return (dispatch, getState) => {
+    dispatch({ type: 'REQUEST_APPOINTMENT_FINISH' });
+
+    api.post(`/barber/appointments/${id}/finish`, {}, { headers: { 'Authorization': `Token ${getState().user.token}` } })
+      .then(response => dispatch({ type: 'APPOINTMENT_FINISHED', data: response.data }))
+      .catch(error => dispatch({ type: 'REQUEST_APPOINTMENT_FINISH_ERROR', data: error.data }));
+  }
+}
+
+export {listAppointments, cancelAppointment, finishAppointment};

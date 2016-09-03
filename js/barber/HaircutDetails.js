@@ -18,8 +18,9 @@ import Button from '../common/Button';
 import Toolbar from '../common/Toolbar';
 import BarberIcon from '../common/BarberIcon';
 import AppointmentCanceled from './AppointmentCanceled';
+import formStyle from '../forms/style';
 
-import { cancelAppointment } from '../actions/appointments';
+import { cancelAppointment, finishAppointment } from '../actions/appointments';
 
 class HaircutDetails extends Component {
   componentDidUpdate() {
@@ -34,12 +35,27 @@ class HaircutDetails extends Component {
     this.props.dispatch(cancelAppointment('barber', this.props.appointment.id));
   }
 
+  _finishSchedule() {
+    this.props.dispatch(finishAppointment(this.props.appointment.id));
+  }
+
   _confirmCancelSchedule() {
     Alert.alert(
       'Cancelar horário',
       'Tem certeza que deseja cancelar esse horário?',
       [
-        {text: 'Cancelar horário', onPress: () => {this._cancelSchedule()} },
+        {text: 'Sim, cancelar horário', onPress: () => {this._cancelSchedule()} },
+        {text: 'Voltar', style: 'cancel'},
+      ]
+    );
+  }
+
+  _confirmFinishSchedule() {
+    Alert.alert(
+      'Concluir horário',
+      'Tem certeza que deseja concluir esse horário?',
+      [
+        {text: 'Sim, concluir horário', onPress: () => {this._finishSchedule()} },
         {text: 'Voltar', style: 'cancel'},
       ]
     );
@@ -59,7 +75,12 @@ class HaircutDetails extends Component {
   render() {
     const { appointment, navigator } = this.props;
     const { schedule, customer, appointment_services } = appointment;
-    const buttonLabel = this.props.form.isLoading ? 'Cancelando...' : 'Cancelar';
+    const cancelButtonLabel = this.props.form.isLoading ? 'Cancelando...' : 'Cancelar';
+    const finishButtonLabel = this.props.form.isFinishing ? 'Concluindo...' : 'Concluir';
+    var errorMessage;
+    if (this.props.form.error) {
+      errorMessage = <Text style={formStyle.errorBlock}>{this.props.form.error}</Text>;
+    }
 
     return(
       <View style={styles.container}>
@@ -67,6 +88,10 @@ class HaircutDetails extends Component {
         <Toolbar backIcon border navigator={navigator} />
         <View style={styles.innerContainer}>
           <Text style={styles.title}>{customer.name}</Text>
+          <View style={styles.infoContainer}>
+            <Icon name='local-phone' size={24} color='#003459' style={styles.icon} />
+            <Text style={styles.info}>{customer.phone}</Text>
+          </View>
           <View style={styles.infoContainer}>
             <Text style={styles.info}>{schedule.day_number} de {schedule.month_name} às {schedule.hour}</Text>
           </View>
@@ -93,10 +118,17 @@ class HaircutDetails extends Component {
           <View>
             <View style={styles.separator} />
             <View style={styles.innerContainer}>
+              {errorMessage}
+              <Button
+                outline
+                containerStyle={styles.button}
+                disabled={this.props.form.isLoading || this.props.form.isFinishing}
+                text={finishButtonLabel}
+                onPress={this._confirmFinishSchedule.bind(this)} />
               <Button
                 containerStyle={styles.button}
-                disabled={this.props.form.isLoading}
-                text={buttonLabel}
+                disabled={this.props.form.isLoading || this.props.form.isFinishing}
+                text={cancelButtonLabel}
                 onPress={this._confirmCancelSchedule.bind(this)} />
             </View>
           </View>
