@@ -13,6 +13,7 @@ import {
   Modal,
   DatePickerIOS
 } from 'react-native';
+import dismissKeyboard from 'dismissKeyboard';
 
 import { connect } from 'react-redux';
 
@@ -27,7 +28,7 @@ import {
   changeScheduleTemplateTime,
   addError,
   getScheduleTemplates,
-  changeServiceDuration
+  changeAverageServiceTime
 } from '../actions/scheduleTemplates';
 
 class ScheduleBuilder extends Component {
@@ -53,30 +54,20 @@ class ScheduleBuilder extends Component {
           id: scheduleTemplate.id,
           weekday: scheduleTemplate.weekday,
           active: scheduleTemplate.active,
-          opens_at: this._formatValue(scheduleTemplate.opensAt.value),
-          closes_at: this._formatValue(scheduleTemplate.closesAt.value)
+          opens_at: scheduleTemplate.opensAt.value,
+          closes_at: scheduleTemplate.closesAt.value,
+          lunch_starts_at: scheduleTemplate.lunchStartsAt.value,
+          lunch_ends_at: scheduleTemplate.lunchEndsAt.value
         }
       });
-      var serviceDuration = this._formatValue(this.props.form.serviceDuration.value);
+      var averageServiceTime = this.props.form.averageServiceTime.value;
       var data = {
         schedule_templates_attributes: scheduleTemplates,
-        service_duration: serviceDuration
+        average_service_time: averageServiceTime
       };
-      this.props.dispatch(createScheduleTemplates(data));
+      this.props.dispatch(createScheduleTemplates(data, this.props.edit));
     } else {
       this.props.dispatch(addError());
-    }
-  }
-
-  _formatValue(value) {
-    if (value) {
-      return value.replace(':', '.');
-    }
-  }
-
-  _valueToTime(value) {
-    if (value) {
-      return value.replace('.', ':');
     }
   }
 
@@ -109,11 +100,13 @@ class ScheduleBuilder extends Component {
     this.props.dispatch(changeScheduleTemplateTime(weekday, field, time));
   }
 
-  changeServiceDuration(serviceDuration) {
-    this.props.dispatch(changeServiceDuration(serviceDuration));
+  changeAverageServiceTime(averageServiceTime) {
+    this.props.dispatch(changeAverageServiceTime(averageServiceTime));
   }
 
   showPicker(weekday, field) {
+    dismissKeyboard();
+
     if (Platform.OS === 'ios') {
       this.showIOSPicker(weekday, field);
     } else {
@@ -198,8 +191,10 @@ class ScheduleBuilder extends Component {
 
     var isLoading = this.props.form.isLoading || this.props.form.isRequestingInfo;
 
+    var marginTop = (!this.props.edit && Platform.OS === 'ios') ? 55 : 0;
+
     return(
-      <View style={styles.container}>
+      <View style={[styles.container, { marginTop }]}>
         <ScrollView>
           <StatusBar backgroundColor='#C5C5C5'/>
           {toolbarContent}
@@ -215,8 +210,7 @@ class ScheduleBuilder extends Component {
                     <TextInput
                       style={formStyle.textbox.normal}
                       placeholder='abre às'
-                      keyboardType='numeric'
-                      value={this._valueToTime(scheduleTemplate.opensAt.value)}
+                      value={scheduleTemplate.opensAt.value}
                       editable={!isLoading}
                       onFocus={() => {this.showPicker(scheduleTemplate.weekday, 'opensAt')}} />
                     {scheduleTemplate.opensAt.error ? (
@@ -224,9 +218,26 @@ class ScheduleBuilder extends Component {
                       ) : <View />}
                     <TextInput
                       style={formStyle.textbox.normal}
+                      placeholder='almoço às'
+                      value={scheduleTemplate.lunchStartsAt.value}
+                      editable={!isLoading}
+                      onFocus={() => {this.showPicker(scheduleTemplate.weekday, 'lunchStartsAt')}} />
+                    {scheduleTemplate.lunchStartsAt.error ? (
+                        <Text style={formStyle.errorBlock}>{scheduleTemplate.lunchStartsAt.error}</Text>
+                      ) : <View />}
+                    <TextInput
+                      style={formStyle.textbox.normal}
+                      placeholder='fim do almoço'
+                      value={scheduleTemplate.lunchEndsAt.value}
+                      editable={!isLoading}
+                      onFocus={() => {this.showPicker(scheduleTemplate.weekday, 'lunchEndsAt')}} />
+                    {scheduleTemplate.lunchEndsAt.error ? (
+                        <Text style={formStyle.errorBlock}>{scheduleTemplate.lunchEndsAt.error}</Text>
+                      ) : <View />}
+                    <TextInput
+                      style={formStyle.textbox.normal}
                       placeholder='fecha às'
-                      keyboardType='numeric'
-                      value={this._valueToTime(scheduleTemplate.closesAt.value)}
+                      value={scheduleTemplate.closesAt.value}
                       editable={!isLoading}
                       onFocus={() => {this.showPicker(scheduleTemplate.weekday, 'closesAt')}} />
                     {scheduleTemplate.closesAt.error ? (
@@ -236,7 +247,7 @@ class ScheduleBuilder extends Component {
                 ) : <View />;
 
                 return(
-                  <View key={scheduleTemplate.weekday} style={styles.row}>
+                  <View key={scheduleTemplate.weekday} style={[styles.row, styles.item]}>
                     <Text style={styles.name}>{scheduleTemplate.name}</Text>
                     <Switch
                       style={styles.toggle}
@@ -251,16 +262,15 @@ class ScheduleBuilder extends Component {
               <View style={styles.row}>
                 <Text style={styles.info}>Duração média de serviço:</Text>
                 <TextInput
-                  style={[formStyle.textbox.normal, styles.serviceDurationInput]}
+                  style={[formStyle.textbox.normal, styles.averageServiceTimeInput]}
                   placeholder='horas:minutos'
-                  onChangeText={(text) => {this.changeServiceDuration(text)}}
-                  value={this._valueToTime(this.props.form.serviceDuration.value)}
-                  editable={!isLoading}
-                  keyboardType='numeric'/>
+                  onChangeText={(text) => {this.changeAverageServiceTime(text)}}
+                  value={this.props.form.averageServiceTime.value}
+                  editable={!isLoading} />
               </View>
             </View>
-            {this.props.form.serviceDuration.error ? (
-                <Text style={[formStyle.errorBlock, {textAlign: 'right'}]}>{this.props.form.serviceDuration.error}</Text>
+            {this.props.form.averageServiceTime.error ? (
+                <Text style={[formStyle.errorBlock, {textAlign: 'right'}]}>{this.props.form.averageServiceTime.error}</Text>
               ) : <View />}
             <Text style={formStyle.helpBlock.normal}>Use o formato: horas:minutos</Text>
             {errorMessage}
@@ -288,7 +298,7 @@ var styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: 'white',
+    backgroundColor: 'white'
   },
   innerContainer: {
     padding: 20,
@@ -313,17 +323,22 @@ var styles = StyleSheet.create({
   },
   name: {
     fontSize: 16,
-    flex: .5,
+    flex: .4,
   },
   time: {
-    flex: .3,
+    flex: .4,
   },
   toggle: {
     marginBottom: Platform.OS === 'ios' ? 5 : 0,
     marginRight: Platform.OS === 'ios' ? 5 : 0
   },
-  serviceDurationInput: {
+  averageServiceTimeInput: {
     flex: .2,
     marginLeft: 5
+  },
+  item: {
+    borderColor: '#DCDCDC',
+    borderBottomWidth: 1,
+    marginBottom: 5
   }
 });

@@ -4,15 +4,15 @@ const initialState = {
   success: false,
   error: false,
   scheduleTemplates: [
-    {weekday: 'monday', name: 'Segunda', active: false, opensAt: {value: null, error: null}, closesAt: {value: null, error: null}},
-    {weekday: 'tuesday', name: 'Terça', active: false, opensAt: {value: null, error: null}, closesAt: {value: null, error: null}},
-    {weekday: 'wednesday', name: 'Quarta', active: false, opensAt: {value: null, error: null}, closesAt: {value: null, error: null}},
-    {weekday: 'thursday', name: 'Quinta', active: false, opensAt: {value: null, error: null}, closesAt: {value: null, error: null}},
-    {weekday: 'friday', name: 'Sexta', active: false, opensAt: {value: null, error: null}, closesAt: {value: null, error: null}},
-    {weekday: 'saturday', name: 'Sábado', active: false, opensAt: {value: null, error: null}, closesAt: {value: null, error: null}},
-    {weekday: 'sunday', name: 'Domingo', active: false, opensAt: {value: null, error: null}, closesAt: {value: null, error: null}}
+    {weekday: 'monday', name: 'Segunda', active: false, opensAt: {value: null, error: null}, closesAt: {value: null, error: null}, lunchStartsAt: {value: null, error: null}, lunchEndsAt: {value: null, error: null}},
+    {weekday: 'tuesday', name: 'Terça', active: false, opensAt: {value: null, error: null}, closesAt: {value: null, error: null}, lunchStartsAt: {value: null, error: null}, lunchEndsAt: {value: null, error: null}},
+    {weekday: 'wednesday', name: 'Quarta', active: false, opensAt: {value: null, error: null}, closesAt: {value: null, error: null}, lunchStartsAt: {value: null, error: null}, lunchEndsAt: {value: null, error: null}},
+    {weekday: 'thursday', name: 'Quinta', active: false, opensAt: {value: null, error: null}, closesAt: {value: null, error: null}, lunchStartsAt: {value: null, error: null}, lunchEndsAt: {value: null, error: null}},
+    {weekday: 'friday', name: 'Sexta', active: false, opensAt: {value: null, error: null}, closesAt: {value: null, error: null}, lunchStartsAt: {value: null, error: null}, lunchEndsAt: {value: null, error: null}},
+    {weekday: 'saturday', name: 'Sábado', active: false, opensAt: {value: null, error: null}, closesAt: {value: null, error: null}, lunchStartsAt: {value: null, error: null}, lunchEndsAt: {value: null, error: null}},
+    {weekday: 'sunday', name: 'Domingo', active: false, opensAt: {value: null, error: null}, closesAt: {value: null, error: null}, lunchStartsAt: {value: null, error: null}, lunchEndsAt: {value: null, error: null}}
   ],
-  serviceDuration: {value: '1:00', error: null}
+  averageServiceTime: {value: '01:00', error: null}
 };
 
 function scheduleTemplates(state = initialState, action) {
@@ -43,10 +43,10 @@ function scheduleTemplates(state = initialState, action) {
           ...state.scheduleTemplates.slice(index + 1)
         ]
       };
-    case 'CHANGE_SERVICE_DURATION':
+    case 'CHANGE_AVERAGE_SERVICE_TIME':
       return {
         ...state,
-        serviceDuration: { value: action.data.serviceDuration, error: null }
+        averageServiceTime: { value: action.data.averageServiceTime, error: null }
       };
     case 'ADD_SCHEDULE_TEMPLATES_ERROR':
       return {
@@ -54,15 +54,17 @@ function scheduleTemplates(state = initialState, action) {
         error: true
       };
     case 'INVALID_SCHEDULE_TEMPLATES':
-      var {schedule_templates, service_duration} = action.data;
-      var serviceDuration = !!service_duration ? { value: state.serviceDuration.value, error: service_duration[0] } : state.serviceDuration;
+      var {schedule_templates, average_service_time} = action.data;
+      var averageServiceTime = !!average_service_time ? { value: state.averageServiceTime.value, error: average_service_time[0] } : state.averageServiceTime;
 
       if (schedule_templates) {
         var scheduleTemplates = state.scheduleTemplates.map((scheduleTemplate, index) => {
           var error = schedule_templates[index];
           var opensAt = !!error && !!error.opens_at ? { value: scheduleTemplate.opensAt.value, error: error.opens_at[0] } : scheduleTemplate.opensAt;
           var closesAt = !!error && !!error.closes_at ? { value: scheduleTemplate.closesAt.value, error: error.closes_at[0] } : scheduleTemplate.closesAt;
-          return Object.assign(scheduleTemplate, { opensAt: opensAt, closesAt: closesAt });
+          var lunchStartsAt = !!error && !!error.lunch_starts_at ? { value: scheduleTemplate.lunchStartsAt.value, error: error.lunch_starts_at[0] } : scheduleTemplate.lunchStartsAt;
+          var lunchEndsAt = !!error && !!error.lunch_ends_at ? { value: scheduleTemplate.lunchEndsAt.value, error: error.lunch_ends_at[0] } : scheduleTemplate.lunchEndsAt;
+          return Object.assign(scheduleTemplate, { opensAt, closesAt, lunchStartsAt, lunchEndsAt });
         });
       }
 
@@ -71,7 +73,7 @@ function scheduleTemplates(state = initialState, action) {
         isLoading: false,
         success: false,
         scheduleTemplates: scheduleTemplates || state.scheduleTemplates,
-        serviceDuration: serviceDuration
+        averageServiceTime: averageServiceTime
       };
     case 'REQUEST_SCHEDULE_TEMPLATES':
       return {
@@ -97,14 +99,16 @@ function scheduleTemplates(state = initialState, action) {
         isRequestingInfo: true
       };
     case 'SCHEDULE_TEMPLATES_LOADED':
-      var {schedule_templates, service_duration} = action.data;
-      var serviceDuration = { value: service_duration, error: null };
+      var {schedule_templates, average_service_time} = action.data;
+      var averageServiceTime = { value: average_service_time, error: null };
       var scheduleTemplates = state.scheduleTemplates.map(scheduleTemplate => {
         var newScheduleTemplate = schedule_templates.find(s => s.weekday === scheduleTemplate.weekday);
         return Object.assign(scheduleTemplate, {
           id: newScheduleTemplate.id,
           opensAt: { value: newScheduleTemplate.opens_at, error: null },
           closesAt: { value: newScheduleTemplate.closes_at, error: null },
+          lunchStartsAt: { value: newScheduleTemplate.lunch_starts_at, error: null },
+          lunchEndsAt: { value: newScheduleTemplate.lunch_ends_at, error: null },
           active: newScheduleTemplate.active
         });
       });
@@ -112,7 +116,7 @@ function scheduleTemplates(state = initialState, action) {
         ...state,
         isRequestingInfo: false,
         scheduleTemplates: scheduleTemplates,
-        serviceDuration: serviceDuration
+        averageServiceTime: averageServiceTime
       };
     default:
       return state;

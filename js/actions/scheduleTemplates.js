@@ -1,10 +1,10 @@
 import api from '../api';
 
-function createScheduleTemplates(data) {
+function createScheduleTemplates(data, isUpdating) {
   return (dispatch, getState) => {
     dispatch({ type: 'REQUEST_SCHEDULE_TEMPLATES', data: data });
 
-    api.post('/barber/schedule_templates', { barber: data }, { headers: { 'Authorization': `Token ${getState().user.token}` } })
+    api.post('/barber/schedule_templates', { barber: data, is_updating: isUpdating }, { headers: { 'Authorization': `Token ${getState().user.token}` } })
       .then(response => dispatch({ type: 'SCHEDULE_TEMPLATES_CREATED', data: response.data }))
       .catch(error => dispatch({ type: 'INVALID_SCHEDULE_TEMPLATES', data: error.data }));
   }
@@ -31,11 +31,11 @@ function changeScheduleTemplateTime(weekday, field, time) {
   };
 }
 
-function changeServiceDuration(serviceDuration) {
+function changeAverageServiceTime(averageServiceTime) {
   return {
-    type: 'CHANGE_SERVICE_DURATION',
+    type: 'CHANGE_AVERAGE_SERVICE_TIME',
     data: {
-      serviceDuration
+      averageServiceTime
     }
   };
 }
@@ -60,7 +60,7 @@ export {
   createScheduleTemplates,
   toggleScheduleTemplate,
   changeScheduleTemplateTime,
-  changeServiceDuration,
+  changeAverageServiceTime,
   addError,
   getScheduleTemplates
 };
