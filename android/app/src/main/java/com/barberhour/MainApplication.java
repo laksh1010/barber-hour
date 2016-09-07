@@ -17,6 +17,7 @@ import com.magus.fblogin.FacebookLoginPackage;
 import com.imagepicker.ImagePickerPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
+import com.devfd.RNGeocoder.RNGeocoderPackage;
 
 public class MainApplication extends Application implements ReactApplication {
   private ReactNativePushNotificationPackage mReactNativePushNotificationPackage;
@@ -36,6 +37,7 @@ public class MainApplication extends Application implements ReactApplication {
           new FacebookLoginPackage(),
           new ImagePickerPackage(),
           new VectorIconsPackage(),
+          new RNGeocoderPackage(),
           mReactNativePushNotificationPackage
       );
     }
