@@ -17,6 +17,7 @@ import { connect } from 'react-redux';
 import Toolbar from '../common/Toolbar';
 import ReviewBarberListItem from './ReviewBarberListItem';
 import { listBarbers } from '../actions/admin';
+import EmptyResults from '../common/EmptyResults';
 
 class ReviewBarberList extends Component {
   componentDidMount() {
@@ -40,7 +41,8 @@ class ReviewBarberList extends Component {
     if (this.props.isLoading) {
       content = <ActivityIndicator />;
     } else if (this.props.dataSource.getRowCount() === 0) {
-      content = <ScrollView refreshControl={refreshControl}><Text>Não existem barbearias cadastradas.</Text></ScrollView>;
+      var message = 'Não existem barbearias cadastradas.';
+      content = <ScrollView refreshControl={refreshControl}><EmptyResults icon='shop' message={message} /></ScrollView>;
     } else {
       content =
         <ListView

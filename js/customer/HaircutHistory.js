@@ -14,6 +14,7 @@ import { connect } from 'react-redux';
 
 import HaircutHistoryItem from './HaircutHistoryItem';
 import { listAppointments } from '../actions/appointments';
+import EmptyResults from '../common/EmptyResults';
 
 class HaircutHistory extends Component {
   componentDidMount() {
@@ -37,7 +38,8 @@ class HaircutHistory extends Component {
     if (this.props.isLoading) {
       content = <ActivityIndicator />;
     } else if (this.props.dataSource.getRowCount() === 0) {
-      content = <ScrollView refreshControl={refreshControl}><Text>Você ainda não agendou nenhum corte.</Text></ScrollView>;
+      var message = 'Você ainda não agendou nenhum corte.';
+      content = <ScrollView refreshControl={refreshControl}><EmptyResults icon='scissor-4' message={message} /></ScrollView>;
     } else {
       content =
         <ListView

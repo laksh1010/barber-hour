@@ -17,6 +17,7 @@ import BarberListItem from './BarberListItem';
 import BarberIcon from '../common/BarberIcon';
 import FindCityFromGPS from './FindCityFromGPS';
 import { listBarbers } from '../actions/barbers';
+import EmptyResults from '../common/EmptyResults';
 
 class BarberList extends Component {
   componentDidMount() {
@@ -57,7 +58,8 @@ class BarberList extends Component {
     if (this.props.isLoading) {
       content = <ActivityIndicator />;
     } else if (this.props.dataSource.getRowCount() === 0) {
-      content = <ScrollView refreshControl={refreshControl}><Text>Não existem barbearias cadastradas.</Text></ScrollView>;
+      var message = 'Ainda não temos barbearias cadastradas em sua cidade.';
+      content = <ScrollView refreshControl={refreshControl}><EmptyResults icon='shop' message={message} /></ScrollView>;
     } else {
       content =
         <ListView

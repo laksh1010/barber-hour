@@ -14,6 +14,7 @@ import { connect } from 'react-redux';
 import SelectableButton from '../common/SelectableButton';
 import HaircutDetails from './HaircutDetails';
 import { listSchedules, selectDay, toggleActive } from '../actions/schedules';
+import EmptyResults from '../common/EmptyResults';
 
 class HaircutSchedule extends Component {
   componentDidMount() {
@@ -75,7 +76,8 @@ class HaircutSchedule extends Component {
     if (isLoading) {
       content = <ActivityIndicator />;
     } else if (days.length === 0) {
-      content = <ScrollView refreshControl={refreshControl}><Text>Você não possui uma agenda.</Text></ScrollView>;
+      var message = 'Você ainda não possui nenhum horário. Aguarde até que nossa equipe ative seu cadastro.';
+      content = <ScrollView refreshControl={refreshControl}><EmptyResults icon='razor-2' message={message} /></ScrollView>;
     } else {
       content =
         <ScrollView refreshControl={refreshControl}>
