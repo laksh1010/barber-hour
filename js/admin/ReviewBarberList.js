@@ -49,6 +49,7 @@ class ReviewBarberList extends Component {
           dataSource={this.props.dataSource}
           renderRow={this._renderRow.bind(this)}
           refreshControl={refreshControl}
+          automaticallyAdjustContentInsets={false}
           renderScrollComponent={props => <RecyclerViewBackedScrollView {...props} />}/>;
     }
 

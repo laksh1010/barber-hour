@@ -191,11 +191,9 @@ class ScheduleBuilder extends Component {
 
     var isLoading = this.props.form.isLoading || this.props.form.isRequestingInfo;
 
-    var marginTop = (!this.props.edit && Platform.OS === 'ios') ? 55 : 0;
-
     return(
-      <View style={[styles.container, { marginTop }]}>
-        <ScrollView>
+      <View style={styles.container}>
+        <ScrollView automaticallyAdjustContentInsets={false}>
           <StatusBar backgroundColor='#C5C5C5'/>
           {toolbarContent}
           {modalContent}
@@ -298,7 +296,8 @@ var styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    marginTop: Platform.OS === 'ios' ? 55 : 0
   },
   innerContainer: {
     padding: 20,

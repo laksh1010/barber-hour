@@ -66,10 +66,8 @@ class FindCityFromGPS extends Component {
       content = <Text style={styles.info}>Cidade encontrada: {this.props.city.name} - {this.props.city.state.initials}</Text>
     }
 
-    var marginTop = (!this.props.edit && Platform.OS === 'ios') ? 55 : 0;
-
     return(
-      <ScrollView style={[styles.scrollContainer, marginTop]}>
+      <ScrollView style={styles.scrollContainer} automaticallyAdjustContentInsets={false}>
         <View style={styles.container}>
           <StatusBar backgroundColor='#C5C5C5'/>
           <Toolbar backIcon={this.props.edit} navigator={this.props.navigator} />
@@ -95,7 +93,8 @@ export default connect(select)(FindCityFromGPS);
 var styles = StyleSheet.create({
   scrollContainer: {
     backgroundColor: 'white',
-    flex: 1
+    flex: 1,
+    marginTop: Platform.OS === 'ios' ? 55 : 0
   },
   container: {
     flex: 1,
