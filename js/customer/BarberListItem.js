@@ -29,8 +29,8 @@ export default class BarberListItem extends Component {
           <View style={styles.row}>
             <Image style={styles.thumb} source={{uri: images[0].url}}/>
             <View key={barber.id} style={styles.infoContainer}>
-              <Text style={styles.name}>{barber.name}</Text>
-              <Text style={styles.address}>{`${address.street}, ${address.number} - ${address.district}`}</Text>
+              <Text style={styles.name} numberOfLines={1}>{barber.name}</Text>
+              <Text style={styles.address} numberOfLines={2}>{`${address.street}, ${address.number} - ${address.district}`}</Text>
               {services.map(service => {
                 const icon = service.name === 'Corte de Cabelo' ? 'scissor-4' : 'razor';
                 return(
