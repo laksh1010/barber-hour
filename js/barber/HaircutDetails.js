@@ -120,12 +120,12 @@ class HaircutDetails extends Component {
             <View style={styles.innerContainer}>
               {errorMessage}
               <Button
-                outline
                 containerStyle={styles.button}
                 disabled={this.props.form.isLoading || this.props.form.isFinishing}
                 text={finishButtonLabel}
                 onPress={this._confirmFinishSchedule.bind(this)} />
               <Button
+                outline
                 containerStyle={styles.button}
                 disabled={this.props.form.isLoading || this.props.form.isFinishing}
                 text={cancelButtonLabel}
