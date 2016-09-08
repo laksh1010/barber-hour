@@ -9,7 +9,7 @@ function getGeolocation(data) {
       (position) => {
         Geocoder.geocodePosition({ lat: position.coords.latitude, lng: position.coords.longitude })
           .then(res => {
-            var data = {city_state: res[0].adminArea, city_name: res[0].locality};
+            var data = {city_state: res[0].adminArea.replace('State of ', ''), city_name: res[0].locality.replace('Birigüi', 'Birigui')};
 
             api.get('/customer/city', { params: data, headers: { 'Authorization': `Token ${getState().user.token}` } })
               .then(response => dispatch({ type: 'CITY_FOUND', data: response.data }))
