@@ -28,6 +28,15 @@ function appointments(state = initialState, action) {
         error: false,
         appointments: appointments
       };
+    case 'APPOINTMENT_CREATED':
+      var {appointment} = action.data;
+      return {
+        ...state,
+        isLoading: false,
+        error: false,
+        isFinishing: false,
+        appointments: [appointment].concat(state.appointments)
+      };
     case 'APPOINTMENT_CANCELED':
     case 'APPOINTMENT_FINISHED':
       var {appointment} = action.data;
