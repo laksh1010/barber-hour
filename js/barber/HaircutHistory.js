@@ -18,17 +18,19 @@ import EmptyResults from '../common/EmptyResults';
 
 class HaircutHistory extends Component {
   componentDidMount() {
-    if (this.props.dataSource.getRowCount() === 0) {
-      this.props.dispatch(listAppointments('barber'));
-    }
+    this._fetchData();
   }
 
   _renderRow(rowData, sectionID, rowID) {
     return(<HaircutItem key={rowID} navigator={this.props.navigator} appointment={rowData} />);
   }
 
-  _onRefresh() {
+  _fetchData() {
     this.props.dispatch(listAppointments('barber'));
+  }
+
+  _onRefresh() {
+    this._fetchData();
   }
 
   render() {

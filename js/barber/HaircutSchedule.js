@@ -18,11 +18,15 @@ import EmptyResults from '../common/EmptyResults';
 
 class HaircutSchedule extends Component {
   componentDidMount() {
+    this._fetchData();
+  }
+
+  _fetchData() {
     this.props.dispatch(listSchedules());
   }
 
   _onRefresh() {
-    this.props.dispatch(listSchedules());
+    this._fetchData();
   }
 
   _selectDay(index) {
@@ -62,7 +66,7 @@ class HaircutSchedule extends Component {
 
     this.props.navigator.push({
       component: HaircutDetails,
-      passProps: {appointment: appointment}
+      passProps: {appointment: appointment, appointmentId: schedule.scheduled_appointment_id}
     });
   }
 
