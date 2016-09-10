@@ -13,33 +13,48 @@ import {
 import { connect } from 'react-redux';
 
 import HaircutItem from './HaircutItem';
-import { listAppointments } from '../actions/appointments';
+import { listAppointments, refreshAppointments } from '../actions/appointments';
 import EmptyResults from '../common/EmptyResults';
 
 class HaircutHistory extends Component {
   componentDidMount() {
-    this._fetchData();
+    this._fetchData('load');
   }
 
   _renderRow(rowData, sectionID, rowID) {
     return(<HaircutItem key={rowID} navigator={this.props.navigator} appointment={rowData} />);
   }
 
-  _fetchData() {
-    this.props.dispatch(listAppointments('barber'));
+  _fetchData(action) {
+    var {meta} = this.props;
+    var data = action === 'refresh' ? {page: 1} : {page: meta.next_page};
+    var fn = action === 'load' ? listAppointments : refreshAppointments;
+    this.props.dispatch(fn('barber', data));
   }
 
   _onRefresh() {
-    this._fetchData();
+    this._fetchData('refresh');
+  }
+
+  _getLoadingContent() {
+    if (this.props.isLoading) {
+      return <View style={styles.loading}><ActivityIndicator /></View>;
+    } else {
+      return <View />;
+    }
+  }
+
+  _onEndReached() {
+    if (!this.props.isLoading && this.props.meta.next_page) {
+      this._fetchData('load');
+    }
   }
 
   render() {
-    var refreshControl = <RefreshControl refreshing={this.props.isLoading} onRefresh={this._onRefresh.bind(this)} />
+    var refreshControl = <RefreshControl refreshing={this.props.isRefreshing || false} onRefresh={this._onRefresh.bind(this)} />
     var content;
 
-    if (this.props.isLoading) {
-      content = <ActivityIndicator />;
-    } else if (this.props.dataSource.getRowCount() === 0) {
+    if (!this.props.isLoading && this.props.dataSource.getRowCount() === 0) {
       var message = 'Você ainda não possui nenhum corte.';
       content = <ScrollView refreshControl={refreshControl}><EmptyResults icon='scissor-4' message={message} /></ScrollView>;
     } else {
@@ -48,6 +63,9 @@ class HaircutHistory extends Component {
           dataSource={this.props.dataSource}
           renderRow={this._renderRow.bind(this)}
           refreshControl={refreshControl}
+          renderFooter={this._getLoadingContent.bind(this)}
+          enableEmptySections={true}
+          onEndReached={this._onEndReached.bind(this)}
           renderScrollComponent={props => <RecyclerViewBackedScrollView {...props} />}/>;
     }
 
@@ -64,7 +82,9 @@ const dataSource = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1.id !=
 function select(store) {
   return {
     dataSource: dataSource.cloneWithRows(store.appointments.appointments),
-    isLoading: store.appointments.isLoading
+    isLoading: store.appointments.isLoading,
+    isRefreshing: store.appointments.isRefreshing,
+    meta: store.appointments.meta
   };
 }
 
@@ -81,4 +101,7 @@ var styles = StyleSheet.create({
     paddingRight: 10,
     paddingTop: 10
   },
+  loading: {
+    marginBottom: 10
+  }
 });
