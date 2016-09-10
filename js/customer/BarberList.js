@@ -16,21 +16,21 @@ import { connect } from 'react-redux';
 import BarberListItem from './BarberListItem';
 import BarberIcon from '../common/BarberIcon';
 import FindCityFromGPS from './FindCityFromGPS';
-import { listBarbers } from '../actions/barbers';
+import { listBarbers, updateBarbersCache, refreshBarbers } from '../actions/barbers';
 import EmptyResults from '../common/EmptyResults';
 
 class BarberList extends Component {
   componentDidMount() {
-    if (this.props.dataSource.getRowCount() === 0) {
-      var {city} = this.props;
-      this.props.dispatch(listBarbers({city_id: city.id}));
+    if (!this.props.isLoading && this.props.dataSource.getRowCount() === 0) {
+      this._fetchData('load');
+    } else {
+      this._fetchData('updateCache');
     }
   }
 
   componentDidUpdate(prevProps) {
-    var {city} = this.props;
-    if (city.id !== prevProps.city.id) {
-      this.props.dispatch(listBarbers({city_id: city.id}));
+    if (this.props.city.id !== prevProps.city.id) {
+      this._fetchData('load');
     }
   }
 
@@ -39,8 +39,21 @@ class BarberList extends Component {
   }
 
   _onRefresh() {
-    var {city} = this.props;
-    this.props.dispatch(listBarbers({city_id: city.id}));
+    this._fetchData('refresh');
+  }
+
+  _fetchData(action) {
+    var {city, meta} = this.props;
+    var data = {city_id: city.id, page: meta.next_page};
+
+    switch (action) {
+      case 'load':
+        return this.props.dispatch(listBarbers(data));
+      case 'updateCache':
+        return this.props.dispatch(updateBarbersCache(data));
+      case 'refresh':
+        return this.props.dispatch(refreshBarbers(data));
+    }
   }
 
   _openFindCityFromGPS() {
@@ -51,13 +64,25 @@ class BarberList extends Component {
     });
   }
 
+  _getLoadingContent() {
+    if (this.props.isLoading) {
+      return <View style={styles.loading}><ActivityIndicator /></View>;
+    } else {
+      return <View />;
+    }
+  }
+
+  _onEndReached() {
+    if (!this.props.isLoading && this.props.meta.next_page) {
+      this._fetchData('load');
+    }
+  }
+
   render() {
-    var refreshControl = <RefreshControl refreshing={this.props.isLoading || false} onRefresh={this._onRefresh.bind(this)} />
+    var refreshControl = <RefreshControl refreshing={this.props.isRefreshing || false} onRefresh={this._onRefresh.bind(this)} />
     var content;
 
-    if (this.props.isLoading) {
-      content = <ActivityIndicator />;
-    } else if (this.props.dataSource.getRowCount() === 0) {
+    if (!this.props.isLoading && this.props.dataSource.getRowCount() === 0) {
       var message = 'Ainda não temos barbearias cadastradas em sua cidade.';
       content = <ScrollView refreshControl={refreshControl}><EmptyResults icon='shop' message={message} /></ScrollView>;
     } else {
@@ -66,6 +91,9 @@ class BarberList extends Component {
           dataSource={this.props.dataSource}
           renderRow={this._renderRow.bind(this)}
           refreshControl={refreshControl}
+          renderFooter={this._getLoadingContent.bind(this)}
+          enableEmptySections={true}
+          onEndReached={this._onEndReached.bind(this)}
           renderScrollComponent={props => <RecyclerViewBackedScrollView {...props} />}/>;
     }
 
@@ -90,7 +118,9 @@ function select(store) {
   return {
     dataSource: dataSource.cloneWithRows(store.barbers.barbers),
     isLoading: store.barbers.isLoading,
-    city: store.user.city
+    isRefreshing: store.barbers.isRefreshing,
+    city: store.user.city,
+    meta: store.barbers.meta
   };
 }
 
@@ -126,4 +156,7 @@ var styles = StyleSheet.create({
     fontWeight: 'bold',
     marginLeft: 20
   },
+  loading: {
+    marginBottom: 10
+  }
 });

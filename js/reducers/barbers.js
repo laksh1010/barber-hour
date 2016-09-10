@@ -1,7 +1,9 @@
 const initialState = {
   isLoading: false,
+  isRefreshing: false,
   error: false,
-  barbers: []
+  barbers: [],
+  meta: {}
 };
 
 function barbers(state = initialState, action) {
@@ -30,18 +32,36 @@ function barbers(state = initialState, action) {
         isLoading: true,
         error: false
       };
+    case 'REFRESH_BARBERS':
+      return {
+        ...state,
+        isRefreshing: true,
+        error: false
+      };
     case 'BARBERS_LOADED':
-      var {barbers} = action.data;
+      var {barbers, meta} = action.data;
       return {
         ...state,
         isLoading: false,
         error: false,
-        barbers: barbers
+        barbers: state.barbers.concat(barbers),
+        meta: meta
+      };
+    case 'BARBERS_CACHE_UPDATED':
+    case 'BARBERS_REFRESHED':
+      var {barbers, meta} = action.data;
+      return {
+        ...state,
+        isRefreshing: false,
+        barbers: barbers,
+        meta: meta
       };
     case 'REQUEST_BARBERS_ERROR':
+    case 'REFRESH_BARBERS_ERROR':
       return {
         ...state,
         isLoading: false,
+        isRefreshing: false,
         error: true
       };
     default:
