@@ -2,7 +2,9 @@ const initialState = {
   isLoading: false,
   error: false,
   isFinishing: false,
-  appointments: []
+  isRefreshing: false,
+  appointments: [],
+  meta: {}
 };
 
 function appointments(state = initialState, action) {
@@ -14,6 +16,12 @@ function appointments(state = initialState, action) {
         isLoading: true,
         error: false
       };
+    case 'REFRESH_APPOINTMENTS':
+      return {
+        ...state,
+        isRefreshing: true,
+        error: false
+      };
     case 'REQUEST_APPOINTMENT_FINISH':
       return {
         ...state,
@@ -21,12 +29,22 @@ function appointments(state = initialState, action) {
         error: false
       };
     case 'APPOINTMENTS_LOADED':
-      var {appointments} = action.data;
+      var {appointments, meta} = action.data;
       return {
         ...state,
         isLoading: false,
         error: false,
-        appointments: appointments
+        appointments: state.appointments.concat(appointments),
+        meta: meta
+      };
+    case 'APPOINTMENTS_REFRESHED':
+      var {appointments, meta} = action.data;
+      return {
+        ...state,
+        isRefreshing: false,
+        error: false,
+        appointments: appointments,
+        meta: meta
       };
     case 'APPOINTMENT_CREATED':
       var {appointment} = action.data;
@@ -55,9 +73,11 @@ function appointments(state = initialState, action) {
       };
     case 'REQUEST_APPOINTMENTS_ERROR':
     case 'REQUEST_APPOINTMENT_CANCEL_ERROR':
+    case 'REFRESH_APPOINTMENTS_ERROR':
       return {
         ...state,
         isLoading: false,
+        isRefreshing: false,
         error: true
       };
     case 'REQUEST_APPOINTMENT_FINISH_ERROR':

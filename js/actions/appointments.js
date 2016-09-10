@@ -1,12 +1,26 @@
 import api from '../api';
 
-function listAppointments(userType) {
+function fetchAppointments(userType, data, getState) {
+  return api.get(`/${userType}/appointments`, { params: data, headers: { 'Authorization': `Token ${getState().user.token}` } });
+}
+
+function listAppointments(userType, data) {
   return (dispatch, getState) => {
     dispatch({ type: 'REQUEST_APPOINTMENTS' });
 
-    api.get(`/${userType}/appointments`, { headers: { 'Authorization': `Token ${getState().user.token}` } })
+    fetchAppointments(userType, data, getState)
       .then(response => dispatch({ type: 'APPOINTMENTS_LOADED', data: response.data }))
       .catch(error => dispatch({ type: 'REQUEST_APPOINTMENTS_ERROR', data: error.data }));
+  }
+}
+
+function refreshAppointments(userType, data) {
+  return (dispatch, getState) => {
+    dispatch({ type: 'REFRESH_APPOINTMENTS' });
+
+    fetchAppointments(userType, data, getState)
+      .then(response => dispatch({ type: 'APPOINTMENTS_REFRESHED', data: response.data }))
+      .catch(error => dispatch({ type: 'REFRESH_APPOINTMENTS_ERROR', data: error.data }));
   }
 }
 
@@ -30,4 +44,4 @@ function finishAppointment(id) {
   }
 }
 
-export {listAppointments, cancelAppointment, finishAppointment};
+export {listAppointments, cancelAppointment, finishAppointment, refreshAppointments};
