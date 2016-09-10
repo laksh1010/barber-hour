@@ -1,12 +1,26 @@
 import api from '../api';
 
-function listBarbers() {
+function fetchBarbers(data, getState) {
+  return api.get('/admin/barbers', { params: data, headers: { 'Authorization': `Token ${getState().user.token}` } });
+}
+
+function listBarbers(data) {
   return (dispatch, getState) => {
     dispatch({ type: 'REQUEST_ADMIN_BARBERS' });
 
-    api.get('/admin/barbers', { headers: { 'Authorization': `Token ${getState().user.token}` } })
+    fetchBarbers(data, getState)
       .then(response => dispatch({ type: 'ADMIN_BARBERS_LOADED', data: response.data }))
       .catch(error => dispatch({ type: 'REQUEST_ADMIN_BARBERS_ERROR', data: error.data }));
+  }
+}
+
+function refreshBarbers(data) {
+  return (dispatch, getState) => {
+    dispatch({ type: 'REFRESH_ADMIN_BARBERS' });
+
+    fetchBarbers(data, getState)
+      .then(response => dispatch({ type: 'ADMIN_BARBERS_REFRESHED', data: response.data }))
+      .catch(error => dispatch({ type: 'REFRESH_ADMIN_BARBERS_ERROR', data: error.data }));
   }
 }
 
@@ -36,4 +50,4 @@ function setEditMode() {
   };
 }
 
-export {listBarbers, toggleActive, updateBarber, setEditMode};
+export {listBarbers, toggleActive, updateBarber, setEditMode, refreshBarbers};

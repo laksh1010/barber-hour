@@ -44,6 +44,7 @@ class BarberList extends Component {
 
   _fetchData(action) {
     var {city, meta} = this.props;
+    var page = action === 'load' ? {page: meta.next_page} : {page: 1};
     var data = {city_id: city.id, page: meta.next_page};
 
     switch (action) {

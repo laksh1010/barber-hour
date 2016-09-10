@@ -1,7 +1,9 @@
 const initialState = {
   isLoading: false,
+  isRefreshing: false,
   error: false,
-  barbers: []
+  barbers: [],
+  meta: {}
 };
 
 function admin(state = initialState, action) {
@@ -25,13 +27,29 @@ function admin(state = initialState, action) {
         isLoading: true,
         error: false
       };
+    case 'REFRESH_ADMIN_BARBERS':
+      return {
+        ...state,
+        isRefreshing: true,
+        error: false
+      };
     case 'ADMIN_BARBERS_LOADED':
-      var {barbers} = action.data;
+      var {barbers, meta} = action.data;
       return {
         ...state,
         isLoading: false,
         error: false,
-        barbers: barbers
+        barbers: state.barbers.concat(barbers),
+        meta: meta
+      };
+    case 'ADMIN_BARBERS_REFRESHED':
+      var {barbers, meta} = action.data;
+      return {
+        ...state,
+        isRefreshing: false,
+        error: false,
+        barbers: barbers,
+        meta: meta
       };
     case 'ADMIN_BARBER_UPDATED':
       return {
@@ -45,6 +63,7 @@ function admin(state = initialState, action) {
       return {
         ...state,
         isLoading: false,
+        isRefreshing: false,
         error: true
       };
     case 'SET_ADMIN_BARBERS_EDIT_MODE':
