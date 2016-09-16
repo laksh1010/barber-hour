@@ -194,7 +194,7 @@ class ScheduleBuilder extends Component {
     return(
       <View style={styles.container}>
         <ScrollView automaticallyAdjustContentInsets={false}>
-          <StatusBar backgroundColor='#C5C5C5'/>
+          <StatusBar backgroundColor='#C5C5C5' networkActivityIndicatorVisible={isLoading} />
           {toolbarContent}
           {modalContent}
           <View style={styles.innerContainer}>
@@ -202,6 +202,19 @@ class ScheduleBuilder extends Component {
             <Text style={styles.info}>Selecione os dias e horários que você trabalha:</Text>
             {content}
             <View style={styles.formContainer}>
+              <View style={[styles.row, styles.item]}>
+                <Text style={styles.info}>Duração média de serviço:</Text>
+                <TextInput
+                  style={[formStyle.textbox.normal, styles.averageServiceTimeInput]}
+                  placeholder='horas:minutos'
+                  onChangeText={(text) => {this.changeAverageServiceTime(text)}}
+                  value={this.props.form.averageServiceTime.value}
+                  editable={!isLoading} />
+              </View>
+              {this.props.form.averageServiceTime.error ? (
+                  <Text style={[formStyle.errorBlock, {textAlign: 'right'}]}>{this.props.form.averageServiceTime.error}</Text>
+                ) : <View />}
+              <Text style={formStyle.helpBlock.normal}>Use o formato: horas:minutos</Text>
               {this.props.form.scheduleTemplates.map((scheduleTemplate) => {
                 var time = scheduleTemplate.active ? (
                   <View style={styles.time}>
@@ -257,20 +270,7 @@ class ScheduleBuilder extends Component {
                   </View>
                 )
               })}
-              <View style={styles.row}>
-                <Text style={styles.info}>Duração média de serviço:</Text>
-                <TextInput
-                  style={[formStyle.textbox.normal, styles.averageServiceTimeInput]}
-                  placeholder='horas:minutos'
-                  onChangeText={(text) => {this.changeAverageServiceTime(text)}}
-                  value={this.props.form.averageServiceTime.value}
-                  editable={!isLoading} />
-              </View>
             </View>
-            {this.props.form.averageServiceTime.error ? (
-                <Text style={[formStyle.errorBlock, {textAlign: 'right'}]}>{this.props.form.averageServiceTime.error}</Text>
-              ) : <View />}
-            <Text style={formStyle.helpBlock.normal}>Use o formato: horas:minutos</Text>
             {errorMessage}
             <Button
               containerStyle={styles.button}
