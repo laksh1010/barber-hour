@@ -140,7 +140,7 @@ class ImageChooser extends Component {
 
     return(
       <View style={styles.container}>
-        <StatusBar backgroundColor='#C5C5C5'/>
+        <StatusBar backgroundColor='#C5C5C5' networkActivityIndicatorVisible={isLoading} />
         {toolbarContent}
         <View style={styles.innerContainer}>
           <Text style={styles.title}>Fotos</Text>

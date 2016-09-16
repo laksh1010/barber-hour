@@ -130,7 +130,7 @@ class Login extends Component {
 
     return(
       <View style={styles.container}>
-        <StatusBar backgroundColor='#C5C5C5'/>
+        <StatusBar backgroundColor='#C5C5C5' networkActivityIndicatorVisible={this.props.form.isLoading} />
         <Logo style={styles.logo} />
         <View style={styles.formContainer}>
           <View>

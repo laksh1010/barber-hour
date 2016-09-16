@@ -69,7 +69,7 @@ class FindCityFromGPS extends Component {
     return(
       <ScrollView style={styles.scrollContainer} automaticallyAdjustContentInsets={false}>
         <View style={styles.container}>
-          <StatusBar backgroundColor='#C5C5C5'/>
+          <StatusBar backgroundColor='#C5C5C5' networkActivityIndicatorVisible={isLoading} />
           <Toolbar backIcon={this.props.edit} navigator={this.props.navigator} />
           <View style={styles.innerContainer}>
             <Text style={styles.title}>Escolher cidade</Text>

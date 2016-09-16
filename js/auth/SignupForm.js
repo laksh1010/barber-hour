@@ -71,7 +71,7 @@ class SignupForm extends Component {
 
     return(
       <View style={styles.container}>
-        <StatusBar backgroundColor='#C5C5C5'/>
+        <StatusBar backgroundColor='#C5C5C5' networkActivityIndicatorVisible={this.props.form.isLoading} />
         <View style={styles.formContainer}>
           <Image source={require('../../img/logo-inline.png')} style={styles.logo} />
           <View>

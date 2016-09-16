@@ -75,7 +75,7 @@ class ReviewBarberList extends Component {
 
     return(
       <View style={styles.container}>
-        <StatusBar backgroundColor='#C5C5C5'/>
+        <StatusBar backgroundColor='#C5C5C5' networkActivityIndicatorVisible={this.props.isLoading || this.props.isRefreshing} />
         <Toolbar backIcon border navigator={this.props.navigator} title='Revisar barbearias' />
         <View style={styles.listContainer}>{content}</View>
       </View>

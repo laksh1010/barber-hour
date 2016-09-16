@@ -100,7 +100,7 @@ class AddressForm extends Component {
 
     return(
       <View style={styles.container}>
-        <StatusBar backgroundColor='#C5C5C5'/>
+        <StatusBar backgroundColor='#C5C5C5' networkActivityIndicatorVisible={this.props.form.isLoading || this.props.form.isRequestingInfo} />
         <Toolbar backIcon navigator={this.props.navigator} />
         <View style={styles.innerContainer}>
           <Text style={styles.title}>Endereço</Text>

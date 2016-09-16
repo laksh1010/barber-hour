@@ -144,7 +144,7 @@ class BarberDetails extends Component {
     return(
       <View style={styles.container}>
         <ScrollView>
-          <StatusBar backgroundColor='#C5C5C5'/>
+          <StatusBar backgroundColor='#C5C5C5' networkActivityIndicatorVisible={this.props.appointment.isLoading} />
           <Toolbar backIcon border title={barber.name} navigator={navigator} />
           <Swiper
             height={300}

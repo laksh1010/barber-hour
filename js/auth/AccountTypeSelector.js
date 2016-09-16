@@ -47,7 +47,7 @@ class AccountTypeSelector extends Component {
 
     return(
       <View style={styles.container}>
-        <StatusBar backgroundColor='#C5C5C5'/>
+        <StatusBar backgroundColor='#C5C5C5' networkActivityIndicatorVisible={this.props.isLoading} />
         <Text style={styles.greeting}>Olá, {this.props.name}!</Text>
         <Text style={styles.question}>Você deseja usar o aplicativo como:</Text>
         <View style={styles.accountTypeContainer}>
