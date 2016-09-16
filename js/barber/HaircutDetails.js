@@ -39,11 +39,15 @@ class HaircutDetails extends Component {
   }
 
   _cancelSchedule() {
-    this.props.dispatch(cancelAppointment('barber', this.props.appointment.id));
+    var { appointment, appointmentId, navigator } = this.props;
+    var appointment = appointment || this.props.form.appointments.find(a => a.id === appointmentId);
+    this.props.dispatch(cancelAppointment('barber', appointment.id));
   }
 
   _finishSchedule() {
-    this.props.dispatch(finishAppointment(this.props.appointment.id));
+    var { appointment, appointmentId, navigator } = this.props;
+    var appointment = appointment || this.props.form.appointments.find(a => a.id === appointmentId);
+    this.props.dispatch(finishAppointment(appointment.id));
   }
 
   _confirmCancelSchedule() {
@@ -151,7 +155,7 @@ class HaircutDetails extends Component {
 
     return(
       <View style={styles.container}>
-        <StatusBar backgroundColor='#C5C5C5'/>
+        <StatusBar backgroundColor='#C5C5C5' networkActivityIndicatorVisible={this.props.form.isLoading || this.props.form.isFinishing} />
         <Toolbar backIcon border navigator={navigator} />
         {content}
       </View>
