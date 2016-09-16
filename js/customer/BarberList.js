@@ -74,7 +74,7 @@ class BarberList extends Component {
   }
 
   _onEndReached() {
-    if (!this.props.isLoading && this.props.meta.next_page) {
+    if (!this.props.isLoading && this.props.meta && this.props.meta.next_page) {
       this._fetchData('load');
     }
   }
