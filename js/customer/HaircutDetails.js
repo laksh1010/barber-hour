@@ -78,6 +78,9 @@ class HaircutDetails extends Component {
             <Text>{appointment.translated_status}</Text>
           </View>
         </View>
+        <View style={styles.infoContainer}>
+          <Text style={[styles.info, styles.code]}>Código: #{appointment.id}</Text>
+        </View>
         <View style={styles.separator} />
         <View style={styles.innerContainer}>
           {appointment_services.map((appointmentService) => {
@@ -166,5 +169,8 @@ var styles = StyleSheet.create({
     marginTop: 5,
     marginBottom: 10,
     alignItems: 'center'
+  },
+  code: {
+    marginBottom: 10
   }
 });
