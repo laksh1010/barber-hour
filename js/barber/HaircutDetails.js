@@ -39,15 +39,11 @@ class HaircutDetails extends Component {
   }
 
   _cancelSchedule() {
-    var { appointment, appointmentId, navigator } = this.props;
-    var appointment = appointment || this.props.form.appointments.find(a => a.id === appointmentId);
-    this.props.dispatch(cancelAppointment('barber', appointment.id));
+    this.props.dispatch(cancelAppointment('barber', this.props.appointment.id));
   }
 
   _finishSchedule() {
-    var { appointment, appointmentId, navigator } = this.props;
-    var appointment = appointment || this.props.form.appointments.find(a => a.id === appointmentId);
-    this.props.dispatch(finishAppointment(appointment.id));
+    this.props.dispatch(finishAppointment(this.props.appointment.id));
   }
 
   _confirmCancelSchedule() {
@@ -84,8 +80,7 @@ class HaircutDetails extends Component {
   }
 
   render() {
-    var { appointment, appointmentId, navigator } = this.props;
-    appointment = appointment || this.props.form.appointments.find(a => a.id === appointmentId);
+    var { appointment, navigator } = this.props;
 
     var content;
 
@@ -163,9 +158,10 @@ class HaircutDetails extends Component {
   }
 }
 
-function select(store) {
+function select(store, ownProps) {
   return {
-    form: store.appointments
+    form: store.appointments,
+    appointment: ownProps.appointment || store.appointments.appointments.find(a => a.id === ownProps.appointmentId)
   };
 }
 
