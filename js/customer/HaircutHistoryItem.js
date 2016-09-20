@@ -38,8 +38,8 @@ export default class HaircutHistoryItem extends Component {
       <Touchable style={styles.card} onPress={this._openDetails.bind(this)}>
         <View>
           <View>
-            <Text style={styles.date}>{schedule.day_number} de {schedule.month_name} às {schedule.hour}</Text>
-            <Text style={styles.barber}>{barber.name}</Text>
+            <Text style={styles.date} numberOfLines={1}>{schedule.day_number} de {schedule.month_name} às {schedule.hour}</Text>
+            <Text style={styles.barber} numberOfLines={1}>{barber.name}</Text>
             <View style={styles.statusContainer}>
               <Icon name={this._iconForStatus(appointment.status)} size={24} color='#003459' style={styles.icon} />
               <Text>{appointment.translated_status}</Text>

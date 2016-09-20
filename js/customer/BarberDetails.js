@@ -161,7 +161,7 @@ class BarberDetails extends Component {
           </Swiper>
           <View style={styles.separator} />
           <View style={styles.innerContainer}>
-            <Text style={styles.title}>{barber.name}</Text>
+            <Text style={styles.title} numberOfLines={1}>{barber.name}</Text>
             <View style={styles.infoContainer}>
               <BarberIcon name='location' size={24} color='#003459' style={styles.icon} />
               <Text style={styles.info}>{`${address.street}, ${address.number} - ${address.district}`}</Text>

@@ -67,9 +67,9 @@ class HaircutDetails extends Component {
         <StatusBar backgroundColor='#C5C5C5'/>
         <Toolbar backIcon border navigator={navigator} />
         <View style={styles.innerContainer}>
-          <Text style={styles.title}>{barber.name}</Text>
+          <Text style={styles.title} numberOfLines={1}>{barber.name}</Text>
           <View style={styles.infoContainer}>
-            <Text style={styles.info}>{schedule.day_number} de {schedule.month_name} às {schedule.hour}</Text>
+            <Text style={styles.info} numberOfLines={1}>{schedule.day_number} de {schedule.month_name} às {schedule.hour}</Text>
           </View>
         </View>
         <View style={styles.infoContainer}>

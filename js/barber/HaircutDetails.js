@@ -98,13 +98,13 @@ class HaircutDetails extends Component {
       content = (
         <View>
           <View style={styles.innerContainer}>
-            <Text style={styles.title}>{customer.name}</Text>
+            <Text style={styles.title} numberOfLines={1}>{customer.name}</Text>
             <View style={styles.infoContainer}>
               <Icon name='local-phone' size={24} color='#003459' style={styles.icon} />
               <Text style={styles.info}>{customer.phone}</Text>
             </View>
             <View style={styles.infoContainer}>
-              <Text style={styles.info}>{schedule.day_number} de {schedule.month_name} às {schedule.hour}</Text>
+              <Text style={styles.info} numberOfLines={1}>{schedule.day_number} de {schedule.month_name} às {schedule.hour}</Text>
             </View>
           </View>
           <View style={styles.infoContainer}>
