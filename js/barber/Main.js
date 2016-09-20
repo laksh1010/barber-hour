@@ -8,6 +8,8 @@ import {
   Platform
 } from 'react-native';
 
+import { connect } from 'react-redux';
+
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 
 import Toolbar from '../common/Toolbar';
@@ -17,11 +19,11 @@ import HaircutHistory from './HaircutHistory';
 import Profile from './Profile';
 import PushNotifications from '../PushNotifications';
 
-export default class Main extends Component {
+class Main extends Component {
   render() {
     return(
       <View style={styles.container}>
-        <StatusBar backgroundColor='#C5C5C5'/>
+        <StatusBar backgroundColor='#C5C5C5' networkActivityIndicatorVisible={this.props.networkActivityIndicatorVisible} />
         <Toolbar border navigator={this.props.navigator} />
         <ScrollableTabView
           scrollWithoutAnimation={true}
@@ -43,6 +45,16 @@ export default class Main extends Component {
     );
   }
 }
+
+function select(store) {
+  var schedulesLoading = store.schedules.isLoading || store.schedules.isRefreshing;
+  var appointmentsLoading = store.appointments.isLoading || store.appointments.isRefreshing;
+  return {
+    networkActivityIndicatorVisible: schedulesLoading || appointmentsLoading
+  };
+}
+
+export default connect(select)(Main);
 
 var styles = StyleSheet.create({
   container: {
