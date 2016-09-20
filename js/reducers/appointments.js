@@ -4,16 +4,23 @@ const initialState = {
   isFinishing: false,
   isRefreshing: false,
   appointments: [],
+  success: false,
   meta: {}
 };
 
 function appointments(state = initialState, action) {
   switch (action.type) {
     case 'REQUEST_APPOINTMENTS':
+      return {
+        ...state,
+        isLoading: true,
+        error: false
+      };
     case 'REQUEST_APPOINTMENT_CANCEL':
       return {
         ...state,
         isLoading: true,
+        success: false,
         error: false
       };
     case 'REFRESH_APPOINTMENTS':
@@ -55,7 +62,6 @@ function appointments(state = initialState, action) {
         isFinishing: false,
         appointments: [appointment].concat(state.appointments)
       };
-    case 'APPOINTMENT_CANCELED':
     case 'APPOINTMENT_FINISHED':
       var {appointment} = action.data;
       var index = state.appointments.findIndex(a => a.id === appointment.id);
@@ -71,11 +77,34 @@ function appointments(state = initialState, action) {
           ...state.appointments.slice(index + 1)
         ]
       };
+    case 'APPOINTMENT_CANCELED':
+      var {appointment} = action.data;
+      var index = state.appointments.findIndex(a => a.id === appointment.id);
+      var oldAppointment = state.appointments.find(a => a.id === appointment.id);
+      return {
+        ...state,
+        isLoading: false,
+        error: false,
+        isFinishing: false,
+        success: true,
+        appointments: [
+          ...state.appointments.slice(0, index),
+          Object.assign(oldAppointment, appointment),
+          ...state.appointments.slice(index + 1)
+        ]
+      };
     case 'REQUEST_APPOINTMENTS_ERROR':
-    case 'REQUEST_APPOINTMENT_CANCEL_ERROR':
     case 'REFRESH_APPOINTMENTS_ERROR':
       return {
         ...state,
+        isLoading: false,
+        isRefreshing: false,
+        error: true
+      };
+    case 'REQUEST_APPOINTMENT_CANCEL_ERROR':
+      return {
+        ...state,
+        success: false,
         isLoading: false,
         isRefreshing: false,
         error: true
