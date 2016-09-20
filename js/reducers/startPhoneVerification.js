@@ -52,7 +52,13 @@ function startPhoneVerification(state = initialState, action) {
     case 'SET_PHONE_EDIT_MODE':
       return {
         ...state,
-        success: false
+        success: false,
+        fields: {
+          phone: {
+            ...state.fields.phone,
+            editable: true
+          }
+        },
       };
     default:
       return state;
