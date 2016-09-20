@@ -37,11 +37,12 @@ function appointments(state = initialState, action) {
       };
     case 'APPOINTMENTS_LOADED':
       var {appointments, meta} = action.data;
+      var newAppointments = appointments.filter(item => !state.appointments.find(a => a.id === item.id));
       return {
         ...state,
         isLoading: false,
         error: false,
-        appointments: state.appointments.concat(appointments),
+        appointments: state.appointments.concat(newAppointments),
         meta: meta
       };
     case 'APPOINTMENTS_REFRESHED':
