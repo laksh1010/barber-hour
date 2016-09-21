@@ -12,33 +12,39 @@ const initialState = {
       keyboardType: 'numeric',
       error: 'digite o CEP',
       stylesheet: formStyle,
-      help: 'digite somente números'
+      help: 'digite somente números',
+      maxLength: 9
     },
     street: {
       placeholder: 'rua',
       error: 'digite a rua',
-      stylesheet: formStyle
+      stylesheet: formStyle,
+      maxLength: 200
     },
     district: {
       placeholder: 'bairro',
       error: 'digite o bairro',
-      stylesheet: formStyle
+      stylesheet: formStyle,
+      maxLength: 200
     },
     number: {
       placeholder: 'número',
       keyboardType: 'numeric',
       error: 'digite o número',
-      stylesheet: formStyle
+      stylesheet: formStyle,
+      maxLength: 10
     },
     city: {
       placeholder: 'cidade',
       error: 'digite a cidade',
-      stylesheet: formStyle
+      stylesheet: formStyle,
+      maxLength: 200
     },
     state: {
       placeholder: 'estado',
       error: 'digite o estado',
-      stylesheet: formStyle
+      stylesheet: formStyle,
+      maxLength: 2
     },
   },
   template: addressForm,

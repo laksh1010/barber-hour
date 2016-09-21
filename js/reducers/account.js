@@ -8,14 +8,16 @@ const initialState = {
     name: {
       placeholder: 'nome',
       error: 'digite o nome',
-      stylesheet: formStyle
+      stylesheet: formStyle,
+      maxLength: 200
     },
     email: {
       autoCapitalize: 'none',
       placeholder: 'e-mail',
       keyboardType: 'email-address',
       error: 'e-mail inválido',
-      stylesheet: formStyle
+      stylesheet: formStyle,
+      maxLength: 200
     }
   }
 };

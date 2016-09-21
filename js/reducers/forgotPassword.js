@@ -10,7 +10,8 @@ const initialState = {
       placeholder: 'e-mail',
       keyboardType: 'email-address',
       error: 'e-mail inválido',
-      stylesheet: formStyle
+      stylesheet: formStyle,
+      maxLength: 200
     }
   }
 };

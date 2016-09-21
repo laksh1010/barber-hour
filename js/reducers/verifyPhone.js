@@ -9,7 +9,8 @@ const initialState = {
       placeholder: 'código de verificação',
       keyboardType: 'numeric',
       error: 'digite o código de verificação',
-      stylesheet: formStyle
+      stylesheet: formStyle,
+      maxLength: 4
     }
   },
   verification_code: null

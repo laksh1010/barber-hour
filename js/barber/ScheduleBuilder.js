@@ -209,6 +209,7 @@ class ScheduleBuilder extends Component {
                   placeholder='horas:minutos'
                   onChangeText={(text) => {this.changeAverageServiceTime(text)}}
                   value={this.props.form.averageServiceTime.value}
+                  maxLength={5}
                   editable={!isLoading} />
               </View>
               {this.props.form.averageServiceTime.error ? (
@@ -223,6 +224,7 @@ class ScheduleBuilder extends Component {
                       placeholder='abre às'
                       value={scheduleTemplate.opensAt.value}
                       editable={!isLoading}
+                      maxLength={5}
                       onFocus={() => {this.showPicker(scheduleTemplate.weekday, 'opensAt')}} />
                     {scheduleTemplate.opensAt.error ? (
                         <Text style={formStyle.errorBlock}>{scheduleTemplate.opensAt.error}</Text>
@@ -232,6 +234,7 @@ class ScheduleBuilder extends Component {
                       placeholder='almoço às'
                       value={scheduleTemplate.lunchStartsAt.value}
                       editable={!isLoading}
+                      maxLength={5}
                       onFocus={() => {this.showPicker(scheduleTemplate.weekday, 'lunchStartsAt')}} />
                     {scheduleTemplate.lunchStartsAt.error ? (
                         <Text style={formStyle.errorBlock}>{scheduleTemplate.lunchStartsAt.error}</Text>
@@ -241,6 +244,7 @@ class ScheduleBuilder extends Component {
                       placeholder='fim do almoço'
                       value={scheduleTemplate.lunchEndsAt.value}
                       editable={!isLoading}
+                      maxLength={5}
                       onFocus={() => {this.showPicker(scheduleTemplate.weekday, 'lunchEndsAt')}} />
                     {scheduleTemplate.lunchEndsAt.error ? (
                         <Text style={formStyle.errorBlock}>{scheduleTemplate.lunchEndsAt.error}</Text>
@@ -250,6 +254,7 @@ class ScheduleBuilder extends Component {
                       placeholder='fecha às'
                       value={scheduleTemplate.closesAt.value}
                       editable={!isLoading}
+                      maxLength={5}
                       onFocus={() => {this.showPicker(scheduleTemplate.weekday, 'closesAt')}} />
                     {scheduleTemplate.closesAt.error ? (
                         <Text style={formStyle.errorBlock}>{scheduleTemplate.closesAt.error}</Text>

@@ -10,7 +10,8 @@ const initialState = {
       keyboardType: 'numeric',
       error: 'digite o número de celular',
       stylesheet: formStyle,
-      help: 'digite somente números, incluindo o DDD'
+      help: 'digite somente números, incluindo o DDD',
+      maxLength: 12
     }
   },
   phone: null

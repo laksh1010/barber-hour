@@ -128,6 +128,7 @@ class ServicesForm extends Component {
                     value={this._valueToPrice(service.price)}
                     placeholder='preço (R$)'
                     editable={!isLoading}
+                    maxLength={11}
                     keyboardType='numeric' />
                   {errorBlock}
                 </View>
