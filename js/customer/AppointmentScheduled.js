@@ -9,13 +9,10 @@ import {
 
 import Logo from '../common/Logo';
 import Button from '../common/Button';
-import Main from './Main';
 
 export default class AppointmentScheduled extends Component {
   _openMain() {
-    this.props.navigator.replace({
-      component: Main
-    });
+    this.props.navigator.pop();
   }
 
   render() {
