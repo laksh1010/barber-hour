@@ -13,10 +13,7 @@ import Login from './Login';
 
 export default class ResetPasswordSent extends Component {
   _openLogin() {
-    this.props.navigator.replace({
-      component: Login,
-      title: 'Barber Hour'
-    });
+    this.props.navigator.pop();
   }
 
   render() {

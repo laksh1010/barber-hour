@@ -59,10 +59,10 @@ class HaircutDetails extends Component {
 
   _confirmFinishSchedule() {
     Alert.alert(
-      'Concluir horário',
-      'Tem certeza que deseja concluir esse horário?',
+      'Finalizar horário',
+      'Tem certeza que deseja finalizar esse horário?',
       [
-        {text: 'Sim, concluir horário', onPress: () => {this._finishSchedule()} },
+        {text: 'Sim, finalizar horário', onPress: () => {this._finishSchedule()} },
         {text: 'Voltar', style: 'cancel'},
       ]
     );
@@ -89,7 +89,7 @@ class HaircutDetails extends Component {
     } else {
       const { schedule, customer, appointment_services } = appointment;
       const cancelButtonLabel = this.props.form.isLoading ? 'Cancelando...' : 'Cancelar';
-      const finishButtonLabel = this.props.form.isFinishing ? 'Concluindo...' : 'Concluir';
+      const finishButtonLabel = this.props.form.isFinishing ? 'Finalizando...' : 'Finalizar';
       var errorMessage;
       if (this.props.form.error) {
         errorMessage = <Text style={formStyle.errorBlock}>{this.props.form.error}</Text>;
