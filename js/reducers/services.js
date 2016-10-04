@@ -47,7 +47,7 @@ function services(state = initialState, action) {
         var newServices = state.services.map((service, index) => {
           var error = services[index];
           var priceError = !!error && !!error.price ? error.price[0] : null;
-          return Object.assign(scheduleTemplate, { error: priceError });
+          return Object.assign(service, { error: priceError });
         });
       }
 
