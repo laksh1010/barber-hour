@@ -28,7 +28,9 @@ class ImageChooser extends Component {
       title: 'Selecionar foto',
       cancelButtonTitle: 'Cancelar',
       takePhotoButtonTitle: 'Tirar foto',
-      chooseFromLibraryButtonTitle: 'Escolher da galeria'
+      chooseFromLibraryButtonTitle: 'Escolher da galeria',
+      maxWidth: 700,
+      maxHeight: 700
     }, (response) => {
       if (!response.didCancel && !response.error) {
         var dataURI;
