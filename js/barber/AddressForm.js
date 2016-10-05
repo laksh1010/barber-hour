@@ -104,7 +104,7 @@ class AddressForm extends Component {
         <Toolbar backIcon navigator={this.props.navigator} />
         <View style={styles.innerContainer}>
           <Text style={styles.title}>Endereço</Text>
-          <Text style={styles.info}>{infoPrefix} o endereço de sua barbearia:</Text>
+          <Text style={styles.info}>{infoPrefix} o endereço da barbearia:</Text>
           {content}
           <View style={styles.formContainer}>
             <Form ref='form' type={Address} options={formOptions} value={this.getFormValue()} />

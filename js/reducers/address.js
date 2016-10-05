@@ -13,7 +13,7 @@ const initialState = {
       error: 'digite o CEP',
       stylesheet: formStyle,
       help: 'digite somente números',
-      maxLength: 9
+      maxLength: 8
     },
     street: {
       placeholder: 'rua',
@@ -90,6 +90,37 @@ function address(state = initialState, action) {
         },
         zipcode: action.zipcode
       };
+    case 'REQUEST_ADDRESS_INFO_FAILED':
+      return {
+        ...state,
+        isRequestingInfo: false,
+        fields: {
+          zipcode: {
+            ...state.fields.zipcode,
+            editable: true
+          },
+          street: {
+            ...state.fields.street,
+            editable: true
+          },
+          district: {
+            ...state.fields.district,
+            editable: true
+          },
+          number: {
+            ...state.fields.number,
+            editable: true
+          },
+          city: {
+            ...state.fields.city,
+            editable: true
+          },
+          state: {
+            ...state.fields.state,
+            editable: true
+          },
+        },
+      };
     case 'ZIPCODE_LOADED':
       return {
         ...state,
@@ -126,13 +157,14 @@ function address(state = initialState, action) {
         state: action.data.uf
       };
     case 'INVALID_ADDRESS':
-      var {zipcode, street, district, number} = action.data;
+      var data = action.data || {};
+      var {zipcode, street, district, number, city} = data;
       var zipcodeError = !!zipcode ? zipcode[0] : state.fields.zipcode.error;
       var streetError = !!street ? street[0] : state.fields.street.error;
       var districtError = !!district ? district[0] : state.fields.district.error;
       var numberError = !!number ? number[0] : state.fields.number.error;
       var cityError = !!city ? city[0] : state.fields.city.error;
-      var stateError = !!state ? state[0] : state.fields.state.error;
+      var stateError = !!data.state ? data.state[0] : state.fields.state.error;
 
       return {
         ...state,
@@ -170,7 +202,7 @@ function address(state = initialState, action) {
           },
           state: {
             ...state.fields.state,
-            hasError: !!state,
+            hasError: !!data.state,
             error: stateError,
             editable: true
           },

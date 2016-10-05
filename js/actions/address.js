@@ -16,7 +16,8 @@ function loadZipcode(zipcode) {
 
     fetch(`https://viacep.com.br/ws/${zipcode}/json/`)
       .then(response => response.json())
-      .then(response => dispatch({ type: 'ZIPCODE_LOADED', data: response }));
+      .then(response => dispatch({ type: 'ZIPCODE_LOADED', data: response }))
+      .catch(error => dispatch({ type: 'REQUEST_ADDRESS_INFO_FAILED', data: error }));
   }
 }
 
