@@ -178,6 +178,7 @@
 		5C06607C1D3C1054007E87AF /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
 		5CB9B07E1D413EA6006B651A /* BarberTools.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = BarberTools.ttf; path = ../../../android/app/src/main/assets/fonts/BarberTools.ttf; sourceTree = "<group>"; };
 		5CC7634A1D5D3E660047604A /* RNGeocoder.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNGeocoder.xcodeproj; path = "../node_modules/react-native-geocoder/ios/RNGeocoder.xcodeproj"; sourceTree = "<group>"; };
+		5CEDBEEA1DA5F06400B09353 /* BarberHour.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = BarberHour.entitlements; path = BarberHour/BarberHour.entitlements; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		CD4A0ACCED954DDA8B70F9C3 /* RCTFBLogin.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTFBLogin.xcodeproj; path = "../node_modules/react-native-facebook-login/RCTFBLogin.xcodeproj"; sourceTree = "<group>"; };
@@ -296,6 +297,7 @@
 		13B07FAE1A68108700A75B9A /* BarberHour */ = {
 			isa = PBXGroup;
 			children = (
+				5CEDBEEA1DA5F06400B09353 /* BarberHour.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -786,6 +788,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = BarberHour/BarberHour.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: ltegon93@gmail.com (8JXK3JG58F)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: ltegon93@gmail.com (8JXK3JG58F)";
 				DEAD_CODE_STRIPPING = NO;
@@ -817,6 +820,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = BarberHour/BarberHour.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Leonardo Tegon (AQ9QYX2WAY)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Leonardo Tegon (AQ9QYX2WAY)";
 				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/../node_modules/react-native-facebook-login/FacebookSDK";
