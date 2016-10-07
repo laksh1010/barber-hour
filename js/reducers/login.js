@@ -61,6 +61,7 @@ function login(state = initialState, action) {
         password: action.data.password
       };
     case 'LOGGED_IN':
+    case 'LOGGED_OUT':
       return initialState;
     default:
       return state;

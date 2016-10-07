@@ -18,6 +18,8 @@ function notification(state = initialState, action) {
           ...state.channels.slice(index + 1)
         ]
       };
+    case 'LOGGED_OUT':
+      return initialState;
     default:
       return state;
   }

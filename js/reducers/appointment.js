@@ -41,6 +41,7 @@ function appointment(state = initialState, action) {
         success: false
       };
     case 'REQUEST_SCHEDULES':
+    case 'LOGGED_OUT':
       return initialState;
     default:
       return state;

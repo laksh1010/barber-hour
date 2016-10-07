@@ -71,6 +71,8 @@ function admin(state = initialState, action) {
         ...state,
         success: false
       };
+    case 'LOGGED_OUT':
+      return initialState;
     default:
       return state;
   }

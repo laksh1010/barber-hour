@@ -58,6 +58,8 @@ function verifyPhone(state = initialState, action) {
         ...state,
         isResequestingCode: false
       };
+    case 'LOGGED_OUT':
+      return initialState;
     default:
       return state;
   }

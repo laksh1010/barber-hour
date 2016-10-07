@@ -64,6 +64,8 @@ function barbers(state = initialState, action) {
         isRefreshing: false,
         error: true
       };
+    case 'LOGGED_OUT':
+      return initialState;
     default:
       return state;
   }

@@ -77,6 +77,8 @@ function images(state = initialState, action) {
         isRequestingInfo: false,
         images: newImages
       };
+    case 'LOGGED_OUT':
+      return initialState;
     default:
       return state;
   }

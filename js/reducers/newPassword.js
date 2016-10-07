@@ -70,6 +70,8 @@ function password(state = initialState, action) {
         ...initialState,
         success: true
       };
+    case 'LOGGED_OUT':
+      return initialState;
     default:
       return state;
   }

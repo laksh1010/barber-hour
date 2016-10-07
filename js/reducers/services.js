@@ -100,6 +100,8 @@ function services(state = initialState, action) {
         isRequestingInfo: false,
         services: services
       };
+    case 'LOGGED_OUT':
+      return initialState;
     default:
       return state;
   }

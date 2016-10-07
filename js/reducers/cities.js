@@ -38,6 +38,8 @@ function cities(state = initialState, action) {
         ...state,
         query
       };
+    case 'LOGGED_OUT':
+      return initialState;
     default:
       return state;
   }

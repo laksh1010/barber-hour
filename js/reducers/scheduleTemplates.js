@@ -118,6 +118,8 @@ function scheduleTemplates(state = initialState, action) {
         scheduleTemplates: scheduleTemplates,
         averageServiceTime: averageServiceTime
       };
+    case 'LOGGED_OUT':
+      return initialState;
     default:
       return state;
   }

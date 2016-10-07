@@ -61,6 +61,8 @@ function startPhoneVerification(state = initialState, action) {
           }
         },
       };
+    case 'LOGGED_OUT':
+      return initialState;
     default:
       return state;
   }

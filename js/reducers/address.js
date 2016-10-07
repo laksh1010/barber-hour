@@ -321,6 +321,8 @@ function address(state = initialState, action) {
         city: address.city,
         state: address.state
       };
+    case 'LOGGED_OUT':
+      return initialState;
     default:
       return state;
   }

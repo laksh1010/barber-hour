@@ -102,6 +102,8 @@ function signup(state = initialState, action) {
         password_confirmation: action.data.password_confirmation,
       };
     case 'LOGGED_IN':
+    case 'LOGGED_OUT':
+    case 'SIGNED_UP':
       return initialState;
     default:
       return state;
