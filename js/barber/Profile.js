@@ -89,11 +89,7 @@ class Profile extends Component {
       title: 'Barber Hour'
     };
 
-    if (Platform.OS === 'ios') {
-      this.props.navigator.replace(route);
-    } else {
-      this.props.navigator.resetTo(route);
-    }
+    this.props.navigator.replace(route);
 
     this.props.dispatch(logout());
   }

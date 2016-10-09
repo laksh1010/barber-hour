@@ -37,10 +37,10 @@ class PhoneForm extends Component {
     if (this.props.form.success) {
       const route = {
         component: VerifyPhone,
-        title: 'Confirmar número'
+        title: 'Barber Hour'
       };
 
-      Platform.OS === 'ios' ? this.props.navigator.replace(route) : this.props.navigator.resetTo(route);
+      Platform.OS === 'ios' ? requestAnimationFrame(() => this.props.navigator.resetTo(route)) : this.props.navigator.resetTo(route);
     }
   }
 

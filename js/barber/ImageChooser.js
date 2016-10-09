@@ -92,10 +92,10 @@ class ImageChooser extends Component {
       } else {
         const route = {
           component: ScheduleBuilder,
-          title: 'Agenda'
+          title: 'Barber Hour'
         };
 
-        Platform.OS === 'ios' ? this.props.navigator.replace(route) : this.props.navigator.resetTo(route);
+        this.props.navigator.replace(route);
       }
     }
   }

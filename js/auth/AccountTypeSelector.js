@@ -26,12 +26,12 @@ class AccountTypeSelector extends Component {
     if (this.props.accountType === 'Customer') {
       this.props.navigator.push({
         component: PhoneForm,
-        title: 'Confirmar número'
+        title: 'Barber Hour'
       });
     } else if (this.props.accountType === 'Barber') {
       this.props.navigator.push({
         component: AddressForm,
-        title: 'Endereço'
+        title: 'Barber Hour'
       });
     } else {
       this.props.dispatch(addError());

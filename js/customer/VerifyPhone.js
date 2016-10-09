@@ -40,11 +40,11 @@ class VerifyPhone extends Component {
   _editNumber() {
     const route = {
       component: PhoneForm,
-      title: 'Confirmar número',
+      title: 'Barber Hour',
       passProps: { edit: true }
     };
 
-    Platform.OS === 'ios' ? this.props.navigator.replace(route) : this.props.navigator.resetTo(route);
+    this.props.navigator.replace(route);
   }
 
   componentDidUpdate() {
@@ -55,7 +55,7 @@ class VerifyPhone extends Component {
         title: 'Barber Hour'
       };
 
-      Platform.OS === 'ios' ? this.props.navigator.replace(route) : this.props.navigator.resetTo(route);
+      this.props.navigator.replace(route);
     }
   }
 

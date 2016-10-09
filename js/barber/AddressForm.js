@@ -45,10 +45,10 @@ class AddressForm extends Component {
       } else {
         const route = {
           component: ServicesForm,
-          title: 'Serviços'
+          title: 'Barber Hour'
         };
 
-        Platform.OS === 'ios' ? this.props.navigator.replace(route) : this.props.navigator.resetTo(route);
+        Platform.OS === 'ios' ? requestAnimationFrame(() => this.props.navigator.resetTo(route)) : this.props.navigator.resetTo(route);
       }
     }
   }

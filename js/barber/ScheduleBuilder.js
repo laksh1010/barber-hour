@@ -87,7 +87,7 @@ class ScheduleBuilder extends Component {
           title: 'Barber Hour'
         };
 
-        Platform.OS === 'ios' ? this.props.navigator.replace(route) : this.props.navigator.resetTo(route);
+        this.props.navigator.replace(route);
       }
     }
   }

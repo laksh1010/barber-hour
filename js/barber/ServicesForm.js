@@ -63,10 +63,10 @@ class ServicesForm extends Component {
       } else {
         const route = {
           component: ImageChooser,
-          title: 'Fotos'
+          title: 'Barber Hour'
         };
 
-        Platform.OS === 'ios' ? this.props.navigator.replace(route) : this.props.navigator.resetTo(route);
+        this.props.navigator.replace(route);
       }
     }
   }
