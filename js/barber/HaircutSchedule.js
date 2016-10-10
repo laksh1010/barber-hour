@@ -15,6 +15,7 @@ import SelectableButton from '../common/SelectableButton';
 import HaircutDetails from './HaircutDetails';
 import { listSchedules, selectDay, toggleActive } from '../actions/schedules';
 import EmptyResults from '../common/EmptyResults';
+import ChartLegend from '../common/ChartLegend';
 
 class HaircutSchedule extends Component {
   componentDidMount() {
@@ -70,6 +71,28 @@ class HaircutSchedule extends Component {
     });
   }
 
+  _getContainerStyle(status) {
+    switch (status) {
+      case 'finished':
+        return {backgroundColor: '#57a77e'};
+      case 'canceled':
+        return {backgroundColor: '#e73348'};
+      case 'scheduled':
+        return {backgroundColor: '#003459'};
+      default:
+        null;
+    }
+  }
+
+  _getLegendItems() {
+    return [
+      {label: 'horário cancelado', iconColor: '#e73348' },
+      {label: 'horário finalizado', iconColor: '#57a77e' },
+      {label: 'horário agendado', iconColor: '#003459' },
+      {label: 'horário livre', iconColor: 'white' }
+    ];
+  }
+
   render() {
     const {days, isLoading} = this.props.schedules;
     const selectedDay = days.find(day => day.selected);
@@ -107,12 +130,14 @@ class HaircutSchedule extends Component {
                     key={schedule.id}
                     title={schedule.hour}
                     disabled={schedule.disabled && !schedule.scheduled_appointment_id}
-                    selected={schedule.scheduled_appointment_id}
+                    selected={schedule.appointment_status}
                     onPressIfDisabled={true}
+                    containerStyle={this._getContainerStyle(schedule.appointment_status)}
                     onPress={() => this._scheduleClicked(schedule)} />
                 )
               })}
             </View>
+            <ChartLegend items={this._getLegendItems()} />
           </View>
         </ScrollView>
     }
