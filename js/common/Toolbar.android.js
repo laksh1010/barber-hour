@@ -14,6 +14,8 @@ const Toolbar = (props) => {
       navIconName='arrow-back'
       style={[styles.toolbar, props.style]}
       title={props.title}
+      actions={props.actions}
+      onActionSelected={props.onActionSelected}
       onIconClicked={() => props.navigator.pop()} />
   ) : (
     <ToolbarAndroid

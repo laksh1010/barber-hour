@@ -21,5 +21,6 @@ export default combineReducers({
   admin: require('./admin'),
   notification: require('./notification'),
   cities: require('./cities'),
-  position: require('./position')
+  position: require('./position'),
+  barbersChart: require('./barbersChart')
 });
