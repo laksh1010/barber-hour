@@ -16,6 +16,8 @@ import EditProfile from '../auth/EditProfile';
 import EditPassword from '../auth/EditPassword';
 import ReviewBarberList from '../admin/ReviewBarberList';
 import Touchable from '../common/Touchable';
+import BarbersChart from '../admin/BarbersChart';
+import BarbersChartFilters from '../admin/BarbersChartFilters';
 
 import { logout } from '../actions/auth';
 
@@ -66,14 +68,38 @@ class Profile extends Component {
     });
   }
 
+  _openBarbersChart() {
+    this.props.navigator.push({
+      component: BarbersChart,
+      title: 'Desempenho das barbearias',
+      rightButtonTitle: 'Filtros',
+      onRightButtonPress: () => this._openBarbersChartFilters()
+    });
+  }
+
+  _openBarbersChartFilters() {
+    this.props.navigator.push({
+      component: BarbersChartFilters,
+      title: 'Editar filtros'
+    });
+  }
+
   render() {
-    var content;
+    var reviewBarbersContent;
+    var barbersChartContent;
     if (this.props.isAdmin) {
-      content = (
+      reviewBarbersContent = (
         <Touchable
           style={styles.item}
           onPress={this._reviewBarbers.bind(this)}>
           <Text style={styles.subtitle}>Revisar barbearias</Text>
+        </Touchable>
+      )
+      barbersChartContent = (
+        <Touchable
+          style={styles.item}
+          onPress={this._openBarbersChart.bind(this)}>
+          <Text style={styles.subtitle}>Desempenho das barbearias</Text>
         </Touchable>
       )
     };
@@ -92,7 +118,8 @@ class Profile extends Component {
             onPress={this._editPassword.bind(this)}>
             <Text style={styles.subtitle}>Alterar senha</Text>
           </Touchable>
-          {content}
+          {reviewBarbersContent}
+          {barbersChartContent}
         </View>
 
         <View style={styles.about}>
