@@ -8,7 +8,7 @@ const initialState = {
 
 function admin(state = initialState, action) {
   switch (action.type) {
-    case 'TOGGLE_BARBER_ACTIVE':
+    case 'TOGGLE_REVIEW_BARBER_ACTIVE':
       var {barberID, active} = action.data;
       var barber = state.barbers.find(barber => barber.id === barberID);
       var index = state.barbers.findIndex(barber => barber.id === barberID);
@@ -20,20 +20,20 @@ function admin(state = initialState, action) {
           ...state.barbers.slice(index + 1)
         ]
       };
-    case 'REQUEST_ADMIN_BARBERS':
-    case 'REQUEST_ADMIN_BARBER_UPDATE':
+    case 'REQUEST_REVIEW_ADMIN_BARBERS':
+    case 'REQUEST_REVIEW_ADMIN_BARBER_UPDATE':
       return {
         ...state,
         isLoading: true,
         error: false
       };
-    case 'REFRESH_ADMIN_BARBERS':
+    case 'REFRESH_REVIEW_ADMIN_BARBERS':
       return {
         ...state,
         isRefreshing: true,
         error: false
       };
-    case 'ADMIN_BARBERS_LOADED':
+    case 'REVIEW_ADMIN_BARBERS_LOADED':
       var {barbers, meta} = action.data;
       return {
         ...state,
@@ -42,7 +42,7 @@ function admin(state = initialState, action) {
         barbers: state.barbers.concat(barbers),
         meta: meta
       };
-    case 'ADMIN_BARBERS_REFRESHED':
+    case 'REVIEW_ADMIN_BARBERS_REFRESHED':
       var {barbers, meta} = action.data;
       return {
         ...state,
@@ -51,25 +51,27 @@ function admin(state = initialState, action) {
         barbers: barbers,
         meta: meta
       };
-    case 'ADMIN_BARBER_UPDATED':
+    case 'REVIEW_ADMIN_BARBER_UPDATED':
       return {
         ...state,
         isLoading: false,
+        isRefreshing: false,
         error: false,
         success: true
       };
-    case 'REQUEST_ADMIN_BARBERS_ERROR':
-    case 'INVALID_ADMIN_BARBER_UPDATE':
+    case 'REQUEST_REVIEW_ADMIN_BARBERS_ERROR':
+    case 'INVALID_REVIEW_ADMIN_BARBER_UPDATE':
       return {
         ...state,
         isLoading: false,
         isRefreshing: false,
         error: true
       };
-    case 'SET_ADMIN_BARBERS_EDIT_MODE':
+    case 'SET_REVIEW_ADMIN_BARBERS_EDIT_MODE':
       return {
         ...state,
-        success: false
+        success: false,
+        isLoading: false
       };
     case 'LOGGED_OUT':
       return initialState;
