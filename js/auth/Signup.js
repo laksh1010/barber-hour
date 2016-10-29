@@ -82,12 +82,18 @@ class Signup extends Component {
   }
 
   render() {
+    const facebookButtonLabel = this.props.isLoading ? 'Cadastrando...' : 'Cadastrar-se com o Facebook';
+
     return(
       <View style={styles.container}>
         <StatusBar backgroundColor='#C5C5C5'/>
         <Logo />
         <View style={styles.formContainer}>
-          <Button containerStyle={styles.button} text='Cadastrar-se' onPress={this._openSignupForm.bind(this)} />
+          <Button
+            containerStyle={styles.button}
+            text='Cadastrar-se'
+            onPress={this._openSignupForm.bind(this)}
+            disabled={this.props.isLoading} />
           <View style={styles.privacyContainer}>
             <Text>Ao se cadastrar, você concorda com os </Text>
             <View style={styles.row}>
@@ -104,11 +110,16 @@ class Signup extends Component {
           <TextSeparator style={styles.separatorContainer} />
           <Button
             outline
-            text='Cadastrar-se com o Facebook'
+            text={facebookButtonLabel}
+            disabled={this.props.isLoading}
             onPress={this._onFacebookLogin.bind(this)} />
         </View>
         <View style={styles.signupContainer}>
-          <LargeButton text='Já possui uma conta? ' linkText='Entrar.' onPress={this._openLogin.bind(this)} />
+          <LargeButton
+            text='Já possui uma conta? '
+            linkText='Entrar.'
+            onPress={this._openLogin.bind(this)}
+            disabled={this.props.isLoading} />
         </View>
       </View>
     );
@@ -118,7 +129,8 @@ class Signup extends Component {
 function select(store) {
   return {
     type: store.user.type,
-    isLoggedIn: store.user.isLoggedIn
+    isLoggedIn: store.user.isLoggedIn,
+    isLoading: store.login.isLoading
   }
 }
 
