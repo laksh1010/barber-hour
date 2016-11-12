@@ -1,5 +1,5 @@
-import React, { Component, Platform } from 'react';
-
+import React, { Component } from 'react';
+import { Platform } from 'react-native';
 import PushNotification from 'react-native-push-notification';
 import { connect } from 'react-redux';
 
@@ -53,7 +53,7 @@ class PushNotifications extends Component {
   }
 
   _onNotification(notification) {
-    if (notification.data) {
+    if (Platform.OS === 'android' && notification.foreground) {
       this._showNotification(notification);
     } else {
       this._openNotification(notification);
