@@ -6,13 +6,15 @@ import {
   Dimensions,
   Platform,
   StatusBar,
-  ScrollView
+  ScrollView,
+  ActivityIndicator
 } from 'react-native'
 
 import { connect } from 'react-redux';
 
 import Toolbar from '../common/Toolbar';
 import BarbersChartFilters from '../admin/BarbersChartFilters';
+import EmptyResults from '../common/EmptyResults';
 
 import { getChart } from '../actions/barbersChart';
 
@@ -26,7 +28,7 @@ class BarbersChart extends Component {
     var toDateChanged = prevProps.toDate !== this.props.toDate;
     var cityIDChanged = prevProps.cityID !== this.props.cityID;
     var barberIDChanged = prevProps.barberID !== this.props.barberID;
-    
+
     if (fromDateChanged || toDateChanged || cityIDChanged || barberIDChanged) {
       this.props.dispatch(getChart());
     }
@@ -74,17 +76,15 @@ class BarbersChart extends Component {
     const canceledStatus = statuses.find(status => status.name === 'canceled');
     const finishedStatus = statuses.find(status => status.name === 'finished');
 
-    return (
-      <ScrollView style={styles.container} automaticallyAdjustContentInsets={false}>
-        <StatusBar backgroundColor='#C5C5C5' networkActivityIndicatorVisible={isLoading} />
-        <Toolbar backIcon border
-          navigator={this.props.navigator}
-          title='Desempenho das barbearias barbearias'
-          actions={[
-            {title: 'Filtros', show: 'always', iconName: 'filter-list'}
-          ]}
-          onActionSelected={this._openFilters.bind(this)} />
-        <View style={styles.innerContainer}>
+    var loadingContent;
+    if (isLoading) {
+      loadingContent = <View style={styles.loading}><ActivityIndicator /></View>;
+    }
+
+    var chartContent;
+    if (chartData.length > 0) {
+      chartContent = (
+        <View>
           {chartData.map((data, i) => {
             const width = this.getWidth(data);
 
@@ -125,6 +125,25 @@ class BarbersChart extends Component {
               </View>
             )
           })}
+        </View>
+      );
+    } else if (!isLoading) {
+      chartContent = <EmptyResults icon='profile' message='Nenhum resultado encontrado' />;
+    }
+
+    return (
+      <ScrollView style={styles.container} automaticallyAdjustContentInsets={false}>
+        <StatusBar backgroundColor='#C5C5C5' networkActivityIndicatorVisible={isLoading} />
+        <Toolbar backIcon border
+          navigator={this.props.navigator}
+          title='Desempenho das barbearias barbearias'
+          actions={[
+            {title: 'Filtros', show: 'always', iconName: 'filter-list'}
+          ]}
+          onActionSelected={this._openFilters.bind(this)} />
+        <View style={styles.innerContainer}>
+          {loadingContent}
+          {chartContent}
         </View>
       </ScrollView>
     )
@@ -199,5 +218,8 @@ const styles = StyleSheet.create({
   },
   finished: {
     backgroundColor: '#59838B'
+  },
+  loading: {
+    marginBottom: 10
   }
 })
