@@ -14,6 +14,8 @@ class PushNotifications extends Component {
       onNotification: this._onNotification.bind(this),
       senderID: gcmSenderID
     });
+
+    PushNotification.setApplicationIconBadgeNumber(0);
   }
 
   _onRegister(registration) {
