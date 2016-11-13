@@ -22,6 +22,7 @@ import SelectableButton from '../common/SelectableButton';
 import BarberIcon from '../common/BarberIcon';
 import AppointmentScheduled from './AppointmentScheduled';
 import formStyle from '../forms/style';
+import EmptyResults from '../common/EmptyResults';
 
 import { listSchedules, selectDay, selectSchedule } from '../actions/schedules';
 import { toggleService } from '../actions/barbers';
@@ -97,8 +98,10 @@ class BarberDetails extends Component {
 
     var content;
 
-    if (isLoading || days.length === 0) {
+    if (isLoading) {
       content = <ActivityIndicator />;
+    } else if (days.length === 0) {
+      content = <EmptyResults icon='shop' message='Nenhum horário disponível no momento.' />
     } else {
       content = (
         <View style={styles.innerContainer}>
