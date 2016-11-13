@@ -40,7 +40,7 @@ class Main extends Component {
             <Profile navigator={this.props.navigator} />
           </ScrollView>
         </ScrollableTabView>
-        <PushNotifications />
+        <PushNotifications navigator={this.props.navigator} />
       </View>
     );
   }

@@ -44,4 +44,14 @@ function finishAppointment(id) {
   }
 }
 
-export {listAppointments, cancelAppointment, finishAppointment, refreshAppointments};
+function getAppointment(userType, id) {
+  return (dispatch, getState) => {
+    dispatch({ type: 'REQUEST_GET_APPOINTMENT' });
+
+    api.get(`/${userType}/appointments/${id}`, { headers: { 'Authorization': `Token ${getState().user.token}` } })
+      .then(response => dispatch({ type: 'GET_APPOINTMENT_SUCCESS', data: response.data }))
+      .catch(error => dispatch({ type: 'REQUEST_GET_APPOINTMENT_ERROR', data: error.data }));
+  }
+}
+
+export {listAppointments, cancelAppointment, finishAppointment, refreshAppointments, getAppointment};

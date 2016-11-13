@@ -21,12 +21,12 @@ import BarberIcon from '../common/BarberIcon';
 import AppointmentCanceled from './AppointmentCanceled';
 import formStyle from '../forms/style';
 
-import { cancelAppointment, finishAppointment, listAppointments } from '../actions/appointments';
+import { cancelAppointment, finishAppointment, getAppointment } from '../actions/appointments';
 
 class HaircutDetails extends Component {
   componentDidMount() {
     if (!this.props.appointment) {
-      this.props.dispatch(listAppointments('barber'));
+      this.props.dispatch(getAppointment('barber', this.props.appointmentId));
     }
   }
 
@@ -80,13 +80,15 @@ class HaircutDetails extends Component {
   }
 
   render() {
-    var { appointment, navigator } = this.props;
+    var { appointment, navigator, form } = this.props;
+    var loadingContent;
+
+    if (form.isLoading) {
+      loadingContent = <View style={styles.loading}><ActivityIndicator /></View>;
+    }
 
     var content;
-
-    if (!appointment) {
-      content = <View style={styles.innerContainer}><ActivityIndicator /></View>;
-    } else {
+    if (appointment) {
       const { schedule, customer, appointment_services } = appointment;
       const cancelButtonLabel = this.props.form.isLoading ? 'Cancelando...' : 'Cancelar';
       const finishButtonLabel = this.props.form.isFinishing ? 'Finalizando...' : 'Finalizar';
@@ -155,6 +157,7 @@ class HaircutDetails extends Component {
       <View style={styles.container}>
         <StatusBar backgroundColor='#C5C5C5' networkActivityIndicatorVisible={this.props.form.isLoading || this.props.form.isFinishing} />
         <Toolbar backIcon border navigator={navigator} />
+        {loadingContent}
         {content}
       </View>
     );
@@ -224,5 +227,8 @@ var styles = StyleSheet.create({
   },
   code: {
     marginBottom: 10
+  },
+  loading: {
+    marginTop: 10
   }
 });

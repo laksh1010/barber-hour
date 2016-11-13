@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import Pubnub from './Pubnub';
 import { gcmSenderID } from './env';
 import { addChannel, removeChannel } from './actions/notification';
+import HaircutDetails from './customer/HaircutDetails';
+import ReviewBarber from './admin/ReviewBarber';
 
 class PushNotifications extends Component {
   componentDidMount() {
@@ -32,13 +34,19 @@ class PushNotifications extends Component {
     var {isAdmin, token, type} = this.props;
 
     if (isAdmin) {
-      Pubnub.enablePushNotificationsOnChannel('admin', registration.token);
-      this.props.dispatch(addChannel('admin'));
+      this._addChannel('admin', registration.token);
     }
 
-    const channel = `${type}_${token}`;
-    Pubnub.enablePushNotificationsOnChannel(channel, registration.token);
-    this.props.dispatch(addChannel(channel));
+    this._addChannel(`${type}_${token}`, registration.token);
+  }
+
+  _addChannel(channel, token) {
+    var {channels} = this.props;
+
+    if (!channels.includes(channel)) {
+      Pubnub.enablePushNotificationsOnChannel(channel, token);
+      this.props.dispatch(addChannel(channel));
+    }
   }
 
   _disablePush(registration) {
@@ -66,6 +74,35 @@ class PushNotifications extends Component {
 
   _openNotification(notification) {
     PushNotification.setApplicationIconBadgeNumber(0);
+
+    if (notification.userInteraction && notification.data && this.props.navigator) {
+      const data = Platform.OS === 'ios' ? notification.data.data : notification.data;
+      this._goToComponent(data);
+    }
+  }
+
+  _goToComponent(data) {
+    switch (data.type) {
+      case 'appointment_canceled':
+      case 'remember_appointment':
+        return this._openHaircutDetails(data.appointment_id);
+      case 'new_barber_registered':
+        return this._openReviewBarber(data.barber_id);
+    }
+  }
+
+  _openHaircutDetails(appointmentId) {
+    this.props.navigator.push({
+      component: HaircutDetails,
+      passProps: {appointmentId: appointmentId}
+    });
+  }
+
+  _openReviewBarber(barberID) {
+    this.props.navigator.push({
+      component: ReviewBarber,
+      passProps: {barberID: barberID}
+    });
   }
 
   render() {

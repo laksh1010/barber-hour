@@ -22,6 +22,7 @@ function admin(state = initialState, action) {
       };
     case 'REQUEST_REVIEW_ADMIN_BARBERS':
     case 'REQUEST_REVIEW_ADMIN_BARBER_UPDATE':
+    case 'REQUEST_GET_ADMIN_BARBER':
       return {
         ...state,
         isLoading: true,
@@ -35,11 +36,12 @@ function admin(state = initialState, action) {
       };
     case 'REVIEW_ADMIN_BARBERS_LOADED':
       var {barbers, meta} = action.data;
+      var newBarbers = barbers.filter(item => !state.barbers.find(b => b.id === item.id));
       return {
         ...state,
         isLoading: false,
         error: false,
-        barbers: state.barbers.concat(barbers),
+        barbers: state.barbers.concat(newBarbers),
         meta: meta
       };
     case 'REVIEW_ADMIN_BARBERS_REFRESHED':
@@ -61,6 +63,7 @@ function admin(state = initialState, action) {
       };
     case 'REQUEST_REVIEW_ADMIN_BARBERS_ERROR':
     case 'INVALID_REVIEW_ADMIN_BARBER_UPDATE':
+    case 'REQUEST_GET_ADMIN_BARBER_ERROR':
       return {
         ...state,
         isLoading: false,
@@ -72,6 +75,14 @@ function admin(state = initialState, action) {
         ...state,
         success: false,
         isLoading: false
+      };
+    case 'GET_ADMIN_BARBER_SUCCESS':
+      var {barber} = action.data;
+      return {
+        ...state,
+        isLoading: false,
+        error: false,
+        barbers: state.barbers.concat(barber)
       };
     case 'LOGGED_OUT':
       return initialState;

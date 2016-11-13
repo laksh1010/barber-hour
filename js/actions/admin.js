@@ -50,4 +50,14 @@ function setEditMode() {
   };
 }
 
-export {listBarbers, toggleActive, updateBarber, setEditMode, refreshBarbers};
+function getBarber(barberID) {
+  return (dispatch, getState) => {
+    dispatch({ type: 'REQUEST_GET_ADMIN_BARBER' });
+
+    api.get(`/admin/barbers/${barberID}`, { headers: { 'Authorization': `Token ${getState().user.token}` } })
+      .then(response => dispatch({ type: 'GET_ADMIN_BARBER_SUCCESS', data: response.data }))
+      .catch(error => dispatch({ type: 'REQUEST_GET_ADMIN_BARBER_ERROR', data: error.data }));
+  }
+}
+
+export {listBarbers, toggleActive, updateBarber, setEditMode, refreshBarbers, getBarber};

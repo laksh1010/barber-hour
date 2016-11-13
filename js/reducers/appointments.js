@@ -11,6 +11,7 @@ const initialState = {
 function appointments(state = initialState, action) {
   switch (action.type) {
     case 'REQUEST_APPOINTMENTS':
+    case 'REQUEST_GET_APPOINTMENT':
       return {
         ...state,
         isLoading: true,
@@ -96,6 +97,7 @@ function appointments(state = initialState, action) {
       };
     case 'REQUEST_APPOINTMENTS_ERROR':
     case 'REFRESH_APPOINTMENTS_ERROR':
+    case 'REQUEST_GET_APPOINTMENT_ERROR':
       return {
         ...state,
         isLoading: false,
@@ -116,6 +118,14 @@ function appointments(state = initialState, action) {
         isLoading: false,
         isFinishing: false,
         error: 'o corte só pode ser finalizado depois de terminado'
+      };
+    case 'GET_APPOINTMENT_SUCCESS':
+      var {appointment} = action.data;
+      return {
+        ...state,
+        isLoading: false,
+        error: false,
+        appointments: state.appointments.concat(appointment)
       };
     case 'LOGGED_OUT':
       return initialState;

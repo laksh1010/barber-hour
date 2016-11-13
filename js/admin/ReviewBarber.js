@@ -7,7 +7,8 @@ import {
   Image,
   ScrollView,
   Switch,
-  Platform
+  Platform,
+  ActivityIndicator
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -18,7 +19,7 @@ import Toolbar from '../common/Toolbar';
 import BarberIcon from '../common/BarberIcon';
 import formStyle from '../forms/style';
 
-import { toggleActive, updateBarber, setEditMode } from '../actions/admin';
+import { toggleActive, updateBarber, setEditMode, getBarber } from '../actions/admin';
 
 class ReviewBarber extends Component {
   _toggleActive(barberID, value) {
@@ -34,6 +35,10 @@ class ReviewBarber extends Component {
 
   componentDidMount() {
     this.props.dispatch(setEditMode());
+
+    if (!this.props.barber) {
+      this.props.dispatch(getBarber(this.props.barberID));
+    }
   }
 
   componentDidUpdate() {
@@ -49,22 +54,28 @@ class ReviewBarber extends Component {
   }
 
   render() {
-    const {barberID, navigator} = this.props;
-    const barber = this.props.form.barbers.find(barber => barber.id === barberID);
-    const {address, images, services} = barber;
+    const {barber, barberID, navigator} = this.props;
 
-    var errorMessage;
-    if (this.props.form.error) {
-      errorMessage = <Text style={formStyle.errorBlock}>não foi possível alterar a barbearia.</Text>;
+    var title = barber ? barber.name : '';
+
+    var loadingContent;
+    if (this.props.form.isLoading) {
+      loadingContent = <View style={styles.loading}><ActivityIndicator /></View>;
     }
 
-    const buttonLabel = this.props.form.isLoading ? 'Alterando...' : 'Alterar';
+    var content;
+    if (barber) {
+      const {address, images, services} = barber;
 
-    return(
-      <View style={styles.container}>
-        <ScrollView>
-          <StatusBar backgroundColor='#C5C5C5' networkActivityIndicatorVisible={this.props.form.isLoading} />
-          <Toolbar backIcon border title={barber.name} navigator={navigator} />
+      var errorMessage;
+      if (this.props.form.error) {
+        errorMessage = <Text style={formStyle.errorBlock}>não foi possível alterar a barbearia.</Text>;
+      }
+
+      const buttonLabel = this.props.form.isLoading ? 'Alterando...' : 'Alterar';
+
+      content = (
+        <View>
           <Swiper
             height={300}
             loop={false}
@@ -117,15 +128,27 @@ class ReviewBarber extends Component {
               onPress={this._update.bind(this)}
               disabled={this.props.form.isLoading} />
           </View>
+        </View>
+      );
+    }
+
+    return(
+      <View style={styles.container}>
+        <ScrollView>
+          <StatusBar backgroundColor='#C5C5C5' networkActivityIndicatorVisible={this.props.form.isLoading} />
+          <Toolbar backIcon border title={title} navigator={navigator} />
+          {loadingContent}
+          {content}
         </ScrollView>
       </View>
     );
   }
 }
 
-function select(store) {
+function select(store, ownProps) {
   return {
-    form: store.admin
+    form: store.admin,
+    barber: store.admin.barbers.find(barber => barber.id === ownProps.barberID)
   };
 }
 
@@ -207,5 +230,8 @@ var styles = StyleSheet.create({
   },
   toggle: {
     marginLeft: Platform.OS === 'ios' ? 5 : 0,
+  },
+  loading: {
+    marginTop: 10
   }
 });
