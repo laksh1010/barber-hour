@@ -25,7 +25,7 @@ class Bugsnag extends Component {
       var { user } = this.props;
       this.client.setUser(user.token, user.name, user.email);
     } else if (prevProps.user.isLoggedIn && !this.props.user.isLoggedIn) {
-      this.client.setUser(null, null, null);
+      this.client.setUser('', '', '');
     }
   }
 
