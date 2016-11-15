@@ -136,6 +136,7 @@ android {
 }
 
 dependencies {
+    compile project(':bugsnag-react-native')
     compile 'com.google.android.gms:play-services-gcm:8.3.0'
     compile project(':react-native-push-notification')
     compile project(':react-native-facebook-login')

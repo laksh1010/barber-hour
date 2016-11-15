@@ -7,6 +7,8 @@
   },
   "dependencies": {
     "axios": "^0.12.0",
+    "bugsnag-react-native": "^1.1.3",
+    "promise": "^7.1.1",
     "react": "^15.3.1",
     "react-native": "^0.36.1",
     "react-native-facebook-login": "^1.4.0",
