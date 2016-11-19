@@ -70,6 +70,7 @@ class ReviewBarberList extends Component {
           renderFooter={this._getLoadingContent.bind(this)}
           enableEmptySections={true}
           onEndReached={this._onEndReached.bind(this)}
+          initialListSize={1}
           renderScrollComponent={props => <RecyclerViewBackedScrollView {...props} />}/>;
     }
 

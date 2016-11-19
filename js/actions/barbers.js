@@ -16,6 +16,8 @@ function listBarbers(data) {
 
 function updateBarbersCache(data) {
   return (dispatch, getState) => {
+    dispatch({ type: 'REQUEST_BARBERS_UPDATE_CACHE' });
+
     fetchBabers(data, getState)
       .then(response => dispatch({ type: 'BARBERS_CACHE_UPDATED', data: response.data }))
       .catch(error => dispatch({ type: 'UPDATE_BARBERS_CACHE_ERROR', data: error.data }));

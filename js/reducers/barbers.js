@@ -27,6 +27,7 @@ function barbers(state = initialState, action) {
         ]
       };
     case 'REQUEST_BARBERS':
+    case 'REQUEST_BARBERS_UPDATE_CACHE':
       return {
         ...state,
         isLoading: true,
@@ -53,6 +54,7 @@ function barbers(state = initialState, action) {
       return {
         ...state,
         isRefreshing: false,
+        isLoading: false,
         barbers: barbers,
         meta: meta
       };
