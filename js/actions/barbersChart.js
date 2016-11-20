@@ -89,7 +89,7 @@ function getChart() {
 
     dispatch({ type: 'REQUEST_ADMIN_BARBERS_CHART' });
 
-    api.get('/admin/barbers/chart', { params: data, headers: { 'Authorization': `Token ${getState().user.token}` } })
+    api.get('/admin/barbers_chart', { params: data, headers: { 'Authorization': `Token ${getState().user.token}` } })
       .then(response => dispatch({ type: 'ADMIN_BARBERS_CHART_LOADED', data: response.data }))
       .catch(error => dispatch({ type: 'REQUEST_ADMIN_BARBERS_CHART_ERROR', data: error.data }));
   }

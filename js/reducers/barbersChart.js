@@ -110,9 +110,12 @@ function barbersChart(state = initialState, action) {
         }
       };
     case 'RESET_ADMIN_BARBERS_CHART_FILTERS':
+      var newStatuses = state.statuses.map(status => Object.assign(status, { selected: true }));
+
       return {
         ...initialState,
-        chartData: state.chartData
+        chartData: state.chartData,
+        statuses: newStatuses
       };
     case 'LOGGED_OUT':
       return initialState;
