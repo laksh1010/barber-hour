@@ -92,16 +92,20 @@ class PushNotifications extends Component {
   }
 
   _openHaircutDetails(appointmentId) {
-    this.props.navigator.push({
-      component: HaircutDetails,
-      passProps: {appointmentId: appointmentId}
+    requestAnimationFrame(() => {
+      this.props.navigator.push({
+        component: HaircutDetails,
+        passProps: {appointmentId: appointmentId}
+      });
     });
   }
 
   _openReviewBarber(barberID) {
-    this.props.navigator.push({
-      component: ReviewBarber,
-      passProps: {barberID: barberID}
+    requestAnimationFrame(() => {
+      this.props.navigator.push({
+        component: ReviewBarber,
+        passProps: {barberID: barberID}
+      });
     });
   }
 
