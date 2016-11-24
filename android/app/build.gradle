@@ -91,7 +91,7 @@ android {
         applicationId "com.barberhour"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 10
+        versionCode 11
         versionName "1.0.8"
         ndk {
             abiFilters "armeabi-v7a", "x86"
