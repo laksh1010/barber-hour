@@ -74,11 +74,10 @@ class PushNotifications extends Component {
 
   _openNotification(notification) {
     PushNotification.setApplicationIconBadgeNumber(0);
-
-    if (notification.userInteraction && notification.data && this.props.navigator) {
-      const data = Platform.OS === 'ios' ? notification.data.data : notification.data;
-      this._goToComponent(data);
-    }
+    // if (notification.userInteraction && notification.data && this.props.navigator) {
+    //   const data = Platform.OS === 'ios' ? notification.data.data : notification.data;
+    //   this._goToComponent(data);
+    // }
   }
 
   _goToComponent(data) {
