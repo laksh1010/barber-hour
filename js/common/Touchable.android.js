@@ -2,11 +2,14 @@ import React, { Component } from 'react';
 import {
   View,
   TouchableNativeFeedback,
+  Platform
 } from 'react-native';
+
+const API21 = Platform['Version'] >= 21;
 
 const Touchable = (props) => {
   var background;
-  if (props.backgroundColor) {
+  if (props.backgroundColor && API21) {
     background = TouchableNativeFeedback.Ripple(props.backgroundColor);
   } else {
     background = TouchableNativeFeedback.SelectableBackground();
