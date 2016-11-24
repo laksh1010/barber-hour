@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Client, Configuration } from 'bugsnag-react-native';
+import { Client } from 'bugsnag-react-native';
 import { connect } from 'react-redux';
 
 import { bugsnagKey } from './env';
@@ -7,9 +7,7 @@ import { bugsnagKey } from './env';
 class Bugsnag extends Component {
   constructor(props) {
     super(props);
-    const configuration = new Configuration(bugsnagKey);
-    configuration.notifyReleaseStages = ['production'];
-    this.client = new Client(configuration);
+    this.client = new Client(bugsnagKey);
   }
 
   componentDidMount() {
