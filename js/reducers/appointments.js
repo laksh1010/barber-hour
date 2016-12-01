@@ -127,6 +127,12 @@ function appointments(state = initialState, action) {
         error: false,
         appointments: state.appointments.concat(appointment)
       };
+    case 'SET_APPOINTMENTS_EDIT_MODE':
+      return {
+        ...state,
+        success: false,
+        error: false
+      };
     case 'LOGGED_OUT':
       return initialState;
     default:

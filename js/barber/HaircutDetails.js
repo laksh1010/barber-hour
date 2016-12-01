@@ -21,10 +21,14 @@ import BarberIcon from '../common/BarberIcon';
 import AppointmentCanceled from './AppointmentCanceled';
 import formStyle from '../forms/style';
 
-import { cancelAppointment, finishAppointment, getAppointment } from '../actions/appointments';
+import { cancelAppointment, finishAppointment, getAppointment, setEditMode } from '../actions/appointments';
 
 class HaircutDetails extends Component {
   componentDidMount() {
+    if (this.props.edit) {
+      this.props.dispatch(setEditMode());
+    }
+    
     if (!this.props.appointment) {
       this.props.dispatch(getAppointment('barber', this.props.appointmentId));
     }

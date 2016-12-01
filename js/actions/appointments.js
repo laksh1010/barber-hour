@@ -54,4 +54,10 @@ function getAppointment(userType, id) {
   }
 }
 
-export {listAppointments, cancelAppointment, finishAppointment, refreshAppointments, getAppointment};
+function setEditMode() {
+  return {
+    type: 'SET_APPOINTMENTS_EDIT_MODE'
+  };
+}
+
+export {listAppointments, cancelAppointment, finishAppointment, refreshAppointments, getAppointment, setEditMode};

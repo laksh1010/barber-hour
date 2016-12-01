@@ -67,7 +67,7 @@ class HaircutSchedule extends Component {
 
     this.props.navigator.push({
       component: HaircutDetails,
-      passProps: {appointment: appointment, appointmentId: schedule.scheduled_appointment_id}
+      passProps: {appointment: appointment, appointmentId: schedule.scheduled_appointment_id, edit: true}
     });
   }
 
