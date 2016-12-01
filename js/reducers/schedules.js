@@ -115,6 +115,33 @@ function schedules(state = initialState, action) {
         isLoading: false,
         error: true
       };
+    case 'APPOINTMENT_CANCELED':
+    case 'APPOINTMENT_FINISHED':
+      var {appointment} = action.data;
+
+      if (appointment.schedule && state.days.length) {
+        var day = state.days.find(day => day.number === appointment.schedule.day_number);
+        var dayIndex = state.days.findIndex(day => day.number === appointment.schedule.day_number);
+        var scheduleIndex = day.schedules.findIndex(s => s.id === appointment.schedule.id);
+        var schedules = [
+          ...day.schedules.slice(0, scheduleIndex),
+          appointment.schedule,
+          ...day.schedules.slice(scheduleIndex + 1)
+        ];
+
+        return {
+          ...state,
+          isLoading: false,
+          error: false,
+          days: [
+            ...state.days.slice(0, dayIndex),
+            Object.assign(day, { schedules: schedules }),
+            ...state.days.slice(dayIndex + 1)
+          ]
+        };
+      } else {
+        return state;
+      }
     case 'LOGGED_OUT':
       return initialState;
     default:
