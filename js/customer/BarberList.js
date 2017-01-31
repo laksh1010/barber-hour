@@ -29,7 +29,9 @@ class BarberList extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.city.id !== prevProps.city.id) {
+    if (!prevProps.city && this.props.city) {
+      this._fetchData('updateCache');
+    } else if (this.props.city && this.props.city.id !== prevProps.city.id) {
       this._fetchData('load');
     }
   }
@@ -103,7 +105,7 @@ class BarberList extends Component {
       <View style={styles.container}>
         <View style={styles.infoContainer}>
           <BarberIcon name='location' size={24} color='#003459' style={styles.icon} />
-          <Text style={styles.info}>{this.props.city.name} - {this.props.city.state.initials}</Text>
+          {this.props.city && <Text style={styles.info}>{this.props.city.name} - {this.props.city.state.initials}</Text>}
           <TouchableOpacity onPress={this._openFindCityFromGPS.bind(this)}>
             <Text style={styles.link}>Alterar</Text>
           </TouchableOpacity>

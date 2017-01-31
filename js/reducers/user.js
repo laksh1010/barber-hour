@@ -96,6 +96,11 @@ function user(state = initialState, action) {
         ...state,
         city: action.data.city
       };
+    case 'SET_POSITION_EDIT_MODE':
+      return {
+        ...state,
+        city: null
+      };
     default:
       return state;
   }

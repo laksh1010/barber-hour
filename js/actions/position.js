@@ -23,4 +23,10 @@ function getGeolocation(data) {
   }
 }
 
-export {getGeolocation};
+function setEditMode() {
+  return {
+    type: 'SET_POSITION_EDIT_MODE'
+  };
+}
+
+export {getGeolocation, setEditMode};

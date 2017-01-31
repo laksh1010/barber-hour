@@ -12,13 +12,17 @@ import {
 
 import { connect } from 'react-redux';
 
-import { getGeolocation } from '../actions/position';
+import { getGeolocation, setEditMode } from '../actions/position';
 import Toolbar from '../common/Toolbar';
 import SearchCity from './SearchCity';
 import Main from './Main';
 
 class FindCityFromGPS extends Component {
   componentDidMount() {
+    if (this.props.edit) {
+      this.props.dispatch(setEditMode());
+    }
+
     this.getGeolocation();
   }
 
